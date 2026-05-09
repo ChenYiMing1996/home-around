@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>?豢??踹? ??Home Around Taiwan Tours</title>
+<title>房型搜尋 — Home Around Taiwan Tours</title>
 <style>
-  /* ??? Tokens ??Home Around CI 蝬剜?銝????????????????????? */
+  /* Tokens */
   :root {
     --bg:        oklch(96.5% 0.012 80);
     --surface:   oklch(100% 0 0);
@@ -43,7 +43,7 @@
   .num { font-variant-numeric: tabular-nums; }
   .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); }
 
-  /* ??? NAV (?????? ??????????????????????????????????? */
+  /* Navigation */
   .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in oklch, var(--bg) 88%, transparent); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--hairline); }
   .nav-inner { display: flex; align-items: center; height: 88px; gap: 28px; }
   .nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-right: 12px; }
@@ -281,7 +281,7 @@
   }
   .room-card.is-package .room-select:hover { border-color: var(--brown); }
 
-  /* ??? 蝛箇??????????????????????????????????????????????? */
+  /* Empty state */
   .empty {
     background: var(--surface);
     border: 1px dashed var(--border);
@@ -672,7 +672,7 @@
       justify-content: center;
     }
   }
-  /* Text logo ??nav ?批?隞????logo嚗cope ?? .nav嚗?敶梢?嗡? .footer-logo ?冽?嚗?*/
+  /* Text logo in nav only; footer logo keeps its own styling. */
   .nav .footer-logo {
     display: inline-flex;
     flex-direction: column;
@@ -731,23 +731,23 @@
 
   <div class="demo-bar">
     <b data-i18n="rooms.demo.label">DEMO</b>
-    <span data-i18n="rooms.demo.body">?祇??箇內?阮嚗?????誑瞍詨惜?脣?隞?嚗???迨?踹??脣閮銵典??/span>
+    <span data-i18n="rooms.demo.body">本頁為示意稿，所有房型圖片以漸層色塊代替；點擊「選擇此房型」進入訂房表單。</span>
   </div>
 
-  <!-- NAV ??????-24.html ?狡嚗?璈?nav + ??68px hamburger + drawer -->
+  <!-- NAV: aligned with home-around-website-mockup-24.html -->
   <nav class="nav">
     <div class="container nav-inner">
-      <a href="home-around-website-mockup.html" class="footer-logo">
+      <a href="home-around-website-mockup-24.html" class="footer-logo">
         <span class="footer-logo-text">HOME AROUND</span>
         <span class="footer-logo-tagline">Taiwan Tours</span>
       </a>
       <div class="nav-links">
-        <a href="home-around-website-mockup.html" data-i18n="nav.home">擐?</a>
-        <a href="#" data-i18n="nav.about">???/a>
-        <a href="#" data-i18n="nav.guide">?舫??餌</a>
-        <a href="#" data-i18n="nav.lookup">摰嗅予銝???縑閮巨?豢閰?/a>
-        <a href="#" data-i18n="nav.contact">?舐窗??/a>
-        <a href="#" data-i18n="nav.insurance">蝬脰楝???像??/a>
+        <a href="home-around-website-mockup-24.html" data-i18n="nav.home">首頁</a>
+        <a href="#" data-i18n="nav.about">關於我們</a>
+        <a href="#" data-i18n="nav.guide">景點攻略</a>
+        <a href="#" data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a>
+        <a href="#" data-i18n="nav.contact">聯絡我們</a>
+        <a href="#" data-i18n="nav.insurance">網路投保旅平險</a>
       </div>
       <div class="nav-cta">
         <div class="nav-lang" role="group" data-i18n-aria="nav.lang.aria">
@@ -757,8 +757,8 @@
           <span class="sep">繚</span>
           <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
         </div>
-        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">蝡閮</a>
-        <button type="button" class="menu-toggle" id="menuToggle" aria-label="???詨" aria-expanded="false" aria-controls="mobileMenu">
+        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">立即訂房</a>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
           <span class="bar t" aria-hidden="true"></span>
           <span class="bar m" aria-hidden="true"></span>
           <span class="bar b" aria-hidden="true"></span>
@@ -767,13 +767,13 @@
     </div>
   </nav>
 
-  <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="銵???? hidden>
+  <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="行動版選單" hidden>
     <div class="mobile-menu-inner">
       <div class="mobile-menu-head mm-anim d1">
-        <a href="home-around-website-mockup.html" class="nav-logo" aria-label="Home Around ?????? tabindex="0">
+        <a href="home-around-website-mockup-24.html" class="nav-logo" aria-label="Home Around — 回首頁" tabindex="0">
           <!-- <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" /> -->
         </a>
-        <button type="button" class="mm-exit" id="mobileMenuExit" aria-label="???詨">?ａ?</button>
+        <button type="button" class="mm-exit" id="mobileMenuExit" aria-label="關閉選單">關閉</button>
       </div>
 
       <section class="mm-section mm-anim d2">
@@ -785,23 +785,23 @@
           <li><a href="#yacht">Yacht</a></li> -->
         </ul>
         <ul class="mm-nav-sub">
-          <li><a href="#" data-i18n="nav.about">???/a></li>
-          <li><a href="#" data-i18n="nav.guide">?舫??餌</a></li>
-          <li><a href="#">?餃?蟡典</a></li>
-          <li><a href="#">??唳???/a></li>
-          <li><a href="#">?渡???</a></li>
-          <li><a href="#">??憭乩撈</a></li>
-          <li><a href="#" data-i18n="nav.lookup">摰嗅予銝???縑閮巨?豢閰?/a></li>
-          <li><a href="#" data-i18n="nav.contact">?舐窗??/a></li>
-          <li><a href="#" data-i18n="nav.insurance">蝬脰楝???像??/a></li>
+          <li><a href="#" data-i18n="nav.about">關於我們</a></li>
+          <li><a href="#" data-i18n="nav.guide">景點攻略</a></li>
+          <li><a href="#" data-i18n="nav.tickets">電子票券</a></li>
+          <li><a href="#">最新消息</a></li>
+          <li><a href="#" data-i18n="nav.stays">直營旅店</a></li>
+          <li><a href="#" data-i18n="nav.partners">合作夥伴</a></li>
+          <li><a href="#" data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a></li>
+          <li><a href="#" data-i18n="nav.contact">聯絡我們</a></li>
+          <li><a href="#" data-i18n="nav.insurance">網路投保旅平險</a></li>
         </ul>
       </section>
 
       <section class="mm-section mm-anim d3">
         <h4 class="mm-section-h">Contact &amp; Hours</h4>
         <dl class="mm-contact">
-          <div class="mm-row"><dt>?啣?</dt><dd>擃?撣厭??瘝唾正頝?37??/dd></div>
-          <div class="mm-row"><dt>撣店</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd></div>
+          <div class="mm-row"><dt>地址</dt><dd>高雄市鹽埕區河西路137號</dd></div>
+          <div class="mm-row"><dt>市話</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd></div>
           <div class="mm-row"><dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd></div>
           <div class="mm-row"><dt>Hours</dt><dd>Open 24 hours</dd></div>
         </dl>
@@ -815,7 +815,7 @@
       </section>
 
       <div class="mm-cta mm-anim d5">
-        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">蝡閮</a>
+        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">立即訂房</a>
       </div>
     </div>
   </aside>
@@ -824,12 +824,12 @@
   <section class="page-head">
     <div class="container">
       <div class="breadcrumb">
-        <a href="home-around-website-mockup.html" data-i18n="nav.home">擐?</a>
+        <a href="home-around-website-mockup-24.html" data-i18n="nav.home">首頁</a>
         <span class="sep">/</span>
-        <span data-i18n="rooms.crumb">?豢??踹?</span>
+        <span data-i18n="rooms.crumb">選擇房型</span>
       </div>
-      <h1 data-i18n="rooms.heading">蝚血?璇辣???/h1>
-      <p class="sub" id="pageSub" data-i18n="rooms.sub">靘雿??犖?貉??桃??堆??蝚血?璇辣????單?閰衣???摰踹?寞??/p>
+      <h1 data-i18n="rooms.heading">符合條件的房型</h1>
+      <p class="sub" id="pageSub" data-i18n="rooms.sub">依入住期間、人數與目的地，列出符合條件的房型與即時試算的住宿券價格。</p>
     </div>
   </section>
 
@@ -838,7 +838,7 @@
     <div class="container filter-row" id="filterRow">
       <!-- ??JS ??憛怠 chips -->
       <div class="spacer"></div>
-      <a href="home-around-website-mockup.html#searchForm" class="filter-edit-link" data-i18n="rooms.modifySearch">靽格??</a>
+      <a href="home-around-website-mockup-24.html#searchForm" class="filter-edit-link" data-i18n="rooms.modifySearch">修改搜尋</a>
     </div>
   </section>
 
@@ -859,7 +859,7 @@
       <div class="foot-grid">
         <div class="foot-brand">
           <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
-          <span class="tag" data-i18n="foot.tag">?Ｖ?暺?撠勗摰嗡???/span>
+          <span class="tag" data-i18n="foot.tag">慢一點，就到家了。</span>
         </div>
         <div class="foot-bottom" style="border: 0; padding: 0;">
           <span data-i18n="foot.copy">穢 2026 HOME AROUND TAIWAN TOURS 繚 蝯曹?蝺刻? 12345678</span>
@@ -871,14 +871,14 @@
   <script src="i18n.js"></script>
   <script src="hotels-data.js"></script>
   <script>
-  /* ???????????????????????????????????????????????????????
-     rooms.html 銵
-     ???????????????????????????????????????????????????????
-     ?交 URL ?嚗otel / checkin / checkout / adults / kids
-     1. 閫???嚗? filterChips
-     2. ?冽瘥?捆???犖=2??鈭?3??鈭?4?鈭?6嚗?閮?2嚗?     3. ??hotel/摰寥?蝭拚 ??閮?瘥??蜇?對??箸??2800 + ?嚗?     4. 撟喳??亙??貉?蝞??曹??勗?乩??????
-     5. 皜脫? room-card ?”嚗TA ?函?撘? anchor click 頝喳 booking.html
-     6. localechange 鈭辣 ???皜脫?嚗18n ???踹?嚗ㄞ摨?嚗?  ??????????????????????????????????????????????????????? */
+  /*
+     rooms.html flow:
+     1. Read hotel/checkin/checkout/adults/kids from URL.
+     2. Filter matching rooms by capacity and destination.
+     3. Calculate voucher-based weekday/weekend pricing.
+     4. Render room cards and send selected room data to booking.html.
+     5. Re-render when locale changes.
+  */
   (function(){
     'use strict';
 
@@ -942,10 +942,10 @@
     // ?? 3. 摰寥??冽 (銝剜? / ?望??踹??賣?? ???????????????
     function roomCapacity(roomName, en) {
       var s = (roomName || '') + ' ' + (en || '');
-      if (/?凋犖|6\s*鈭漏six|6-bed/i.test(s)) return 6;
-      if (/?犖|4\s*鈭漏family|quad|four/i.test(s)) return 4;
-      if (/銝犖|3\s*鈭漏triple|three/i.test(s)) return 3;
-      if (/?犖|2\s*鈭漏double|twin|??|憟|cabin/i.test(s)) return 2;
+      if (/六人|6\s*(人|people|guests)|six|6-bed/i.test(s)) return 6;
+      if (/四人|家庭|4\s*(人|people|guests)|family|quad|four/i.test(s)) return 4;
+      if (/三人|3\s*(人|people|guests)|triple|three/i.test(s)) return 3;
+      if (/雙人|二人|兩人|2\s*(人|people|guests)|double|twin|cabin/i.test(s)) return 2;
       return 2;
     }
 
@@ -954,8 +954,8 @@
     function calcRoomPrice(room, breakdown) {
       var sw = room.weekday;
       var se = room.weekend;
-      var isPackageWeekend = typeof se === 'string'; // ??靘?璉?憿?      // 撟單??芣?摮?      var swNum = (typeof sw === 'number') ? sw : 0;
-      // ??嚗?璉?銝???銝閮??詨? ???湔?詨?
+      var isPackageWeekend = typeof se === 'string';
+      var swNum = (typeof sw === 'number') ? sw : 0;
       var seNum = (typeof se === 'number') ? se : 0;
 
       var weekdayCost = (BASE_VOUCHER + swNum) * breakdown.weekday;
@@ -990,7 +990,7 @@
         });
       });
 
-      // ??嚗???hotel ?臬鋡急?摰???撠梁雁??摨?嚗????蝮賢?? + 摰寥?
+      // Sort available rooms first, then by total price.
       out.sort(function(a, b){
         if (a.price.isPackage !== b.price.isPackage) return a.price.isPackage ? 1 : -1;
         if (a.price.total !== b.price.total) return a.price.total - b.price.total;
@@ -1007,15 +1007,15 @@
         .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
     function nf(n) {
-      // NT$ ??雿?      return (n || 0).toLocaleString('en-US');
+      return (n || 0).toLocaleString('en-US');
     }
     function dateLabel(s) {
       // YYYY-MM-DD ??"5/6 (Tue)"
       if (!isYmd(s)) return s;
       var d = new Date(s + 'T00:00:00');
-      var DOW_ZH = ['??,'銝','鈭?,'銝?,'??,'鈭?,'??];
+      var DOW_ZH = ['日','一','二','三','四','五','六'];
       var DOW_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-      var DOW_JA = ['??,'??,'??,'瘞?,'??,'??,'??];
+      var DOW_JA = ['日','月','火','水','木','金','土'];
       var lang = (I && I.current) || 'zh';
       var labelDow = lang === 'en' ? DOW_EN[d.getDay()]
                   : lang === 'ja' ? DOW_JA[d.getDay()]
@@ -1036,30 +1036,31 @@
       if (!row) return;
       var spacer = row.querySelector('.spacer');
       var editLink = row.querySelector('.filter-edit-link');
-      // 皜???chip嚗靽? spacer + edit link嚗?      var children = Array.from(row.children);
+      // 只清掉動態 chip，保留 spacer 與修改搜尋連結。
+      var children = Array.from(row.children);
       children.forEach(function(c){
         if (c !== spacer && c !== editLink) row.removeChild(c);
       });
 
       var hotelLabel = hotelId
         ? (I && I.hotelName ? I.hotelName(BY_ID[hotelId]) : BY_ID[hotelId].name)
-        : tt('rooms.chip.hotel.any', '?券 32 ??摰?);
-      var nightsLabel = nights.total + ' ' + tt('rooms.nights', '??);
+        : tt('rooms.chip.hotel.any', '全部旅宿');
+      var nightsLabel = nights.total + ' ' + tt('rooms.nights', '晚');
       var guestsLabel = adults + ' ' + tt('search.adults', '憭找犖')
-        + (kids > 0 ? ' 繚 ' + kids + ' ' + tt('search.kids', '?咱') : '');
+        + (kids > 0 ? ' · ' + kids + ' ' + tt('search.kids', '兒童') : '');
 
       var html =
         '<span class="chip">' +
-          '<span class="label">' + escapeHtml(tt('rooms.chip.where', '?桃???)) + '</span>' +
+          '<span class="label">' + escapeHtml(tt('rooms.chip.where', '地點')) + '</span>' +
           '<b>' + escapeHtml(hotelLabel) + '</b>' +
         '</span>' +
         '<span class="chip">' +
-          '<span class="label">' + escapeHtml(tt('rooms.chip.dates', '?乩???')) + '</span>' +
-          '<b>' + escapeHtml(dateLabel(checkin)) + ' ??' + escapeHtml(dateLabel(checkout)) + '</b>' +
-          '<span class="num" style="color: var(--muted); font-size: 12px;">繚 ' + escapeHtml(nightsLabel) + '</span>' +
+          '<span class="label">' + escapeHtml(tt('rooms.chip.dates', '日期')) + '</span>' +
+          '<b>' + escapeHtml(dateLabel(checkin)) + ' - ' + escapeHtml(dateLabel(checkout)) + '</b>' +
+          '<span class="num" style="color: var(--muted); font-size: 12px;"> · ' + escapeHtml(nightsLabel) + '</span>' +
         '</span>' +
         '<span class="chip">' +
-          '<span class="label">' + escapeHtml(tt('rooms.chip.guests', '?乩?鈭箸')) + '</span>' +
+          '<span class="label">' + escapeHtml(tt('rooms.chip.guests', '人數')) + '</span>' +
           '<b class="num">' + escapeHtml(guestsLabel) + '</b>' +
         '</span>';
 
@@ -1078,17 +1079,17 @@
 
       // count line
       var nResult = items.filter(function(it){ return !it.price.isPackage; }).length;
-      var template = tt('rooms.count', '?箸?曉 {n} 蝔桃泵??隞嗥??踹?');
+      var template = tt('rooms.count', '找到 {n} 個可訂房型');
       countEl.innerHTML = template.replace('{n}', '<b>' + nResult + '</b>');
 
       if (items.length === 0) {
         listEl.innerHTML =
           '<div class="empty">' +
-            '<h3>' + escapeHtml(tt('rooms.empty.title', '瘝?摰蝚血????)) + '</h3>' +
+            '<h3>' + escapeHtml(tt('rooms.empty.title', '沒有符合條件的房型')) + '</h3>' +
             '<p>' + escapeHtml(tt('rooms.empty.body',
-              '?函?鈭箸?航頞?甇日尹?踹?銝??岫閰行?撠犖?賂???擐??隞?摰踴?)) + '</p>' +
-            '<a href="home-around-website-mockup.html#searchForm" class="empty-cta">' +
-              escapeHtml(tt('rooms.modifySearch', '靽格??')) + ' ?? +
+              '請調整入住日期或人數，再重新搜尋。')) + '</p>' +
+            '<a href="home-around-website-mockup-24.html#searchForm" class="empty-cta">' +
+              escapeHtml(tt('rooms.modifySearch', '修改搜尋')) + ' →' +
             '</a>' +
           '</div>';
         return;
@@ -1111,14 +1112,14 @@
           ? ' style="background-image:url(\'' + roomPhoto + '\'); background-size:cover; background-position:center;"'
           : '';
 
-        // 璅惜?莎?撖萇?? / 閬芸? / 瘚瑟 / 皞急?
+        // 標示旅宿特色：親子友善 / 溫泉 / 海景海岸。
         var badge = null;
-        if ((h.tags || []).some(function(t){ return /撖萇??|閬芸?|摰嗅滬/.test(t); })) {
-          badge = { cls: 'family', text: tt('all.badge.family', '閬芸?嚗秘??) };
-        } else if ((h.tags || []).some(function(t){ return /皞急?/.test(t); })) {
-          badge = { cls: 'teal', text: tt('all.badge.spring', '皞急?') };
-        } else if ((h.tags || []).some(function(t){ return /瘚瑟|瘚瑕硫|?Ｗ雀/.test(t); })) {
-          badge = { cls: 'teal', text: tt('all.badge.coast', '瘚瑟') };
+        if ((h.tags || []).some(function(t){ return /親子|家庭|庭園|寵物友善/.test(t); })) {
+          badge = { cls: 'family', text: tt('all.badge.family', '親子友善') };
+        } else if ((h.tags || []).some(function(t){ return /溫泉/.test(t); })) {
+          badge = { cls: 'teal', text: tt('all.badge.spring', '溫泉') };
+        } else if ((h.tags || []).some(function(t){ return /海景|海岸|南灣|海島|離島/.test(t); })) {
+          badge = { cls: 'teal', text: tt('all.badge.coast', '海景') };
         }
 
         // 摰寥? icon (鈭箏耦 svg)
@@ -1129,7 +1130,7 @@
         // price breakdown text (mono)
         var bdParts = [];
         if (nights.weekday > 0) {
-          var wkLine = tt('rooms.bd.weekday', '撟單 +{add} ? {n} ??)
+          var wkLine = tt('rooms.bd.weekday', '平日 +{add} × {n} 晚')
             .replace('{add}', nf(p.surchargeWeekday))
             .replace('{n}', nights.weekday);
           bdParts.push(
@@ -1141,7 +1142,7 @@
         }
         if (nights.weekend > 0) {
           if (p.isPackage) {
-            var pkgLine = tt('rooms.bd.package', '? {note} (甇斗????航?)')
+            var pkgLine = tt('rooms.bd.package', '假日 {note}（請洽客服）')
               .replace('{note}', p.packageNote || '');
             bdParts.push(
               '<div class="row sub" style="color: var(--danger);">' +
@@ -1149,7 +1150,7 @@
               '</div>'
             );
           } else {
-            var weLine = tt('rooms.bd.weekend', '? +{add} ? {n} ??)
+            var weLine = tt('rooms.bd.weekend', '假日 +{add} × {n} 晚')
               .replace('{add}', nf(p.surchargeWeekend))
               .replace('{n}', nights.weekend);
             bdParts.push(
@@ -1163,20 +1164,20 @@
         var voucherCount = nights.total;
         bdParts.push(
           '<div class="row total">' +
-            '<span>' + escapeHtml(tt('rooms.bd.voucherCount', '雿輻??)) + '</span>' +
-            '<span class="num">' + voucherCount + ' ' + escapeHtml(tt('rooms.bd.vouchers', '撘?)) + '</span>' +
+            '<span>' + escapeHtml(tt('rooms.bd.voucherCount', '使用張數')) + '</span>' +
+            '<span class="num">' + voucherCount + ' ' + escapeHtml(tt('rooms.bd.vouchers', '張')) + '</span>' +
           '</div>'
         );
 
         var cardClass = p.isPackage ? 'room-card is-package' : 'room-card';
         var totalDisplay = p.isPackage
-          ? '<span style="font-size: 16px;">' + escapeHtml(tt('rooms.priceUnavailable', '甇斗????航?')) + '</span>'
+          ? '<span style="font-size: 16px;">' + escapeHtml(tt('rooms.priceUnavailable', '請洽客服')) + '</span>'
           : '<sup>NT$</sup>' + nf(p.total);
         var ctaText = p.isPackage
-          ? tt('rooms.cta.unavailable', '隢???舐窗摰Ｘ?')
-          : tt('rooms.cta.select', '?豢?甇斗??);
+          ? tt('rooms.cta.unavailable', '請聯絡客服')
+          : tt('rooms.cta.select', '選擇此房型');
 
-        // 暺?select ?蝔???anchor click 頝喳 booking.html
+        // Build booking URL for the selected room.
         var bookParams = new URLSearchParams();
         bookParams.set('hotel', h.id);
         bookParams.set('room', r.name);
@@ -1195,7 +1196,7 @@
             '<div class="room-body">' +
               '<div class="room-hotel-row">' +
                 '<a href="hotel-detail.html?id=' + escapeHtml(h.id) + '">' + escapeHtml(hotelName) + '</a>' +
-                '<span class="sep">繚</span>' +
+                '<span class="sep">·</span>' +
                 '<span>' + escapeHtml(regionLabel) + '</span>' +
               '</div>' +
               '<h3 class="room-name">' + escapeHtml(roomDispName) + '</h3>' +
@@ -1204,24 +1205,24 @@
                 : '') +
               '<div class="room-features">' +
                 '<span class="room-feature">' + personSvg +
-                  ' <span>' + escapeHtml(tt('rooms.feature.capacity', '?臬捆蝝?)) +
-                  ' <b class="num">' + it.capacity + '</b> ' + escapeHtml(tt('rooms.feature.people', '鈭?)) +
+                  ' <span>' + escapeHtml(tt('rooms.feature.capacity', '可住')) +
+                  ' <b class="num">' + it.capacity + '</b> ' + escapeHtml(tt('rooms.feature.people', '人')) +
                   '</span>' +
                 '</span>' +
                 '<span class="room-feature">' + bedSvg +
-                  ' <span>' + escapeHtml(tt('rooms.feature.series', '蝎曄溶蝟餃?雿挪??)) + '</span>' +
+                  ' <span>' + escapeHtml(tt('rooms.feature.series', '精緻系列')) + '</span>' +
                 '</span>' +
                 '<span class="room-feature">' + calSvg +
-                  ' <span class="num">' + nights.total + ' ' + escapeHtml(tt('rooms.feature.nights', '??)) + '</span>' +
+                  ' <span class="num">' + nights.total + ' ' + escapeHtml(tt('rooms.feature.nights', '晚')) + '</span>' +
                 '</span>' +
               '</div>' +
               '<div class="price-breakdown">' + bdParts.join('') + '</div>' +
             '</div>' +
             '<div class="room-cta-col">' +
               '<div class="price-block">' +
-                '<div class="from">' + escapeHtml(tt('rooms.from', '雿挪?貊蜇閮?/ total')) + '</div>' +
+                '<div class="from">' + escapeHtml(tt('rooms.from', '總價')) + '</div>' +
                 '<div class="total">' + totalDisplay + '</div>' +
-                '<div class="for-stay">' + escapeHtml(tt('rooms.forStay', '撌脣 {n} ????).replace('{n}', nights.total)) + '</div>' +
+                '<div class="for-stay">' + escapeHtml(tt('rooms.forStay', '入住 {n} 晚').replace('{n}', nights.total)) + '</div>' +
               '</div>' +
               '<button type="button" class="room-select" data-href="' + escapeHtml(bookUrl) + '"' +
                 (p.isPackage ? ' disabled' : '') + '>' +
@@ -1233,7 +1234,8 @@
 
       listEl.innerHTML = html;
 
-      // ?箔??函?撘? anchor click ?? native form submit / location.href嚗?      //   擐? search 銵典撌脤?霅?OD preview iframe sandbox 銝?頝臬??舀迤撣詨??芥?      listEl.querySelectorAll('button.room-select').forEach(function(btn){
+      // 使用隱藏 anchor 觸發導向，避開部分 preview iframe 對 location.href 的限制。
+      listEl.querySelectorAll('button.room-select').forEach(function(btn){
         if (btn.disabled) return;
         btn.addEventListener('click', function(){
           var url = btn.getAttribute('data-href');
@@ -1261,7 +1263,7 @@
   </script>
   <script src="chat-booking-widget.js"></script>
 
-  <!-- SYNC: ????-24.html ?狡 mobile menu controller -->
+  <!-- Mobile menu controller shared with the homepage layout -->
   <script>
     (function(){
       var toggle = document.getElementById('menuToggle');

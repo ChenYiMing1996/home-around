@@ -3,7 +3,7 @@
 <head>
 <meta  charset="utf-8"  />
 <meta  name="viewport"  content="width=device-width,  initial-scale=1"  />
-<title>?? Booking ? Home Around Taiwan Tours</title>
+<title>訂房 — Home Around Taiwan Tours</title>
 <style>
   :root  {
     --bg:        oklch(96.5%  0.012  80);
@@ -827,11 +827,11 @@
 <!--  甈橘獢  nav  +  68px  hamburger  +  drawer  -->
 <nav  class="nav">
   <div  class="container  nav-inner">
-    <a  href="home-around-website-mockup.html"  class="nav-logo"  aria-label="Home  Around  Taiwan  Tours">
+    <a  href="home-around-website-mockup-24.html"  class="nav-logo"  aria-label="Home  Around  Taiwan  Tours">
       <img  src="mor0bric-home-around-LOGO.png"  alt="Home  Around  Taiwan  Tours"  />
     </a>
     <div  class="nav-links">
-      <a  href="home-around-website-mockup.html"  data-i18n="nav.home">首頁</a>
+      <a  href="home-around-website-mockup-24.html"  data-i18n="nav.home">首頁</a>
       <a  href="#"  data-i18n="nav.about">關於我們</a>
       <a  href="#"  data-i18n="nav.guide">景點攻略</a>
       <a  href="#"  data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a>
@@ -902,9 +902,9 @@
 <!--    BREADCRUMB    -->
 <div  class="container">
   <div  class="breadcrumb">
-    <a  href="home-around-website-mockup.html"  data-i18n="nav.home">擐  Home</a>
+    <a  href="home-around-website-mockup-24.html"  data-i18n="nav.home">首頁</a>
     <span  class="sep">/</span>
-    <a  href="home-around-website-mockup.html#hotels"  data-i18n="nav.stays">渡  Hotels</a>
+    <a  href="home-around-website-mockup-24.html#all-stays"  data-i18n="nav.stays">直營旅店</a>
     <span  class="sep">/</span>
     <!--  bc-hotel  JS  撖怠憌臬+  booking  摮見嚗葡韏i18n  -->
     <span  id="bc-hotel">  Booking</span>
@@ -926,16 +926,16 @@
     <div>
       <h4  data-i18n="nav.stays">挪  Hotels</h4>
       <ul>
-        <li><a  href="home-around-website-mockup.html#hotels"  data-i18n="foot.col1.li1">券渡</a></li>
-        <li><a  href="home-around-website-mockup.html#hotels"  data-i18n="tag.撖萇">撖萇</a></li>
-        <li><a  href="home-around-website-mockup.html#hotels"  data-i18n="foot.col1.li2">閬芸雿挪</a></li>
+        <li><a  href="home-around-website-mockup-24.html#all-stays"  data-i18n="foot.col1.li1">所有旅宿</a></li>
+        <li><a  href="home-around-website-mockup-24.html#family"  data-i18n="foot.col1.li2">親子家庭</a></li>
+        <li><a  href="home-around-website-mockup-24.html#experiences"  data-i18n="foot.col1.li3">在地體驗</a></li>
       </ul>
     </div>
     <div>
       <h4  data-i18n="nav.tickets">蟡典  Tickets</h4>
       <ul>
-        <li><a  href="#"  data-i18n="bk.voucher.refined">蝎曄溶蝟餃雿挪/a></li>
-        <li><a  href="home-around-website-mockup.html#trust"  data-i18n="nav.lookup">靽∟蟡典亥岷</a></li>
+        <li><a  href="#"  data-i18n="bk.voucher.refined">精緻系列住宿券</a></li>
+        <li><a  href="home-around-website-mockup-24.html#trust"  data-i18n="nav.lookup">票券查詢</a></li>
       </ul>
     </div>
     <div>
@@ -943,7 +943,7 @@
       <ul>
         <li><a  href="#"  data-i18n="trust.lead.b">摰嗅予銝銵冗</a></li>
         <li><a  href="#"  data-i18n="foot.col2.li4">憭乩撈唾</a></li>
-        <li><a  href="#"  data-i18n="foot.col3.li4">梁甈蝑/a></li>
+        <li><a  href="#"  data-i18n="foot.col3.li4">隱私權政策</a></li>
       </ul>
     </div>
   </div>
@@ -963,52 +963,63 @@
   var main = document.getElementById('main');
   var params = new URLSearchParams(window.location.search);
   var fallback = {
-    'nav.book':'????',
+    'nav.book':'立即訂房',
     'bk.demo.label':'DEMO',
-    'bk.demo.body':'??? demo ???????????????????',
-    'bk.h1.full':'?????????????????',
-    'bk.section.stay':'????',
-    'bk.section.contact':'????',
+    'bk.demo.body':'這是 demo 表單，不會送出真實訂單。',
+    'bk.h1.full':'完成訂房資料',
+    'bk.section.stay':'住宿資訊',
+    'bk.section.contact':'聯絡資訊',
     'bk.field.hotel':'?? Hotel',
-    'bk.field.hotel.placeholder':'?????',
+    'bk.field.hotel.placeholder':'請選擇旅宿',
     'bk.field.room':'?? Room type',
-    'bk.field.room.placeholder':'??????',
-    'bk.field.checkin':'????',
-    'bk.field.checkout':'????',
+    'bk.field.room.placeholder':'請選擇房型',
+    'bk.field.checkin':'入住日期',
+    'bk.field.checkout':'退房日期',
     'bk.field.adults':'??',
     'bk.field.children':'??',
     'bk.field.children.hint':'0-12 ?',
-    'bk.field.voucher':'????',
-    'bk.voucher.aria':'????',
-    'bk.voucher.refined':'????',
-    'bk.voucher.boutique':'????',
-    'bk.voucher.cash':'????',
-    'bk.field.name':'?????',
-    'bk.field.name.placeholder':'???',
-    'bk.field.phone':'????',
+    'bk.field.voucher':'住宿券',
+    'bk.voucher.aria':'選擇住宿券',
+    'bk.voucher.refined':'精緻系列住宿券',
+    'bk.voucher.boutique':'精品系列住宿券',
+    'bk.voucher.cash':'現金訂房',
+    'bk.field.name':'聯絡人姓名',
+    'bk.field.name.placeholder':'請輸入姓名',
+    'bk.field.phone':'手機號碼',
     'bk.field.phone.placeholder':'0912-345-678',
     'bk.field.email':'Email',
     'bk.field.email.placeholder':'name@example.com',
     'bk.field.notes':'??',
-    'bk.field.notes.placeholder':'???????????????',
-    'bk.submit':'??????',
-    'bk.summary.title':'????',
-    'bk.summary.empty':'???????????????????',
+    'bk.field.notes.placeholder':'例如：希望高樓層、攜帶寵物、需要嬰兒床。',
+    'bk.submit':'送出訂房需求',
+    'bk.summary.title':'訂房摘要',
+    'bk.summary.empty':'請先選擇旅宿、房型與日期。',
     'bk.summary.nights':'??',
     'bk.summary.weekday':'??',
     'bk.summary.weekend':'??',
-    'bk.summary.base':'?????',
-    'bk.summary.subtotal':'????',
-    'bk.success.title':'???????',
-    'bk.success.demo':'?? demo ????????????',
-    'bk.success.number':'Demo ????',
-    'hd.noAdd':'???',
+    'bk.summary.base':'房價小計',
+    'bk.summary.subtotal':'總計',
+    'bk.success.h1':'謝謝你，{name}。',
+    'bk.success.lead':'我們已收到你的訂房需求，會於工作日 12 小時內以電話或 LINE 與你確認訂單。',
+    'bk.success.orderId':'訂單編號 Order ID',
+    'bk.success.cta.home':'回首頁 Home',
+    'hd.noAdd':'無加價',
     'bk.aria.minus':'??',
     'bk.aria.plus':'??'
   };
-  function t(key){
-    try { return window.I18N && window.I18N.t ? window.I18N.t(key) : (fallback[key] || key); }
-    catch(e){ return fallback[key] || key; }
+  function t(key, opts){
+    function format(raw){
+      if (!opts) return raw;
+      return String(raw).replace(/\{(\w+)\}/g, function(_, k){ return opts[k] != null ? String(opts[k]) : ''; });
+    }
+    try {
+      if (window.I18N && window.I18N.t) {
+        var value = window.I18N.t(key, opts);
+        return value === key && fallback[key] ? format(fallback[key]) : value;
+      }
+      return format(fallback[key] || key);
+    }
+    catch(e){ return format(fallback[key] || key); }
   }
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function hotelName(h){ try { return window.I18N && window.I18N.hotelName ? window.I18N.hotelName(h) : h.name; } catch(e){ return h.name; } }
@@ -1078,7 +1089,7 @@
     document.querySelectorAll('.counter').forEach(function(box){ var key=box.dataset.counter; var min=Number(box.dataset.min); var max=Number(box.dataset.max); var cv=box.querySelector('.cv'); var hidden=document.getElementById('f-'+key); box.querySelectorAll('button').forEach(function(btn){ btn.addEventListener('click', function(){ var next=Math.max(min, Math.min(max, Number(hidden.value)+Number(btn.dataset.step))); hidden.value=next; cv.textContent=next; updateSummary(); }); }); });
     var hotelSel=document.getElementById('f-hotel'); hotelSel.addEventListener('change', function(){ var hotel=getSelectedHotel(); populateRooms(hotel, null); updateSummary(); });
     ['f-room','f-checkin','f-checkout'].forEach(function(id){ document.getElementById(id).addEventListener('change', function(){ var ci=parse(document.getElementById('f-checkin').value); var co=parse(document.getElementById('f-checkout').value); if(ci && co && co<=ci){ var n=new Date(ci); n.setDate(n.getDate()+1); document.getElementById('f-checkout').value=fmt(n); } if(ci) document.getElementById('f-checkout').min=fmt(ci); updateSummary(); }); });
-    document.getElementById('booking-form').addEventListener('submit', function(e){ e.preventDefault(); var required=['f-hotel','f-room','f-checkin','f-checkout','f-name','f-phone']; var ok=true; required.forEach(function(id){ var el=document.getElementById(id); var bad=!el.value; el.closest('.field').classList.toggle('is-error', bad); if(bad) ok=false; }); if(!ok) return; var order='HA-'+Math.random().toString(36).slice(2,8).toUpperCase(); main.innerHTML='<section class="booking-shell success"><div class="success-card"><div class="check">?</div><h1>'+esc(t('bk.success.title'))+'</h1><p>'+esc(t('bk.success.demo'))+'</p><div class="order-no"><span>'+esc(t('bk.success.number'))+'</span><b>'+order+'</b></div><a class="btn btn-primary" href="home-around-website-mockup.html">???</a></div></section>'; });
+    document.getElementById('booking-form').addEventListener('submit', function(e){ e.preventDefault(); var required=['f-hotel','f-room','f-checkin','f-checkout','f-name','f-phone']; var ok=true; required.forEach(function(id){ var el=document.getElementById(id); var bad=!el.value; el.closest('.field').classList.toggle('is-error', bad); if(bad) ok=false; }); if(!ok) return; var name=document.getElementById('f-name').value || ''; var order='HA-'+Math.random().toString(36).slice(2,8).toUpperCase(); main.innerHTML='<section class="booking-shell success"><div class="success-card"><div class="check">✓</div><h1>'+esc(t('bk.success.h1', { name: name }))+'</h1><p>'+esc(t('bk.success.lead'))+'</p><div class="order-no"><span>'+esc(t('bk.success.orderId'))+'</span><b>'+order+'</b></div><a class="btn btn-primary" href="home-around-website-mockup-24.html">'+esc(t('bk.success.cta.home'))+'</a></div></section>'; });
   }
   render();
 })();
