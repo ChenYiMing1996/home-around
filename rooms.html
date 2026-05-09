@@ -124,7 +124,7 @@
     transition: border-color .15s, color .15s;
   }
   .filter-edit-link:hover { color: var(--teal); border-color: var(--teal); }
-  .filter-edit-link::before { content: "??; transition: transform .2s; }
+  .filter-edit-link::before { content: "←"; transition: transform .2s; }
   .filter-edit-link:hover::before { transform: translateX(-3px); }
 
   /* ??? SUMMARY ??????????????????????????????????????????? */
@@ -268,7 +268,7 @@
     transition: filter .15s, transform .2s;
     width: 100%; justify-content: center;
   }
-  .room-select::after { content: "??; transition: transform .2s; }
+  .room-select::after { content: "→"; transition: transform .2s; }
   .room-select:hover { filter: brightness(1.06); }
   .room-select:hover::after { transform: translateX(3px); }
 
@@ -678,23 +678,23 @@
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    margin-right: 12px;
+    margin-right: 22px;
     line-height: 1;
     text-decoration: none;
     color: var(--brown);
   }
   .nav .footer-logo-text {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--brown);
   }
   .nav .footer-logo-tagline {
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--muted);
     margin-top: 4px;
