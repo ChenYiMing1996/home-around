@@ -15,9 +15,10 @@
 - 實際檔名是 `rooms.html`，不是 `room.html`。
 - 執行順序固定：
   1. `rooms.html`
-  2. `booking.html`
-  3. `home-around-website-mockup-24.html`
-  4. `hotel-detail.html` 最後接入 runtime，作為回歸驗證，不先動。
+  2. `hotel-detail.html` drawer z-index checkpoint：只把現有基準頁 drawer 壓過 chat widget，不接 runtime。
+  3. `booking.html`
+  4. `home-around-website-mockup-24.html`
+  5. `hotel-detail.html` 最後接入 runtime，作為回歸驗證。
 - 每完成一個 page 就 commit、push、跑靜態檢查與 e2e，並停下等待使用者確認後才進下一個 page。
 - 只允許修改 drawer 相關內容：
   - `#menuToggle`
@@ -51,9 +52,11 @@
   - Remove old mobile drawer inline CSS/HTML/JS.
   - Add config + shared CSS/JS includes.
 - Modify later: `booking.html`
-  - Second runtime consumer after user approval.
+  - Second runtime consumer after hotel-detail z-index checkpoint approval.
 - Modify later: `home-around-website-mockup-24.html`
   - Third runtime consumer after user approval.
+- Modify checkpoint: `hotel-detail.html`
+  - Before `booking.html`, raise only the existing drawer stacking layer above `chat-booking-widget.js` (`9998` launcher, `9999` panel).
 - Modify later: `hotel-detail.html`
   - Final runtime consumer; visual must not regress.
 - Modify: `docs/superpowers/plans/2026-05-09-mobile-drawer-hotel-detail-refactor.md`
@@ -520,9 +523,56 @@ git push origin codex/mobile-drawer-refactor-plan
 
 Stop and wait for user acceptance before starting `booking.html`.
 
-## Task 2: Connect `booking.html`
+## Task 2: Raise `hotel-detail.html` Drawer Above Chat Widget
 
 Do this only after user accepts Task 1.
+
+**Files:**
+- Modify: `hotel-detail.html`
+
+Steps:
+- Write and run this failing guard before editing:
+
+```powershell
+@'
+const fs = require('fs');
+const html = fs.readFileSync('hotel-detail.html', 'utf8');
+const failures = [];
+const zValues = [...html.matchAll(/z-index:\s*(\d+)/g)].map(m => Number(m[1]));
+const menu = /\.mobile-menu\s*\{[\s\S]*?z-index:\s*(\d+)/.exec(html);
+const close = /\.ha-mobile-close-fix\s*\{[\s\S]*?z-index:\s*(\d+)/.exec(html);
+if (!menu || Number(menu[1]) <= 9999) failures.push('hotel-detail mobile-menu z-index must be above chat panel 9999');
+if (!close || Number(close[1]) <= 9999) failures.push('hotel-detail close z-index must be above chat panel 9999');
+if (Math.max(...zValues.filter(v => v > 9999)) < 10020) failures.push('hotel-detail drawer controls should include a 10020 z-index layer');
+if (failures.length) {
+  console.error(failures.join('\n'));
+  process.exit(1);
+}
+console.log('PASS hotel-detail drawer z-index guard');
+'@ | node -
+```
+
+Expected before editing: fails because `.mobile-menu` is still below chat.
+
+- Change only drawer stacking CSS in `hotel-detail.html`:
+  - `.menu-toggle` z-index: `10020`
+  - `.mobile-menu` z-index: `10000`
+  - keep `.ha-mobile-close-fix` z-index at `10020`
+- Do not change `chat-booking-widget.js`.
+- Do not change hotel content, nav links, hero/content sections, footer, or generated detail render.
+- Run the z-index guard again.
+- Run shared static test.
+- Run hotel-detail browser e2e at 768px:
+  - drawer opens.
+  - chat launcher/panel no longer appears above drawer.
+  - close button remains at current hotel-detail position and works.
+  - console/runtime errors are `0`.
+- Commit `Raise hotel detail drawer above chat`.
+- Push and stop for user acceptance before starting `booking.html`.
+
+## Task 3: Connect `booking.html`
+
+Do this only after user accepts Task 2.
 
 **Files:**
 - Modify: `booking.html`
@@ -537,9 +587,9 @@ Steps:
 - Commit `Refactor booking mobile drawer runtime`.
 - Push and stop for user acceptance.
 
-## Task 3: Connect `home-around-website-mockup-24.html`
+## Task 4: Connect `home-around-website-mockup-24.html`
 
-Do this only after user accepts Task 2.
+Do this only after user accepts Task 3.
 
 **Files:**
 - Modify: `home-around-website-mockup-24.html`
@@ -555,9 +605,9 @@ Steps:
 - Commit `Refactor homepage mobile drawer runtime`.
 - Push and stop for user acceptance.
 
-## Task 4: Connect `hotel-detail.html`
+## Task 5: Connect `hotel-detail.html`
 
-Do this only after user accepts Task 3.
+Do this only after user accepts Task 4.
 
 **Files:**
 - Modify: `hotel-detail.html`
