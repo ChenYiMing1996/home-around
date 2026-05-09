@@ -4,7 +4,7 @@
 
 **Goal:** 建立一套共用 mobile drawer runtime，讓 `rooms.html`、`booking.html`、`home-around-website-mockup-24.html`、`hotel-detail.html` 的 768px mobile 導覽 drawer 使用同一份 JS/CSS，且視覺與目前 `hotel-detail.html` 一致。
 
-**Architecture:** 新增 `mobile-drawer.css` 作為唯一 drawer 視覺來源，新增 `mobile-drawer.js` 作為唯一 drawer DOM/runtime 控制器。每個 HTML page 只保留一小段 `window.HA_MOBILE_DRAWER_CONFIG` page config 與兩個 asset include；runtime 只生成/接管 mobile drawer，不修改桌機 nav、hero、form、cards、footer、資料渲染或 chat widget。
+**Architecture:** 新增 `mobile-drawer.css` 作為唯一 drawer 視覺來源，新增 `mobile-drawer.js` 作為唯一 drawer DOM/runtime 控制器。每個 HTML page 只保留 shared CSS/JS asset include；runtime 只生成/接管 mobile drawer，且四頁 drawer 主連結固定為 `<a href="rooms.html">Rooms</a>`。不得修改桌機 nav、hero、form、cards、footer、資料渲染或 chat widget。
 
 **Tech Stack:** Static HTML, CSS, vanilla JavaScript, Node.js one-off checks, Codex in-app browser e2e, Git.
 
@@ -29,7 +29,6 @@
   - `.menu-toggle*`
   - `body.is-menu-open`
   - drawer open/close script
-  - page-level `window.HA_MOBILE_DRAWER_CONFIG`
   - `mobile-drawer.css`
   - `mobile-drawer.js`
 - 不允許修改：
@@ -46,7 +45,7 @@
   - Must match the current `hotel-detail.html` drawer style.
 - Create: `mobile-drawer.js`
   - Sole shared runtime that creates `#menuToggle` and `#mobileMenu`, binds open/close/Escape/resize/link-close behavior.
-  - Reads `window.HA_MOBILE_DRAWER_CONFIG`.
+  - Generates the same drawer on every page; the main navigation link is always `rooms.html` / `Rooms`.
 - Modify: `rooms.html`
   - First runtime consumer.
   - Remove old mobile drawer inline CSS/HTML/JS.
@@ -64,26 +63,11 @@
 
 ## Runtime Contract
 
-Each page will provide only this config before loading `mobile-drawer.js`:
+Each page will provide only the shared drawer CSS/JS assets:
 
 ```html
 <link rel="stylesheet" href="mobile-drawer.css">
-<script>
-  window.HA_MOBILE_DRAWER_CONFIG = {
-    active: 'rooms',
-    mainLabel: 'Rooms'
-  };
-</script>
 <script src="mobile-drawer.js"></script>
-```
-
-Allowed `active` values:
-
-```js
-'home'
-'rooms'
-'booking'
-'hotel'
 ```
 
 `mobile-drawer.js` must generate this structure:
@@ -100,7 +84,7 @@ Allowed `active` values:
     <nav class="mm-section mm-anim d1" aria-label="行動版主要導覽">
       <p class="mm-kicker">Navigation</p>
       <ul class="mm-nav-main">
-        <li><a href="[active page href]">[mainLabel]</a></li>
+        <li><a href="rooms.html">Rooms</a></li>
       </ul>
       <ul class="mm-nav-sub">
         <li><a href="#" data-i18n="nav.about">關於我們</a></li>
@@ -206,7 +190,6 @@ if (!fs.existsSync('mobile-drawer.css')) failures.push('missing mobile-drawer.cs
 if (!fs.existsSync('mobile-drawer.js')) failures.push('missing mobile-drawer.js');
 if (!/href="mobile-drawer\.css"/.test(html)) failures.push('rooms.html does not load mobile-drawer.css');
 if (!/src="mobile-drawer\.js"/.test(html)) failures.push('rooms.html does not load mobile-drawer.js');
-if (!/HA_MOBILE_DRAWER_CONFIG/.test(html)) failures.push('rooms.html missing drawer config');
 if (/<aside class="mobile-menu" id="mobileMenu"/.test(html)) failures.push('rooms.html still contains static mobile drawer HTML');
 if (/Mobile menu controller shared with the homepage layout/.test(html)) failures.push('rooms.html still contains old drawer controller');
 if (/ha-hotel-detail-drawer-sync/.test(html)) failures.push('rooms.html still contains temporary hotel-detail sync patch');
@@ -452,9 +435,9 @@ Create the shared CSS from the current `hotel-detail.html` drawer visual:
 
 Create a runtime that:
 - waits for `DOMContentLoaded` if needed.
-- reads `window.HA_MOBILE_DRAWER_CONFIG`.
 - appends `#menuToggle` to `.nav-inner`.
 - inserts `#mobileMenu` after `.nav`.
+- always renders the main drawer link as `<a href="rooms.html">Rooms</a>`.
 - does nothing if the elements already exist.
 - has exactly one event binding guard using `dataset.hotelDrawerBound`.
 
@@ -462,15 +445,9 @@ Create a runtime that:
 
 In `rooms.html`:
 - Add `<link rel="stylesheet" href="mobile-drawer.css">` after the main page styles.
-- Add this before `</body>` and before `mobile-drawer.js`:
+- Add this before `</body>`:
 
 ```html
-<script>
-  window.HA_MOBILE_DRAWER_CONFIG = {
-    active: 'rooms',
-    mainLabel: 'Rooms'
-  };
-</script>
 <script src="mobile-drawer.js"></script>
 ```
 
@@ -579,8 +556,8 @@ Do this only after user accepts Task 2.
 
 Steps:
 - Add `mobile-drawer.css` include.
-- Add `HA_MOBILE_DRAWER_CONFIG` with `active: 'booking'` and `mainLabel: 'Booking'`.
 - Add `mobile-drawer.js`.
+- Confirm the generated drawer main link remains `<a href="rooms.html">Rooms</a>`.
 - Delete old booking static drawer HTML/CSS/JS.
 - Run shared static test.
 - Run booking browser e2e at 768px.
@@ -596,8 +573,8 @@ Do this only after user accepts Task 3.
 
 Steps:
 - Add `mobile-drawer.css` include.
-- Add `HA_MOBILE_DRAWER_CONFIG` with `active: 'home'` and `mainLabel: 'Home'`.
 - Add `mobile-drawer.js`.
+- Confirm the generated drawer main link remains `<a href="rooms.html">Rooms</a>`.
 - Delete old homepage static drawer HTML/CSS/JS.
 - Do not touch hero carousel, hero thumbnails, search bar, room sections, footer, or chat widget.
 - Run shared static test.
@@ -614,8 +591,8 @@ Do this only after user accepts Task 4.
 
 Steps:
 - Add `mobile-drawer.css` include.
-- Add `HA_MOBILE_DRAWER_CONFIG` with `active: 'hotel'` and `mainLabel: 'Hotel'`.
 - Add `mobile-drawer.js`.
+- Confirm the generated drawer main link remains `<a href="rooms.html">Rooms</a>`.
 - Delete old hotel-detail generated drawer CSS/JS and repair shim.
 - Verify visual output remains the same as current hotel-detail baseline.
 - Run shared static test.

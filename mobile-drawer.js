@@ -1,13 +1,7 @@
 (function () {
-  var defaults = {
-    active: 'home',
-    mainLabel: 'Home'
-  };
-  var pageMap = {
-    home: 'home-around-website-mockup-24.html',
-    rooms: 'rooms.html',
-    booking: 'booking.html',
-    hotel: 'hotel-detail.html'
+  var mainLink = {
+    href: 'rooms.html',
+    label: 'Rooms'
   };
 
   function escapeHtml(value) {
@@ -20,16 +14,6 @@
         "'": '&#39;'
       }[char];
     });
-  }
-
-  function getConfig() {
-    var userConfig = window.HA_MOBILE_DRAWER_CONFIG || {};
-    var active = pageMap[userConfig.active] ? userConfig.active : defaults.active;
-    return {
-      active: active,
-      mainLabel: userConfig.mainLabel || defaults.mainLabel,
-      mainHref: userConfig.mainHref || pageMap[active]
-    };
   }
 
   function buildToggle() {
@@ -48,7 +32,7 @@
     return toggle;
   }
 
-  function buildMenu(config) {
+  function buildMenu() {
     var menu = document.createElement('aside');
     menu.className = 'mobile-menu';
     menu.id = 'mobileMenu';
@@ -61,7 +45,7 @@
       '<nav class="mm-section mm-anim d1" aria-label="行動版主要導覽">',
       '<p class="mm-kicker">Navigation</p>',
       '<ul class="mm-nav-main">',
-      '<li><a href="' + escapeHtml(config.mainHref) + '">' + escapeHtml(config.mainLabel) + '</a></li>',
+      '<li><a href="' + escapeHtml(mainLink.href) + '">' + escapeHtml(mainLink.label) + '</a></li>',
       '</ul>',
       '<ul class="mm-nav-sub">',
       '<li><a href="#" data-i18n="nav.about">關於我們</a></li>',
@@ -176,7 +160,7 @@
 
     var menu = document.getElementById('mobileMenu');
     if (!menu) {
-      menu = buildMenu(getConfig());
+      menu = buildMenu();
       nav.insertAdjacentElement('afterend', menu);
     }
 
