@@ -1,56 +1,89 @@
-# Mobile Drawer Hotel Detail Refactor Implementation Plan
+# Mobile Drawer Shared Runtime Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 將 `rooms.html`、`booking.html`、`home-around-website-mockup-24.html` 的 768px mobile drawer 重構成與 `hotel-detail.html` 相同的視覺與互動樣式。
+**Goal:** 建立一套共用 mobile drawer runtime，讓 `rooms.html`、`booking.html`、`home-around-website-mockup-24.html`、`hotel-detail.html` 的 768px mobile 導覽 drawer 使用同一份 JS/CSS，且視覺與目前 `hotel-detail.html` 一致。
 
-**Architecture:** `hotel-detail.html` 是唯一視覺基準；每個頁面只整理自己的 drawer CSS/HTML/JS，不抽動 drawer 以外的 nav、hero、form、card、footer、資料渲染或 chat widget。每完成一頁就提交、跑自檢、請使用者驗收，驗收通過後才進下一頁。
+**Architecture:** 新增 `mobile-drawer.css` 作為唯一 drawer 視覺來源，新增 `mobile-drawer.js` 作為唯一 drawer DOM/runtime 控制器。每個 HTML page 只保留一小段 `window.HA_MOBILE_DRAWER_CONFIG` page config 與兩個 asset include；runtime 只生成/接管 mobile drawer，不修改桌機 nav、hero、form、cards、footer、資料渲染或 chat widget。
 
-**Tech Stack:** 靜態 HTML、inline CSS、vanilla JavaScript、Git、Node.js one-off static checks、Codex in-app browser visual/e2e checks。
+**Tech Stack:** Static HTML, CSS, vanilla JavaScript, Node.js one-off checks, Codex in-app browser e2e, Git.
 
 ---
 
-## Scope And Hard Rules
+## Hard Scope Rules
 
 - 實際檔名是 `rooms.html`，不是 `room.html`。
-- 執行順序固定：`rooms.html` -> `booking.html` -> `home-around-website-mockup-24.html`。
-- 每個頁面只允許修改這些 drawer 相關區塊：
-  - `.menu-toggle` button。
-  - `#mobileMenu` aside。
-  - `#mobileMenuExit` close button。
-  - `.mobile-menu*`、`.mm-*`、`.menu-toggle*`、`body.is-menu-open` 相關 CSS。
-  - 控制 drawer open/close 的 inline script。
-- 禁止修改 drawer 以外的元素與行為：
-  - `.nav-logo` 圖片來源與尺寸不因本計畫更動。
-  - `.nav-links` 桌機連結內容不因本計畫更動。
-  - hero、rooms cards、booking form、hotel detail content、footer、chat widget 不可改。
-  - 不可改 `hotels-data.js`、`i18n.js`、`chat-booking-widget.js`。
-- 每頁都要刪除被淘汰的舊 drawer CSS/HTML/JS，不能只靠新增 `!important` 補丁壓過舊程式碼。
-- 每頁完成後必須跑靜態檢查與 in-app browser e2e 檢查，並停下等待使用者確認後才進下一頁。
-- 視覺驗收標準：在 768px mobile drawer 開啟狀態下，背景色、blur、右上圓形 close/hamburger、內容 padding、字體層級、分隔線、動畫節奏，要和 `hotel-detail.html` 一致。
+- 執行順序固定：
+  1. `rooms.html`
+  2. `booking.html`
+  3. `home-around-website-mockup-24.html`
+  4. `hotel-detail.html` 最後接入 runtime，作為回歸驗證，不先動。
+- 每完成一個 page 就 commit、push、跑靜態檢查與 e2e，並停下等待使用者確認後才進下一個 page。
+- 只允許修改 drawer 相關內容：
+  - `#menuToggle`
+  - `#mobileMenu`
+  - `#mobileMenuExit`
+  - `.mobile-menu*`
+  - `.mm-*`
+  - `.menu-toggle*`
+  - `body.is-menu-open`
+  - drawer open/close script
+  - page-level `window.HA_MOBILE_DRAWER_CONFIG`
+  - `mobile-drawer.css`
+  - `mobile-drawer.js`
+- 不允許修改：
+  - desktop nav link text/order, except removing old mobile-only drawer markup from inside the page.
+  - logo image path and size outside drawer runtime.
+  - hero, search bar, room cards, booking form, hotel content, footer, chat widget.
+  - `hotels-data.js`, `i18n.js`, `chat-booking-widget.js`, `photos/**`, `mor0bric-home-around-LOGO.png`.
+- 被淘汰的 old drawer CSS/HTML/JS 必須刪除，不能靠堆疊 `!important` 互相覆蓋。
 
-## File Structure
+## Files
 
+- Create: `mobile-drawer.css`
+  - Sole shared CSS for mobile drawer visual.
+  - Must match the current `hotel-detail.html` drawer style.
+- Create: `mobile-drawer.js`
+  - Sole shared runtime that creates `#menuToggle` and `#mobileMenu`, binds open/close/Escape/resize/link-close behavior.
+  - Reads `window.HA_MOBILE_DRAWER_CONFIG`.
 - Modify: `rooms.html`
-  - 第一階段目標頁。
-  - 刪掉舊版 homepage drawer CSS 與舊 controller。
-  - 保留並整理成 hotel-detail drawer 的單一 CSS/JS 實作。
-- Modify: `booking.html`
-  - 第二階段目標頁。
-  - 移除舊版 drawer head、舊 close button 文字樣式、舊 controller。
-  - 套用與 `hotel-detail.html` 一致的 drawer visual contract。
-- Modify: `home-around-website-mockup-24.html`
-  - 第三階段目標頁。
-  - 移除舊版 drawer 與 `ha-nav-repair` 造成的重複補丁。
-  - 套用與 `hotel-detail.html` 一致的 drawer visual contract。
-- Reference only: `hotel-detail.html`
-  - 不修改。
-  - 作為 canonical visual source。
-- Do not modify: `hotels-data.js`、`i18n.js`、`chat-booking-widget.js`、`mor0bric-home-around-LOGO.png`、`photos/**`。
+  - First runtime consumer.
+  - Remove old mobile drawer inline CSS/HTML/JS.
+  - Add config + shared CSS/JS includes.
+- Modify later: `booking.html`
+  - Second runtime consumer after user approval.
+- Modify later: `home-around-website-mockup-24.html`
+  - Third runtime consumer after user approval.
+- Modify later: `hotel-detail.html`
+  - Final runtime consumer; visual must not regress.
+- Modify: `docs/superpowers/plans/2026-05-09-mobile-drawer-hotel-detail-refactor.md`
+  - Keep this execution plan aligned with the shared-runtime architecture.
 
-## Canonical Drawer Contract
+## Runtime Contract
 
-所有目標頁完成後都要符合下面 contract。
+Each page will provide only this config before loading `mobile-drawer.js`:
+
+```html
+<link rel="stylesheet" href="mobile-drawer.css">
+<script>
+  window.HA_MOBILE_DRAWER_CONFIG = {
+    active: 'rooms',
+    mainLabel: 'Rooms'
+  };
+</script>
+<script src="mobile-drawer.js"></script>
+```
+
+Allowed `active` values:
+
+```js
+'home'
+'rooms'
+'booking'
+'hotel'
+```
+
+`mobile-drawer.js` must generate this structure:
 
 ```html
 <button type="button" class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
@@ -64,17 +97,24 @@
     <nav class="mm-section mm-anim d1" aria-label="行動版主要導覽">
       <p class="mm-kicker">Navigation</p>
       <ul class="mm-nav-main">
-        <li><a href="rooms.html">Rooms</a></li>
+        <li><a href="[active page href]">[mainLabel]</a></li>
       </ul>
       <ul class="mm-nav-sub">
-        <li><a href="home-around-website-mockup-24.html">首頁</a></li>
-        <li><a href="rooms.html">房型總覽</a></li>
-        <li><a href="booking.html">預訂行程</a></li>
+        <li><a href="#" data-i18n="nav.about">關於我們</a></li>
+        <li><a href="#" data-i18n="nav.guide">景點攻略</a></li>
+        <li><a href="#" data-i18n="nav.tickets">電子票券</a></li>
+        <li><a href="#">最新消息</a></li>
+        <li><a href="#" data-i18n="nav.stays">直營旅店</a></li>
+        <li><a href="#" data-i18n="nav.partners">合作夥伴</a></li>
+        <li><a href="#" data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a></li>
+        <li><a href="#" data-i18n="nav.contact">聯絡我們</a></li>
+        <li><a href="#" data-i18n="nav.insurance">網路投保旅平險</a></li>
       </ul>
     </nav>
     <section class="mm-contact mm-anim d2">
       <p class="mm-kicker">Contact &amp; Hours</p>
       <dl>
+        <dt>地址</dt><dd>高雄市鹽埕區河西路137號</dd>
         <dt>Phone</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd>
         <dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd>
         <dt>Hours</dt><dd>Open 24 hours</dd>
@@ -94,95 +134,16 @@
 </aside>
 ```
 
-頁面可以調整 `mm-nav-main` 的第一個連結以符合 active context：
+## Shared Static Test
 
-```html
-<!-- rooms.html -->
-<li><a href="rooms.html">Rooms</a></li>
-
-<!-- booking.html -->
-<li><a href="booking.html">Booking</a></li>
-
-<!-- home-around-website-mockup-24.html -->
-<li><a href="home-around-website-mockup-24.html">Home</a></li>
-```
-
-所有目標頁的 drawer controller 最終只能有一份，行為如下：
-
-```js
-(function(){
-  var toggle = document.getElementById('menuToggle');
-  var menu = document.getElementById('mobileMenu');
-  var exit = document.getElementById('mobileMenuExit');
-  if (!toggle || !menu || toggle.dataset.hotelDrawerBound === 'true') return;
-  toggle.dataset.hotelDrawerBound = 'true';
-
-  var lastFocused = null;
-
-  function setOpen(open) {
-    if (open) {
-      lastFocused = document.activeElement;
-      menu.hidden = false;
-      requestAnimationFrame(function(){
-        menu.classList.add('is-open');
-        toggle.classList.add('is-open');
-        toggle.setAttribute('aria-expanded', 'true');
-        toggle.setAttribute('aria-label', '關閉選單');
-        document.body.classList.add('is-menu-open');
-      });
-    } else {
-      menu.classList.remove('is-open');
-      toggle.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', '開啟選單');
-      document.body.classList.remove('is-menu-open');
-      window.setTimeout(function(){
-        if (!menu.classList.contains('is-open')) menu.hidden = true;
-      }, 420);
-      if (lastFocused && lastFocused.focus) {
-        try { lastFocused.focus({ preventScroll: true }); } catch (_) { lastFocused.focus(); }
-      }
-    }
-  }
-
-  toggle.addEventListener('click', function(event){
-    event.preventDefault();
-    setOpen(!menu.classList.contains('is-open'));
-  });
-
-  if (exit && exit.dataset.hotelDrawerBound !== 'true') {
-    exit.dataset.hotelDrawerBound = 'true';
-    exit.addEventListener('click', function(){ setOpen(false); });
-  }
-
-  menu.addEventListener('click', function(event){
-    var a = event.target.closest('a');
-    if (a && a.getAttribute('href') && a.getAttribute('href') !== '#') setOpen(false);
-  });
-
-  document.addEventListener('keydown', function(event){
-    if (event.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
-  });
-
-  var mq = window.matchMedia('(min-width: 769px)');
-  function handleMq(){
-    if (mq.matches && menu.classList.contains('is-open')) setOpen(false);
-  }
-  if (mq.addEventListener) mq.addEventListener('change', handleMq);
-  else if (mq.addListener) mq.addListener(handleMq);
-})();
-```
-
-## Shared Verification Commands
-
-每個 task 完成後都跑以下靜態檢查。
+Run after every page task:
 
 ```powershell
 @'
 const fs = require('fs');
 const vm = require('vm');
-const pages = ['hotel-detail.html','rooms.html','booking.html','home-around-website-mockup-24.html'];
 const failures = [];
+const pages = ['rooms.html','booking.html','home-around-website-mockup-24.html','hotel-detail.html'];
 
 for (const page of pages) {
   const html = fs.readFileSync(page, 'utf8');
@@ -193,567 +154,441 @@ for (const page of pages) {
     try {
       new vm.Script(code, { filename: `${page}:inline-script-${index + 1}` });
     } catch (error) {
-      failures.push(`${page} inline script ${index + 1}: ${error.message}`);
+      failures.push(`${page}: inline script ${index + 1}: ${error.message}`);
     }
   });
 }
 
-for (const page of ['rooms.html','booking.html','home-around-website-mockup-24.html']) {
-  const html = fs.readFileSync(page, 'utf8');
-  const count = pattern => (html.match(pattern) || []).length;
-  const hasRequired = [
-    ['#menuToggle', /id="menuToggle"/],
-    ['#mobileMenu', /id="mobileMenu"/],
-    ['#mobileMenuExit', /id="mobileMenuExit"/],
-    ['single controller guard', /dataset\.hotelDrawerBound/],
-    ['hotel visual menu CSS', /background:\s*oklch\(28%\s+0\.022\s+60\s*\/\s*75%\)/],
-    ['drawer blur', /backdrop-filter:\s*blur\(14px\)/],
-  ];
-  for (const [label, pattern] of hasRequired) {
-    if (!pattern.test(html)) failures.push(`${page}: missing ${label}`);
-  }
-  if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) {
-    failures.push(`${page}: expected exactly one menuToggle controller lookup`);
-  }
-  if (count(/haMobileCloseFix|ha-mobile-close-fix/g) !== 0) {
-    failures.push(`${page}: old close-fix shim remains`);
+for (const file of ['mobile-drawer.js']) {
+  const js = fs.readFileSync(file, 'utf8');
+  try {
+    new vm.Script(js, { filename: file });
+  } catch (error) {
+    failures.push(`${file}: ${error.message}`);
   }
 }
+
+if (!fs.existsSync('mobile-drawer.css')) failures.push('missing mobile-drawer.css');
+if (!fs.existsSync('mobile-drawer.js')) failures.push('missing mobile-drawer.js');
 
 if (failures.length) {
   console.error(failures.join('\n'));
   process.exit(1);
 }
-console.log('PASS drawer static checks');
+console.log('PASS shared drawer static test');
 '@ | node -
 ```
 
-Expected: `PASS drawer static checks`
+Expected: `PASS shared drawer static test`
 
-也跑 Git diff 範圍檢查。
+## Task 1: Create Shared Runtime And Connect `rooms.html`
+
+**Files:**
+- Create: `mobile-drawer.css`
+- Create: `mobile-drawer.js`
+- Modify: `rooms.html`
+- Modify: `docs/superpowers/plans/2026-05-09-mobile-drawer-hotel-detail-refactor.md`
+
+- [ ] **Step 1: Write failing rooms runtime guard**
+
+Run before implementation:
+
+```powershell
+@'
+const fs = require('fs');
+const failures = [];
+const html = fs.readFileSync('rooms.html', 'utf8');
+
+if (!fs.existsSync('mobile-drawer.css')) failures.push('missing mobile-drawer.css');
+if (!fs.existsSync('mobile-drawer.js')) failures.push('missing mobile-drawer.js');
+if (!/href="mobile-drawer\.css"/.test(html)) failures.push('rooms.html does not load mobile-drawer.css');
+if (!/src="mobile-drawer\.js"/.test(html)) failures.push('rooms.html does not load mobile-drawer.js');
+if (!/HA_MOBILE_DRAWER_CONFIG/.test(html)) failures.push('rooms.html missing drawer config');
+if (/<aside class="mobile-menu" id="mobileMenu"/.test(html)) failures.push('rooms.html still contains static mobile drawer HTML');
+if (/Mobile menu controller shared with the homepage layout/.test(html)) failures.push('rooms.html still contains old drawer controller');
+if (/ha-hotel-detail-drawer-sync/.test(html)) failures.push('rooms.html still contains temporary hotel-detail sync patch');
+
+if (failures.length) {
+  console.error(failures.join('\n'));
+  process.exit(1);
+}
+console.log('PASS rooms runtime guard');
+'@ | node -
+```
+
+Expected before implementation: command fails for missing shared assets and old rooms drawer code.
+
+- [ ] **Step 2: Create `mobile-drawer.css`**
+
+Create the shared CSS from the current `hotel-detail.html` drawer visual:
+
+```css
+@media (max-width: 768px) {
+  body.is-menu-open { overflow: hidden; }
+  .nav-inner { height: 72px; }
+  .nav-logo img { height: 48px; }
+  .nav-links,
+  .nav-cta .nav-lang,
+  .nav-cta .btn-primary { display: none !important; }
+  .menu-toggle {
+    display: inline-flex !important;
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    z-index: 10020;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in oklch, var(--brown, #4b413b) 45%, transparent);
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--bg, #f8f1e5) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+  .menu-toggle .bar {
+    position: absolute;
+    left: 12px;
+    width: 20px;
+    height: 1.5px;
+    background: var(--brown, #4b413b);
+    transition: transform .32s ease, opacity .2s ease, top .25s ease;
+  }
+  .menu-toggle .bar.t { top: 16px; }
+  .menu-toggle .bar.m { top: 22px; }
+  .menu-toggle .bar.b { top: 28px; }
+  .menu-toggle.is-open { border-color: oklch(96% 0.012 80 / .28); background: transparent; }
+  .menu-toggle.is-open .bar { background: oklch(96% 0.012 80); }
+  .menu-toggle.is-open .bar.t { top: 22px; transform: rotate(45deg); }
+  .menu-toggle.is-open .bar.m { opacity: 0; }
+  .menu-toggle.is-open .bar.b { top: 22px; transform: rotate(-45deg); }
+}
+
+@media (min-width: 769px) {
+  .menu-toggle,
+  .mobile-menu { display: none !important; }
+}
+
+.menu-toggle,
+.mobile-menu { display: none; }
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  background: oklch(28% 0.022 60 / 75%);
+  color: oklch(96% 0.012 80);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: opacity .34s ease, transform .34s ease, visibility 0s linear .34s;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-menu.is-open {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity .38s ease, transform .38s ease, visibility 0s linear 0s;
+}
+
+.mobile-menu-inner {
+  min-height: 100%;
+  padding: 88px clamp(22px, 6vw, 36px) 42px;
+  display: grid;
+  align-content: start;
+  gap: 32px;
+}
+
+.mm-kicker {
+  margin: 0 0 12px;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: oklch(96% 0.012 80 / .58);
+}
+
+.mm-nav-main,
+.mm-nav-sub {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mm-nav-main {
+  display: grid;
+  gap: 14px;
+}
+
+.mm-nav-main a {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(34px, 10vw, 52px);
+  line-height: 1;
+  color: oklch(96% 0.012 80);
+}
+
+.mm-nav-sub {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid oklch(96% 0.012 80 / .16);
+  display: grid;
+  gap: 12px;
+}
+
+.mm-nav-sub a {
+  font-size: 15px;
+  color: oklch(96% 0.012 80 / .78);
+}
+
+.mm-contact {
+  padding-top: 22px;
+  border-top: 1px solid oklch(96% 0.012 80 / .16);
+}
+
+.mm-contact dl {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px 18px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.mm-contact dt {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 10.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: oklch(96% 0.012 80 / .55);
+}
+
+.mm-contact dd {
+  margin: 0;
+  color: oklch(96% 0.012 80 / .92);
+}
+
+.mm-lang {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: oklch(96% 0.012 80 / .65);
+}
+
+.mm-lang .lang-btn {
+  color: inherit;
+}
+
+.mm-cta .btn {
+  width: 100%;
+  height: 56px;
+  justify-content: center;
+}
+
+.mobile-menu .mm-anim {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.25,1.05);
+}
+
+.mobile-menu.is-open .mm-anim {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu.is-open .d1 { transition-delay: .08s; }
+.mobile-menu.is-open .d2 { transition-delay: .14s; }
+.mobile-menu.is-open .d3 { transition-delay: .20s; }
+.mobile-menu.is-open .d4 { transition-delay: .26s; }
+.mobile-menu.is-open .d5 { transition-delay: .32s; }
+
+#mobileMenuExit {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 10020;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid oklch(96% 0.012 80 / 0.34);
+  background: oklch(96% 0.012 80 / 0.05);
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+}
+
+#mobileMenuExit::before,
+#mobileMenuExit::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 1.5px;
+  background: oklch(96% 0.012 80);
+  transform-origin: center;
+}
+
+#mobileMenuExit::before { transform: translate(-50%, -50%) rotate(45deg); }
+#mobileMenuExit::after { transform: translate(-50%, -50%) rotate(-45deg); }
+#mobileMenuExit:hover {
+  background: oklch(96% 0.012 80 / 0.12);
+  border-color: oklch(96% 0.012 80 / 0.62);
+  transform: rotate(90deg);
+}
+```
+
+- [ ] **Step 3: Create `mobile-drawer.js`**
+
+Create a runtime that:
+- waits for `DOMContentLoaded` if needed.
+- reads `window.HA_MOBILE_DRAWER_CONFIG`.
+- appends `#menuToggle` to `.nav-inner`.
+- inserts `#mobileMenu` after `.nav`.
+- does nothing if the elements already exist.
+- has exactly one event binding guard using `dataset.hotelDrawerBound`.
+
+- [ ] **Step 4: Connect `rooms.html` only**
+
+In `rooms.html`:
+- Add `<link rel="stylesheet" href="mobile-drawer.css">` after the main page styles.
+- Add this before `</body>` and before `mobile-drawer.js`:
+
+```html
+<script>
+  window.HA_MOBILE_DRAWER_CONFIG = {
+    active: 'rooms',
+    mainLabel: 'Rooms'
+  };
+</script>
+<script src="mobile-drawer.js"></script>
+```
+
+- Delete the static `<aside class="mobile-menu" id="mobileMenu" ...>` block.
+- Delete old drawer-only inline CSS.
+- Delete old drawer-only inline JS controller.
+- Keep all non-drawer page logic unchanged.
+
+- [ ] **Step 5: Run rooms guard**
+
+Run the Step 1 guard again.
+
+Expected after implementation: `PASS rooms runtime guard`
+
+- [ ] **Step 6: Run static verification**
+
+Run:
 
 ```powershell
 git diff --check
-git diff -- rooms.html booking.html home-around-website-mockup-24.html
 ```
 
-Expected:
-- `git diff --check` exit code `0`。
-- diff 只出現在 drawer CSS/HTML/JS 區塊。
-- 不出現 hero、form、room card、footer、chat widget、資料陣列的 diff。
+Expected: exit code `0`.
 
-每頁的 browser e2e 檢查固定做：
+Run the shared static test from this plan.
 
-```text
-1. 用本機 server 或 file URL 開啟目標頁。
-2. 將檢視寬度調到 768px 或使用 Codex app 中接近 768px 的 mobile pane。
-3. 點右上角 hamburger。
-4. 驗收開啟狀態：
-   - drawer 覆蓋整個 viewport。
-   - 背景為 hotel-detail.html 同款深咖啡透明霧面。
-   - 右上 close 圓形按鈕位置、大小、線條與 hotel-detail.html 一致。
-   - 內容從上方約 88px 開始，字級、分隔線、間距與 hotel-detail.html 一致。
-   - body 不可捲動背景。
-   - console error 為 0。
-5. 按 Escape 關閉 drawer。
-6. 再開一次 drawer，點 `#mobileMenuExit` 關閉。
-7. 再開一次 drawer，點 drawer 內非 `#` 的連結，drawer 會關閉或進行正常導頁。
-8. 切到 769px 以上，drawer 自動關閉，桌機 nav 恢復。
-```
+Expected: `PASS shared drawer static test`
 
-## Task 1: Refactor `rooms.html` Drawer
+- [ ] **Step 7: Run browser e2e for rooms**
 
-**Files:**
-- Modify: `rooms.html`
-- Reference: `hotel-detail.html`
-
-- [ ] **Step 1: Record current drawer blocks**
-
-Run:
-
-```powershell
-rg -n "mobile-menu|menu-toggle|mobileMenuExit|ha-hotel-detail-drawer-sync|haMobileCloseFix|ha-mobile-close-fix|dataset\\.hotelDrawerBound" rooms.html hotel-detail.html
-```
-
-Expected current findings before editing:
-- `rooms.html` has old `.mobile-menu` / `.menu-toggle` CSS near the earlier drawer section.
-- `rooms.html` has old controller around the `Mobile menu controller shared with the homepage layout` comment.
-- `rooms.html` has `ha-hotel-detail-drawer-sync` CSS/JS later in the file.
-
-- [ ] **Step 2: Write the failing static guard**
-
-Run this before editing:
-
-```powershell
-@'
-const fs = require('fs');
-const html = fs.readFileSync('rooms.html', 'utf8');
-const failures = [];
-const count = pattern => (html.match(pattern) || []).length;
-if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) failures.push('rooms.html should have exactly one menuToggle controller lookup');
-if (/Mobile menu controller shared with the homepage layout/.test(html)) failures.push('rooms.html old homepage drawer controller still exists');
-if (/haMobileCloseFix|ha-mobile-close-fix/.test(html)) failures.push('rooms.html old close-fix shim still exists');
-if (!/dataset\.hotelDrawerBound/.test(html)) failures.push('rooms.html canonical drawer guard missing');
-if (failures.length) {
-  console.error(failures.join('\n'));
-  process.exit(1);
-}
-console.log('PASS rooms drawer guard');
-'@ | node -
-```
-
-Expected before editing: command fails and reports old drawer duplication.
-
-- [ ] **Step 3: Replace only the drawer HTML block**
-
-In `rooms.html`, replace the current `<aside class="mobile-menu" id="mobileMenu" ...>` block only. Keep the surrounding nav, main content, filters, cards, footer, and scripts unchanged.
-
-Use this page-specific drawer content:
-
-```html
-<aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="行動版選單" hidden>
-  <div class="mobile-menu-inner">
-    <nav class="mm-section mm-anim d1" aria-label="行動版主要導覽">
-      <p class="mm-kicker">Navigation</p>
-      <ul class="mm-nav-main">
-        <li><a href="rooms.html">Rooms</a></li>
-      </ul>
-      <ul class="mm-nav-sub">
-        <li><a href="home-around-website-mockup-24.html">首頁</a></li>
-        <li><a href="rooms.html">房型總覽</a></li>
-        <li><a href="booking.html">預訂行程</a></li>
-      </ul>
-    </nav>
-    <section class="mm-contact mm-anim d2">
-      <p class="mm-kicker">Contact &amp; Hours</p>
-      <dl>
-        <dt>Phone</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd>
-        <dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd>
-        <dt>Hours</dt><dd>Open 24 hours</dd>
-      </dl>
-    </section>
-    <section class="mm-lang mm-anim d3" aria-label="語言切換">
-      <span class="mm-kicker">Language</span>
-      <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
-      <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
-      <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
-    </section>
-    <div class="mm-cta mm-anim d4">
-      <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">預訂行程</a>
-    </div>
-    <button type="button" class="mm-exit" id="mobileMenuExit" aria-label="關閉選單">關閉</button>
-  </div>
-</aside>
-```
-
-- [ ] **Step 4: Delete obsolete rooms drawer CSS and controller**
-
-Delete these drawer-only parts from `rooms.html`:
-- The older homepage-style `.menu-toggle`, `.mobile-menu`, `.mobile-menu-inner`, `.mobile-menu-head`, `.mm-*`, `#mobileMenuExit`, and mobile drawer `@media (max-width: 768px)` rules that appear before the nav markup.
-- The script block headed by `Mobile menu controller shared with the homepage layout`.
-- Any `haMobileCloseFix` / `ha-mobile-close-fix` shim if present.
-
-Keep one final hotel-detail-compatible CSS block and one final hotel-detail-compatible controller. If `rooms.html` already has `ha-hotel-detail-drawer-sync`, rewrite that block so it is the single source of drawer styling and behavior.
-
-- [ ] **Step 5: Run rooms guard and shared verification**
-
-Run:
-
-```powershell
-@'
-const fs = require('fs');
-const html = fs.readFileSync('rooms.html', 'utf8');
-const failures = [];
-const count = pattern => (html.match(pattern) || []).length;
-if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) failures.push('rooms.html should have exactly one menuToggle controller lookup');
-if (/Mobile menu controller shared with the homepage layout/.test(html)) failures.push('rooms.html old homepage drawer controller still exists');
-if (/haMobileCloseFix|ha-mobile-close-fix/.test(html)) failures.push('rooms.html old close-fix shim still exists');
-if (!/dataset\.hotelDrawerBound/.test(html)) failures.push('rooms.html canonical drawer guard missing');
-if (failures.length) {
-  console.error(failures.join('\n'));
-  process.exit(1);
-}
-console.log('PASS rooms drawer guard');
-'@ | node -
-```
-
-Expected after editing: `PASS rooms drawer guard`
-
-Then run the shared static commands from this plan.
-
-- [ ] **Step 6: Run rooms browser e2e**
-
-Open `rooms.html` at 768px and compare open drawer against `hotel-detail.html`.
-
-Expected:
-- `rooms.html` drawer visually matches `hotel-detail.html`.
-- `.room-card` count remains unchanged from before this task.
-- Console error count is `0`.
-
-- [ ] **Step 7: Commit rooms page**
-
-Run:
-
-```powershell
-git add rooms.html
-git commit -m "Refactor rooms mobile drawer"
-```
-
-- [ ] **Step 8: Stop for user acceptance**
-
-Report the rooms result and wait for explicit user confirmation before starting Task 2.
-
-## Task 2: Refactor `booking.html` Drawer
-
-**Files:**
-- Modify: `booking.html`
-- Reference: `hotel-detail.html`
-
-- [ ] **Step 1: Record current booking drawer blocks**
-
-Run:
-
-```powershell
-rg -n "mobile-menu|menu-toggle|mobileMenuExit|haMobileCloseFix|ha-mobile-close-fix|dataset\\.hotelDrawerBound" booking.html hotel-detail.html
-```
-
-Expected current findings before editing:
-- `booking.html` has a static `#mobileMenu` aside.
-- `booking.html` has old homepage-style drawer CSS.
-- `booking.html` has a controller near the booking success script area.
-
-- [ ] **Step 2: Write the failing booking guard**
-
-Run this before editing:
-
-```powershell
-@'
-const fs = require('fs');
-const html = fs.readFileSync('booking.html', 'utf8');
-const failures = [];
-const count = pattern => (html.match(pattern) || []).length;
-if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) failures.push('booking.html should have exactly one menuToggle controller lookup');
-if (!/dataset\.hotelDrawerBound/.test(html)) failures.push('booking.html canonical drawer guard missing');
-if (/haMobileCloseFix|ha-mobile-close-fix/.test(html)) failures.push('booking.html old close-fix shim remains');
-if (!/background:\s*oklch\(28%\s+0\.022\s+60\s*\/\s*75%\)/.test(html)) failures.push('booking.html hotel drawer background missing');
-if (failures.length) {
-  console.error(failures.join('\n'));
-  process.exit(1);
-}
-console.log('PASS booking drawer guard');
-'@ | node -
-```
-
-Expected before editing: command fails because `dataset.hotelDrawerBound` is missing or old CSS remains.
-
-- [ ] **Step 3: Replace only booking drawer HTML**
-
-In `booking.html`, replace only the existing `#mobileMenu` aside with:
-
-```html
-<aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="行動版選單" hidden>
-  <div class="mobile-menu-inner">
-    <nav class="mm-section mm-anim d1" aria-label="行動版主要導覽">
-      <p class="mm-kicker">Navigation</p>
-      <ul class="mm-nav-main">
-        <li><a href="booking.html">Booking</a></li>
-      </ul>
-      <ul class="mm-nav-sub">
-        <li><a href="home-around-website-mockup-24.html">首頁</a></li>
-        <li><a href="rooms.html">房型總覽</a></li>
-        <li><a href="booking.html">預訂行程</a></li>
-      </ul>
-    </nav>
-    <section class="mm-contact mm-anim d2">
-      <p class="mm-kicker">Contact &amp; Hours</p>
-      <dl>
-        <dt>Phone</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd>
-        <dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd>
-        <dt>Hours</dt><dd>Open 24 hours</dd>
-      </dl>
-    </section>
-    <section class="mm-lang mm-anim d3" aria-label="語言切換">
-      <span class="mm-kicker">Language</span>
-      <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
-      <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
-      <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
-    </section>
-    <div class="mm-cta mm-anim d4">
-      <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">預訂行程</a>
-    </div>
-    <button type="button" class="mm-exit" id="mobileMenuExit" aria-label="關閉選單">關閉</button>
-  </div>
-</aside>
-```
-
-- [ ] **Step 4: Delete obsolete booking drawer CSS and controller**
-
-Delete the old `.mobile-menu-head`, old text close button styling, duplicate `.mobile-menu` rules, duplicate `.menu-toggle` rules, and the old controller block. Keep the booking form, submit button, success modal, margin fixes, footer, and chat widget untouched.
-
-Insert or retain exactly one hotel-detail-compatible CSS block and one controller from the canonical contract.
-
-- [ ] **Step 5: Run booking guard and shared verification**
-
-Run:
-
-```powershell
-@'
-const fs = require('fs');
-const html = fs.readFileSync('booking.html', 'utf8');
-const failures = [];
-const count = pattern => (html.match(pattern) || []).length;
-if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) failures.push('booking.html should have exactly one menuToggle controller lookup');
-if (!/dataset\.hotelDrawerBound/.test(html)) failures.push('booking.html canonical drawer guard missing');
-if (/haMobileCloseFix|ha-mobile-close-fix/.test(html)) failures.push('booking.html old close-fix shim remains');
-if (!/background:\s*oklch\(28%\s+0\.022\s+60\s*\/\s*75%\)/.test(html)) failures.push('booking.html hotel drawer background missing');
-if (failures.length) {
-  console.error(failures.join('\n'));
-  process.exit(1);
-}
-console.log('PASS booking drawer guard');
-'@ | node -
-```
-
-Expected after editing: `PASS booking drawer guard`
-
-Then run the shared static commands from this plan.
-
-- [ ] **Step 6: Run booking browser e2e**
-
-Open `booking.html` at 768px and compare open drawer against `hotel-detail.html`.
-
-Expected:
-- `booking.html` drawer visually matches `hotel-detail.html`.
-- Booking form layout and submit button are unchanged outside the drawer.
-- Console error count is `0`.
-
-- [ ] **Step 7: Commit booking page**
-
-Run:
-
-```powershell
-git add booking.html
-git commit -m "Refactor booking mobile drawer"
-```
-
-- [ ] **Step 8: Stop for user acceptance**
-
-Report the booking result and wait for explicit user confirmation before starting Task 3.
-
-## Task 3: Refactor `home-around-website-mockup-24.html` Drawer
-
-**Files:**
-- Modify: `home-around-website-mockup-24.html`
-- Reference: `hotel-detail.html`
-
-- [ ] **Step 1: Record current homepage drawer blocks**
-
-Run:
-
-```powershell
-rg -n "mobile-menu|menu-toggle|mobileMenuExit|ha-nav-repair|haMobileCloseFix|ha-mobile-close-fix|dataset\\.hotelDrawerBound" home-around-website-mockup-24.html hotel-detail.html
-```
-
-Expected current findings before editing:
-- `home-around-website-mockup-24.html` has a static drawer aside.
-- `home-around-website-mockup-24.html` has older drawer CSS.
-- `home-around-website-mockup-24.html` has `ha-nav-repair` logo repair code that must not become a drawer workaround.
-
-- [ ] **Step 2: Write the failing homepage guard**
-
-Run this before editing:
-
-```powershell
-@'
-const fs = require('fs');
-const html = fs.readFileSync('home-around-website-mockup-24.html', 'utf8');
-const failures = [];
-const count = pattern => (html.match(pattern) || []).length;
-if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) failures.push('home page should have exactly one menuToggle controller lookup');
-if (!/dataset\.hotelDrawerBound/.test(html)) failures.push('home page canonical drawer guard missing');
-if (/haMobileCloseFix|ha-mobile-close-fix/.test(html)) failures.push('home page old close-fix shim remains');
-if (!/background:\s*oklch\(28%\s+0\.022\s+60\s*\/\s*75%\)/.test(html)) failures.push('home page hotel drawer background missing');
-if (failures.length) {
-  console.error(failures.join('\n'));
-  process.exit(1);
-}
-console.log('PASS homepage drawer guard');
-'@ | node -
-```
-
-Expected before editing: command fails because the page still has the old drawer implementation.
-
-- [ ] **Step 3: Replace only homepage drawer HTML**
-
-In `home-around-website-mockup-24.html`, replace only the existing `#mobileMenu` aside with:
-
-```html
-<aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="行動版選單" hidden>
-  <div class="mobile-menu-inner">
-    <nav class="mm-section mm-anim d1" aria-label="行動版主要導覽">
-      <p class="mm-kicker">Navigation</p>
-      <ul class="mm-nav-main">
-        <li><a href="home-around-website-mockup-24.html">Home</a></li>
-      </ul>
-      <ul class="mm-nav-sub">
-        <li><a href="home-around-website-mockup-24.html">首頁</a></li>
-        <li><a href="rooms.html">房型總覽</a></li>
-        <li><a href="booking.html">預訂行程</a></li>
-      </ul>
-    </nav>
-    <section class="mm-contact mm-anim d2">
-      <p class="mm-kicker">Contact &amp; Hours</p>
-      <dl>
-        <dt>Phone</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd>
-        <dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd>
-        <dt>Hours</dt><dd>Open 24 hours</dd>
-      </dl>
-    </section>
-    <section class="mm-lang mm-anim d3" aria-label="語言切換">
-      <span class="mm-kicker">Language</span>
-      <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
-      <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
-      <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
-    </section>
-    <div class="mm-cta mm-anim d4">
-      <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">預訂行程</a>
-    </div>
-    <button type="button" class="mm-exit" id="mobileMenuExit" aria-label="關閉選單">關閉</button>
-  </div>
-</aside>
-```
-
-- [ ] **Step 4: Delete obsolete homepage drawer CSS and controller**
-
-Delete only old drawer-related CSS and JS:
-- Old `.mobile-menu` / `.menu-toggle` / `#mobileMenuExit` / `.mm-*` drawer CSS that predates the hotel-detail visual block.
-- Old drawer controller around the `mobile menu controller` comments.
-- Drawer-related duplicate rules in `ha-nav-repair` if they affect mobile drawer behavior.
-
-Keep homepage hero carousel, hero thumbnails, search bar, room data render, logo repair for non-drawer nav, footer, and chat widget untouched.
-
-- [ ] **Step 5: Run homepage guard and shared verification**
-
-Run:
-
-```powershell
-@'
-const fs = require('fs');
-const html = fs.readFileSync('home-around-website-mockup-24.html', 'utf8');
-const failures = [];
-const count = pattern => (html.match(pattern) || []).length;
-if (count(/document\.getElementById\('menuToggle'\)|document\.getElementById\("menuToggle"\)/g) !== 1) failures.push('home page should have exactly one menuToggle controller lookup');
-if (!/dataset\.hotelDrawerBound/.test(html)) failures.push('home page canonical drawer guard missing');
-if (/haMobileCloseFix|ha-mobile-close-fix/.test(html)) failures.push('home page old close-fix shim remains');
-if (!/background:\s*oklch\(28%\s+0\.022\s+60\s*\/\s*75%\)/.test(html)) failures.push('home page hotel drawer background missing');
-if (failures.length) {
-  console.error(failures.join('\n'));
-  process.exit(1);
-}
-console.log('PASS homepage drawer guard');
-'@ | node -
-```
-
-Expected after editing: `PASS homepage drawer guard`
-
-Then run the shared static commands from this plan.
-
-- [ ] **Step 6: Run homepage browser e2e**
-
-Open `home-around-website-mockup-24.html` at 768px and compare open drawer against `hotel-detail.html`.
-
-Expected:
-- Homepage drawer visually matches `hotel-detail.html`.
-- Hero carousel and thumbnails still render.
-- Search bar remains untouched.
-- Console error count is `0`.
-
-- [ ] **Step 7: Commit homepage page**
-
-Run:
-
-```powershell
-git add home-around-website-mockup-24.html
-git commit -m "Refactor homepage mobile drawer"
-```
-
-- [ ] **Step 8: Stop for user acceptance**
-
-Report the homepage result and wait for explicit user confirmation before final cleanup.
-
-## Task 4: Final Cross-Page Verification
-
-**Files:**
-- Verify only: `hotel-detail.html`
-- Verify only: `rooms.html`
-- Verify only: `booking.html`
-- Verify only: `home-around-website-mockup-24.html`
-
-- [ ] **Step 1: Run full static verification**
-
-Run the shared static commands from this plan.
-
-Expected:
-- Inline scripts compile for all four pages.
-- Each target page has exactly one drawer controller.
-- No obsolete close-fix shim remains.
-- `git diff --check` returns exit code `0`.
-
-- [ ] **Step 2: Run four-page browser e2e**
-
-At 768px, open and test:
-
-```text
-hotel-detail.html
-rooms.html
-booking.html
-home-around-website-mockup-24.html
-```
-
-For each page:
-- Open drawer.
-- Compare visual result to `hotel-detail.html`.
+At 768px:
+- Open `rooms.html`.
+- Confirm drawer visual matches `hotel-detail.html`.
+- Confirm `.room-card` count remains `72`.
+- Open drawer with hamburger.
 - Close with Escape.
-- Open again.
-- Close with close button.
+- Open drawer again.
+- Close with `#mobileMenuExit`.
 - Confirm console error count is `0`.
 
-- [ ] **Step 3: Confirm no non-drawer changes**
+- [ ] **Step 8: Commit, push, and stop**
 
 Run:
 
 ```powershell
-git diff main...HEAD -- rooms.html booking.html home-around-website-mockup-24.html
-```
-
-Expected:
-- Diff only contains drawer CSS/HTML/JS removal and replacement.
-- No unrelated text, layout, product content, data, image path, form field, footer, or chat widget change.
-
-- [ ] **Step 4: Push branch**
-
-Run:
-
-```powershell
+git add docs/superpowers/plans/2026-05-09-mobile-drawer-hotel-detail-refactor.md mobile-drawer.css mobile-drawer.js rooms.html
+git commit -m "Refactor rooms mobile drawer runtime"
 git push origin codex/mobile-drawer-refactor-plan
 ```
 
+Stop and wait for user acceptance before starting `booking.html`.
+
+## Task 2: Connect `booking.html`
+
+Do this only after user accepts Task 1.
+
+**Files:**
+- Modify: `booking.html`
+
+Steps:
+- Add `mobile-drawer.css` include.
+- Add `HA_MOBILE_DRAWER_CONFIG` with `active: 'booking'` and `mainLabel: 'Booking'`.
+- Add `mobile-drawer.js`.
+- Delete old booking static drawer HTML/CSS/JS.
+- Run shared static test.
+- Run booking browser e2e at 768px.
+- Commit `Refactor booking mobile drawer runtime`.
+- Push and stop for user acceptance.
+
+## Task 3: Connect `home-around-website-mockup-24.html`
+
+Do this only after user accepts Task 2.
+
+**Files:**
+- Modify: `home-around-website-mockup-24.html`
+
+Steps:
+- Add `mobile-drawer.css` include.
+- Add `HA_MOBILE_DRAWER_CONFIG` with `active: 'home'` and `mainLabel: 'Home'`.
+- Add `mobile-drawer.js`.
+- Delete old homepage static drawer HTML/CSS/JS.
+- Do not touch hero carousel, hero thumbnails, search bar, room sections, footer, or chat widget.
+- Run shared static test.
+- Run homepage browser e2e at 768px.
+- Commit `Refactor homepage mobile drawer runtime`.
+- Push and stop for user acceptance.
+
+## Task 4: Connect `hotel-detail.html`
+
+Do this only after user accepts Task 3.
+
+**Files:**
+- Modify: `hotel-detail.html`
+
+Steps:
+- Add `mobile-drawer.css` include.
+- Add `HA_MOBILE_DRAWER_CONFIG` with `active: 'hotel'` and `mainLabel: 'Hotel'`.
+- Add `mobile-drawer.js`.
+- Delete old hotel-detail generated drawer CSS/JS and repair shim.
+- Verify visual output remains the same as current hotel-detail baseline.
+- Run shared static test.
+- Run four-page browser e2e at 768px.
+- Commit `Use shared mobile drawer on hotel detail`.
+- Push branch.
+
+## Final Acceptance
+
+Before merge:
+
+```powershell
+git diff main...HEAD -- rooms.html booking.html home-around-website-mockup-24.html hotel-detail.html mobile-drawer.css mobile-drawer.js
+```
+
 Expected:
-- Remote branch is updated.
+- Page diffs only remove old drawer code and add shared runtime config/includes.
+- `mobile-drawer.css` contains the visual implementation.
+- `mobile-drawer.js` contains the runtime implementation.
+- No non-drawer page element is changed.
 
 ## Self-Review
 
-- Spec coverage: plan covers stable main, branch work, no non-drawer edits, obsolete code removal, hotel-detail visual parity, ordered pages, e2e after each page, and user approval gates.
-- Placeholder scan: this plan contains concrete file paths, snippets, commands, expected results, and stop points.
-- Risk control: each page is isolated into its own task and commit; `rooms.html` goes first because it already has duplicate old/new drawer controllers.
-
-## Execution Handoff
-
-Plan complete and saved to `docs/superpowers/plans/2026-05-09-mobile-drawer-hotel-detail-refactor.md`.
-
-Two execution options:
-
-1. Subagent-Driven (recommended): dispatch a fresh subagent per page task, review between tasks, and stop for user acceptance after each page.
-2. Inline Execution: execute one page task in this session, run checks, stop for user acceptance before continuing.
-
-The next executable task is Task 1 for `rooms.html`.
+- Spec coverage: shared JS runtime, shared CSS, four pages, strict no non-drawer edits, obsolete drawer code deletion, hotel-detail visual parity, page-by-page acceptance gates.
+- Placeholder scan: no placeholders; all task commands and expected results are explicit.
+- Risk control: rooms goes first because it currently has duplicate old/new drawer controllers; hotel-detail is migrated last to preserve the visual reference until the end.
