@@ -1,0 +1,1147 @@
+﻿<!doctype  html>
+<html  lang="zh-Hant">
+<head>
+<meta  charset="utf-8"  />
+<meta  name="viewport"  content="width=device-width,  initial-scale=1"  />
+<title>?? Booking ? Home Around Taiwan Tours</title>
+<style>
+  :root  {
+    --bg:        oklch(96.5%  0.012  80);
+    --surface:    oklch(100%  0  0);
+    --cream:      oklch(98%  0.05  95);
+    --fg:        oklch(20%  0.012  60);
+    --brown:      oklch(34%  0.018  60);
+    --muted:      oklch(48%  0.012  60);
+    --border:    oklch(82%  0.008  60);
+    --hairline:  oklch(82%  0.008  60  /  0.7);
+    --teal:      oklch(67%  0.09  185);
+    --yellow:    oklch(82%  0.16  88);
+    --green:      oklch(74%  0.13  130);
+    --error:      oklch(58%  0.18  28);
+
+    --font-display:  'Noto  Serif  TC',  'Tiempos  Headline',  'Newsreader',  'Iowan  Old  Style',  Georgia,  serif;
+    --font-body:    'Noto  Sans  TC',  -apple-system,  BlinkMacSystemFont,  'Inter',  'Microsoft  JhengHei',  system-ui,  sans-serif;
+    --font-mono:    ui-monospace,  'JetBrains  Mono',  'IBM  Plex  Mono',  Menlo,  monospace;
+
+    --maxw:  1280px;
+    --pad-x:  clamp(20px,  4vw,  48px);
+    --section-y:  clamp(48px,  6vw,  80px);
+  }
+  *  {  box-sizing:  border-box;  }
+  html,  body  {  margin:  0;  padding:  0;  }
+  body  {
+    font-family:  var(--font-body);
+    color:  var(--fg);  background:  var(--bg);
+    font-size:  17px;  line-height:  1.65;
+    -webkit-font-smoothing:  antialiased;  text-rendering:  optimizeLegibility;
+  }
+  img  {  display:  block;  max-width:  100%;  }
+  a  {  color:  inherit;  text-decoration:  none;  }
+  button  {  font-family:  inherit;  cursor:  pointer;  }
+  .num  {  font-variant-numeric:  tabular-nums;  }
+
+  .container  {  max-width:  var(--maxw);  margin:  0  auto;  padding-inline:  var(--pad-x);  }
+
+  /*    NAV    */
+  .nav  {
+    position:  sticky;  top:  0;  z-index:  50;
+    background:  color-mix(in  oklch,  var(--bg)  88%,  transparent);
+    backdrop-filter:  blur(14px)  saturate(140%);
+    -webkit-backdrop-filter:  blur(14px)  saturate(140%);
+    border-bottom:  1px  solid  var(--hairline);
+  }
+  .nav-inner  {  display:  flex;  align-items:  center;  height:  96px;  gap:  28px;  }
+  .nav-logo  {  display:  flex;  align-items:  center;  gap:  10px;  flex-shrink:  0;  margin-right:  12px;  }
+  .nav-logo  img  {  height:  66px;  width:  auto;  }
+  .nav-links  {
+    display:  flex;  align-items:  center;  gap:  18px;  font-size:  13.5px;
+    color:  var(--brown);  white-space:  nowrap;  flex:  1;  min-width:  0;
+  }
+  .nav-links  a  {  position:  relative;  padding:  6px  0;  transition:  color  .2s  ease-out;  }
+  .nav-links  a:hover  {  color:  var(--teal);  }
+  .nav-links  a.active  {  color:  var(--brown);  }
+  .nav-links  a.active::after  {
+    content:  "";  position:  absolute;  left:  0;  right:  0;  bottom:  -2px;
+    height:  1.5px;  background:  var(--brown);
+  }
+  .nav-cta  {  display:  flex;  align-items:  center;  gap:  14px;  flex-shrink:  0;  }
+  /*  隤蝢斤  home  /  hotel-detail  梁閬死  */
+  .nav-lang  {  display:  inline-flex;  align-items:  center;  gap:  0;  font-family:  var(--font-mono);  font-size:  11.5px;  letter-spacing:  0.08em;  color:  var(--muted);  }
+  .nav-lang  .sep  {  margin:  0  4px;  opacity:  0.5;  pointer-events:  none;  }
+  .lang-btn  {
+    background:  transparent;  border:  0;  padding:  4px  4px;
+    font:  inherit;  color:  var(--muted);  cursor:  pointer;
+    line-height:  1;  border-radius:  3px;
+    transition:  color  .15s  ease-out;
+  }
+  .lang-btn:hover  {  color:  var(--brown);  }
+  .lang-btn:focus-visible  {  outline:  2px  solid  var(--teal);  outline-offset:  2px;  }
+  .lang-btn.is-active  {  color:  var(--brown);  font-weight:  700;  }
+  .btn  {
+    display:  inline-flex;  align-items:  center;  gap:  8px;
+    height:  44px;  padding:  0  22px;  border-radius:  10px;
+    font-size:  14.5px;  font-weight:  600;
+    border:  1px  solid  transparent;
+    transition:  all  .2s  ease-out;
+  }
+  .btn-primary  {  background:  var(--yellow);  color:  var(--fg);  }
+  .btn-primary:hover  {  transform:  translateY(-1px);  box-shadow:  0  4px  16px  -6px  oklch(82%  0.16  88  /  0.6);  }
+  .btn-ghost  {  background:  transparent;  color:  var(--brown);  border-color:  var(--border);  }
+  .btn-ghost:hover  {  border-color:  var(--brown);  }
+  @media  (max-width:  1280px)  {
+    .nav-links  {  gap:  14px;  font-size:  13px;  }
+  }
+  @media  (max-width:  1024px)  {
+    .nav-links  {  gap:  12px;  font-size:  12.5px;  }
+    .nav-lang  {  display:  none;  }
+  }
+  @media  (max-width:  640px)  {
+    .nav-inner  {  height:  76px;  }
+    .nav-logo  img  {  height:  52px;  }
+    .nav-links  {  display:  none;  }
+  }
+
+  /*    BREADCRUMB    */
+  .breadcrumb  {
+    padding:  24px  0  12px;
+    font-family:  var(--font-mono);
+    font-size:  11.5px;  letter-spacing:  0.12em;
+    text-transform:  uppercase;  color:  var(--muted);
+  }
+  .breadcrumb  a:hover  {  color:  var(--teal);  }
+  .breadcrumb  .sep  {  margin:  0  8px;  opacity:  0.5;  }
+
+  /*    HEADER    */
+  .head  {  padding:  16px  0  36px;  max-width:  760px;  }
+  .head  .eyebrow  {
+    font-family:  var(--font-mono);
+    font-size:  11.5px;  letter-spacing:  0.2em;
+    text-transform:  uppercase;  color:  var(--teal);
+    margin-bottom:  14px;
+  }
+  .head  h1  {
+    font-family:  var(--font-display);
+    font-weight:  500;
+    font-size:  clamp(32px,  4.4vw,  52px);
+    line-height:  1.05;  letter-spacing:  -0.01em;
+    margin:  0  0  14px;  color:  var(--brown);
+    text-wrap:  balance;
+  }
+  .head  .deck  {
+    font-size:  18px;  line-height:  1.55;  color:  var(--muted);
+    max-width:  620px;  margin:  0;
+  }
+
+  /*    BODY  GRID    */
+  .body-grid  {
+    display:  grid;  grid-template-columns:  1.55fr  1fr;  gap:  56px;
+    padding-bottom:  var(--section-y);
+    align-items:  start;
+  }
+  @media  (max-width:  1024px)  {  .body-grid  {  grid-template-columns:  1fr;  gap:  36px;  }  }
+
+  /*    FORM    */
+  .form-card  {
+    background:  var(--surface);
+    border:  1px  solid  var(--border);
+    border-radius:  14px;
+    padding:  clamp(24px,  3vw,  40px);
+  }
+  .form-section  {  margin-bottom:  32px;  }
+  .form-section:last-child  {  margin-bottom:  0;  }
+  .form-section  h2  {
+    font-family:  var(--font-display);
+    font-size:  22px;  font-weight:  500;
+    margin:  0  0  6px;  color:  var(--brown);
+    letter-spacing:  -0.005em;
+  }
+  .form-section  .section-en  {
+    font-family:  var(--font-mono);  font-size:  11px;
+    letter-spacing:  0.18em;  text-transform:  uppercase;
+    color:  var(--muted);  margin-bottom:  22px;
+  }
+  .form-row  {  display:  grid;  grid-template-columns:  1fr  1fr;  gap:  16px;  margin-bottom:  16px;  }
+  .form-row.single  {  grid-template-columns:  1fr;  }
+  @media  (max-width:  640px)  {  .form-row  {  grid-template-columns:  1fr;  }  }
+
+  .field  {  display:  flex;  flex-direction:  column;  gap:  6px;  }
+  .field  label  {
+    font-size:  13px;  font-weight:  500;  color:  var(--brown);
+    letter-spacing:  0.01em;
+  }
+  .field  label  .req  {  color:  var(--error);  margin-left:  2px;  }
+  .field  input,  .field  select,  .field  textarea  {
+    font-family:  inherit;
+    font-size:  15px;  color:  var(--fg);
+    background:  var(--bg);
+    border:  1px  solid  var(--border);  border-radius:  8px;
+    padding:  11px  14px;
+    transition:  border-color  .15s  ease-out,  background  .15s  ease-out;
+    width:  100%;
+  }
+  .field  textarea  {  min-height:  100px;  resize:  vertical;  line-height:  1.5;  font-family:  var(--font-body);  }
+  .field  input:focus,  .field  select:focus,  .field  textarea:focus  {
+    outline:  none;  border-color:  var(--teal);  background:  var(--surface);
+  }
+  .field  .hint  {
+    font-size:  12px;  color:  var(--muted);
+    font-family:  var(--font-mono);  letter-spacing:  0.04em;
+    margin-top:  2px;
+  }
+  .field.error  input,  .field.error  select,  .field.error  textarea  {  border-color:  var(--error);  }
+  .field  .err-msg  {  display:  none;  font-size:  12px;  color:  var(--error);  }
+  .field.error  .err-msg  {  display:  block;  }
+
+  /*  dropdown  native  */
+  select  {
+    appearance:  none;  -webkit-appearance:  none;
+    background-image:  url("data:image/svg+xml;utf8,<svg  xmlns='http://www.w3.org/2000/svg'  width='10'  height='6'  viewBox='0  0  10  6'><path  fill='none'  stroke='%2358504a'  stroke-width='1.5'  d='M1  1l4  4  4-4'/></svg>");
+    background-repeat:  no-repeat;
+    background-position:  right  14px  center;
+    padding-right:  38px;
+  }
+
+  /*  counter  */
+  .counter  {
+    display:  flex;  align-items:  center;  gap:  0;
+    border:  1px  solid  var(--border);  border-radius:  8px;
+    background:  var(--bg);  height:  44px;  width:  fit-content;
+  }
+  .counter  button  {
+    width:  40px;  height:  100%;
+    background:  transparent;  border:  0;
+    color:  var(--brown);  font-size:  18px;  font-weight:  500;
+    transition:  background  .15s  ease-out;
+  }
+  .counter  button:hover:not(:disabled)  {  background:  color-mix(in  oklch,  var(--teal)  12%,  transparent);  color:  var(--teal);  }
+  .counter  button:disabled  {  color:  var(--border);  cursor:  not-allowed;  }
+  .counter  .cv  {
+    min-width:  44px;  text-align:  center;
+    font-variant-numeric:  tabular-nums;  font-weight:  500;
+    color:  var(--brown);
+  }
+
+  /*  segmented  control  */
+  .seg  {
+    display:  inline-flex;
+    border:  1px  solid  var(--border);  border-radius:  8px;
+    background:  var(--bg);  padding:  3px;  gap:  2px;
+  }
+  .seg  label  {
+    font-size:  13.5px;  padding:  7px  14px;
+    color:  var(--muted);  cursor:  pointer;
+    border-radius:  6px;
+    transition:  all  .15s  ease-out;
+  }
+  .seg  input[type="radio"]  {  display:  none;  }
+  .seg  input[type="radio"]:checked  +  label  {
+    background:  var(--surface);  color:  var(--brown);
+    box-shadow:  0  1px  3px  oklch(20%  0.012  60  /  0.08);
+  }
+
+  /*  form  footer  */
+  .form-foot  {
+    margin-top:  28px;  padding-top:  24px;
+    border-top:  1px  solid  var(--hairline);
+    display:  flex;  flex-direction:  column;  gap:  14px;
+  }
+  .submit-btn  {
+    height:  52px;  padding:  0  28px;
+    background:  var(--yellow);  color:  var(--fg);
+    border:  0;  border-radius:  10px;
+    font-size:  16px;  font-weight:  600;
+    transition:  all  .2s  ease-out;
+    display:  inline-flex;  align-items:  center;  justify-content:  center;  gap:  10px;
+  }
+  .submit-btn:hover  {  transform:  translateY(-1px);  box-shadow:  0  6px  20px  -6px  oklch(82%  0.16  88  /  0.55);  }
+  .submit-btn:active  {  transform:  translateY(0);  }
+  .submit-btn  .arr  {  transition:  transform  .2s  ease-out;  }
+  .submit-btn:hover  .arr  {  transform:  translateX(3px);  }
+  .demo-note  {
+    font-size:  12px;  color:  var(--muted);  line-height:  1.55;
+    font-family:  var(--font-mono);  letter-spacing:  0.02em;
+    text-align:  center;
+  }
+
+  /*    SUMMARY  (right)    */
+  .summary  {
+    position:  sticky;  top:  116px;
+    background:  var(--cream);
+    border:  1px  solid  var(--border);
+    border-radius:  14px;
+    padding:  clamp(22px,  2.6vw,  32px);
+  }
+  @media  (max-width:  1024px)  {  .summary  {  position:  static;  }  }
+  .summary  .label-head  {
+    font-family:  var(--font-mono);
+    font-size:  11px;  letter-spacing:  0.2em;
+    text-transform:  uppercase;  color:  var(--teal);
+    margin-bottom:  14px;
+  }
+  .summary  h3  {
+    font-family:  var(--font-display);
+    font-weight:  500;  font-size:  24px;  line-height:  1.15;
+    margin:  0  0  4px;  color:  var(--brown);
+    letter-spacing:  -0.005em;
+  }
+  .summary  .h-en  {  font-family:  var(--font-mono);  font-size:  11.5px;  color:  var(--muted);  letter-spacing:  0.06em;  margin-bottom:  22px;  }
+  .summary  .row  {
+    display:  flex;  justify-content:  space-between;  align-items:  baseline;
+    padding:  10px  0;
+    border-bottom:  1px  solid  var(--hairline);
+    font-size:  14px;
+  }
+  .summary  .row:last-of-type  {  border-bottom:  0;  }
+  .summary  .row  .k  {  color:  var(--muted);  }
+  .summary  .row  .v  {  color:  var(--brown);  font-weight:  500;  text-align:  right;  max-width:  60%;  }
+  .summary  .row  .v.num  {  font-variant-numeric:  tabular-nums;  }
+  .summary  .total  {
+    margin-top:  18px;  padding-top:  18px;
+    border-top:  1.5px  solid  var(--brown);
+    display:  flex;  justify-content:  space-between;  align-items:  baseline;
+  }
+  .summary  .total  .k  {  font-size:  14px;  color:  var(--brown);  font-weight:  500;  }
+  .summary  .total  .v  {
+    font-family:  var(--font-display);
+    font-size:  28px;  font-weight:  500;  color:  var(--brown);
+    font-variant-numeric:  tabular-nums;
+  }
+  .summary  .total  sup  {  font-size:  13px;  opacity:  0.7;  margin-right:  2px;  }
+  .summary  .breakdown  {
+    background:  var(--surface);
+    border:  1px  solid  var(--hairline);
+    border-radius:  8px;
+    padding:  14px  16px;
+    margin:  18px  0  0;
+    font-size:  13px;  line-height:  1.7;
+    color:  var(--muted);
+  }
+  .summary  .breakdown  b  {  color:  var(--brown);  font-weight:  500;  }
+
+  .empty-state  {
+    text-align:  center;  padding:  18px  0;
+    color:  var(--muted);  font-size:  14px;  line-height:  1.6;
+  }
+  .empty-state  .ic  {
+    font-family:  var(--font-display);
+    font-size:  36px;  color:  var(--teal);  margin-bottom:  8px;
+    line-height:  1;  opacity:  0.5;
+  }
+
+  /*    SUCCESS  STATE    */
+  .success  {
+    max-width:  720px;  margin:  0  auto;
+    padding:  clamp(48px,  6vw,  72px)  0;
+    text-align:  center;
+  }
+  .success  .check  {
+    width:  72px;  height:  72px;
+    border-radius:  50%;
+    background:  color-mix(in  oklch,  var(--green)  18%,  transparent);
+    color:  var(--green);
+    display:  inline-flex;  align-items:  center;  justify-content:  center;
+    font-size:  36px;  line-height:  1;
+    margin-bottom:  24px;
+  }
+  .success  .eyebrow  {
+    font-family:  var(--font-mono);
+    font-size:  11.5px;  letter-spacing:  0.2em;
+    text-transform:  uppercase;  color:  var(--teal);
+    margin-bottom:  14px;
+  }
+  .success  h1  {
+    font-family:  var(--font-display);
+    font-weight:  500;
+    font-size:  clamp(32px,  4.2vw,  48px);
+    line-height:  1.1;  margin:  0  0  14px;
+    color:  var(--brown);
+    letter-spacing:  -0.01em;
+  }
+  .success  .deck  {
+    font-size:  17px;  color:  var(--muted);
+    max-width:  540px;  margin:  0  auto  32px;
+    line-height:  1.6;
+  }
+  .order-card  {
+    background:  var(--surface);
+    border:  1px  solid  var(--border);
+    border-radius:  14px;
+    padding:  28px;
+    text-align:  left;
+    margin-bottom:  32px;
+  }
+  .order-card  .order-id  {
+    font-family:  var(--font-mono);
+    font-size:  12px;  letter-spacing:  0.16em;
+    color:  var(--muted);  margin-bottom:  4px;
+  }
+  .order-card  .order-id  b  {  color:  var(--brown);  font-weight:  500;  }
+  .order-card  h2  {
+    font-family:  var(--font-display);
+    font-size:  22px;  font-weight:  500;
+    margin:  0  0  18px;  color:  var(--brown);
+    letter-spacing:  -0.005em;
+  }
+  .order-card  .o-row  {
+    display:  flex;  justify-content:  space-between;
+    padding:  9px  0;  font-size:  14px;
+    border-bottom:  1px  solid  var(--hairline);
+  }
+  .order-card  .o-row:last-of-type  {  border-bottom:  0;  }
+  .order-card  .o-row  .k  {  color:  var(--muted);  }
+  .order-card  .o-row  .v  {  color:  var(--brown);  font-weight:  500;  text-align:  right;  }
+  .order-card  .o-total  {
+    display:  flex;  justify-content:  space-between;  align-items:  baseline;
+    margin-top:  16px;  padding-top:  16px;
+    border-top:  1.5px  solid  var(--brown);
+  }
+  .order-card  .o-total  .k  {  font-size:  14px;  color:  var(--brown);  }
+  .order-card  .o-total  .v  {
+    font-family:  var(--font-display);
+    font-size:  26px;  font-weight:  500;  color:  var(--brown);
+    font-variant-numeric:  tabular-nums;
+  }
+  .next-steps  {
+    background:  var(--cream);
+    border:  1px  solid  var(--border);
+    border-radius:  12px;
+    padding:  22px  26px;
+    text-align:  left;
+    margin-bottom:  28px;
+  }
+  .next-steps  h3  {
+    font-family:  var(--font-display);
+    font-size:  17px;  font-weight:  500;
+    margin:  0  0  12px;  color:  var(--brown);
+  }
+  .next-steps  ol  {
+    margin:  0;  padding-left:  20px;
+    font-size:  14.5px;  line-height:  1.75;  color:  var(--brown);
+  }
+  .next-steps  ol  li::marker  {  color:  var(--teal);  font-family:  var(--font-mono);  }
+  .success-cta  {  display:  flex;  gap:  12px;  justify-content:  center;  flex-wrap:  wrap;  }
+
+  /*    FOOTER    */
+  .footer  {
+    background:  var(--brown);  color:  oklch(96%  0.012  80);
+    padding:  56px  0  36px;  margin-top:  var(--section-y);
+  }
+  .footer-inner  {  display:  grid;  grid-template-columns:  1.4fr  1fr  1fr  1fr;  gap:  40px;  }
+  @media  (max-width:  900px)  {  .footer-inner  {  grid-template-columns:  1fr  1fr;  }  }
+  @media  (max-width:  600px)  {  .footer-inner  {  grid-template-columns:  1fr;  gap:  28px;  }  }
+  .footer  h4  {  font-family:  var(--font-display);  font-size:  14px;  font-weight:  500;  margin:  0  0  14px;  opacity:  0.7;  letter-spacing:  0.04em;  }
+  .footer  ul  {  list-style:  none;  margin:  0;  padding:  0;  }
+  .footer  li  {  padding:  4px  0;  font-size:  13.5px;  opacity:  0.85;  }
+  .footer  li  a:hover  {  opacity:  1;  text-decoration:  underline;  }
+  .footer-logo  img  {  height:  84px;  width:  auto;  margin-bottom:  14px;  filter:  brightness(0)  invert(1)  opacity(0.95);  }
+  .footer-tag  {  font-size:  13px;  line-height:  1.6;  opacity:  0.7;  max-width:  280px;  }
+  .footer-bottom  {
+    margin-top:  44px;  padding-top:  22px;
+    border-top:  1px  solid  oklch(60%  0.018  60  /  0.3);
+    display:  flex;  justify-content:  space-between;
+    font-family:  var(--font-mono);  font-size:  11px;
+    letter-spacing:  0.1em;  text-transform:  uppercase;  opacity:  0.6;
+  }
+  @media  (max-width:  600px)  {  .footer-bottom  {  flex-direction:  column;  gap:  8px;  }  }
+
+  /*  
+      SYNC:  擐  -24.html  璈nav  +  768px  mobile  menu
+      粹銝日Ｘnav  璅
+        */
+  .nav  {
+    position:  sticky;
+    top:  0;
+    z-index:  50;
+    background:  color-mix(in  oklch,  var(--bg)  88%,  transparent);
+    backdrop-filter:  blur(14px)  saturate(140%);
+    -webkit-backdrop-filter:  blur(14px)  saturate(140%);
+    border-bottom:  1px  solid  var(--hairline);
+  }
+  .nav-inner  {
+    display:  flex;
+    align-items:  center;
+    height:  96px;
+    gap:  28px;
+  }
+  .nav-logo  {
+    display:  flex;
+    align-items:  center;
+    gap:  10px;
+    flex-shrink:  0;
+    margin-right:  12px;
+  }
+  .nav-logo  img  {  height:  66px;  width:  auto;  }
+  .nav-links  {
+    display:  flex;
+    align-items:  center;
+    gap:  18px;
+    font-size:  13.5px;
+    color:  var(--brown);
+    white-space:  nowrap;
+    flex:  1;
+    min-width:  0;
+  }
+  .nav-links  a  {
+    position:  relative;
+    padding:  6px  0;
+    transition:  color  .2s  ease-out;
+  }
+  .nav-links  a:hover  {  color:  var(--teal);  }
+  .nav-links  a.active::after  {
+    content:  "";
+    position:  absolute;
+    left:  0;  right:  0;  bottom:  -2px;
+    height:  1.5px;
+    background:  var(--brown);
+  }
+  .nav-cta  {
+    display:  flex;  align-items:  center;  gap:  14px;
+    flex-shrink:  0;
+  }
+  .nav-lang  {
+    display:  inline-flex;
+    align-items:  center;
+    gap:  0;
+    font-family:  var(--font-mono);
+    font-size:  11.5px;
+    letter-spacing:  0.08em;
+    color:  var(--muted);
+  }
+  .nav-lang  .sep  {  margin:  0  4px;  opacity:  0.5;  pointer-events:  none;  }
+  .lang-btn  {
+    background:  transparent;
+    border:  0;
+    padding:  4px  4px;
+    font:  inherit;
+    color:  var(--muted);
+    cursor:  pointer;
+    line-height:  1;
+    border-radius:  3px;
+    transition:  color  .15s  ease-out;
+  }
+  .lang-btn:hover  {  color:  var(--brown);  }
+  .lang-btn:focus-visible  {  outline:  2px  solid  var(--teal);  outline-offset:  2px;  }
+  .lang-btn.is-active  {  color:  var(--brown);  font-weight:  700;  }
+
+  @media  (max-width:  1280px)  {
+    .nav-links  {  gap:  14px;  font-size:  13px;  }
+  }
+  @media  (max-width:  1024px)  {
+    .nav-lang  {  display:  none;  }
+    .nav-links  {  gap:  12px;  font-size:  12.5px;  }
+  }
+  @media  (max-width:  640px)  {
+    .nav-links  {  display:  none;  }
+  }
+
+  body.is-menu-open  {  overflow:  hidden;  }
+  .menu-toggle  {
+    display:  none;  width:  44px;  height:  44px;
+    background:  transparent;  border:  0;  padding:  0;
+    cursor:  pointer;  position:  relative;  z-index:  110;  flex-shrink:  0;
+  }
+  .menu-toggle:focus-visible  {  outline:  2px  solid  var(--teal);  outline-offset:  4px;  border-radius:  4px;  }
+  .menu-toggle  .bar  {
+    position:  absolute;  left:  10px;  width:  24px;  height:  1.5px;
+    background:  var(--brown);
+    transition:  transform  .4s  cubic-bezier(.6,.05,.2,1.4),  opacity  .25s  ease,  top  .25s  ease,  background  .25s  ease;
+  }
+  .menu-toggle  .bar.t  {  top:  16px;  }
+  .menu-toggle  .bar.m  {  top:  22px;  }
+  .menu-toggle  .bar.b  {  top:  28px;  }
+  .menu-toggle.is-open  .bar  {  background:  oklch(96%  0.012  80);  }
+  .menu-toggle.is-open  .bar.t  {  top:  22px;  transform:  rotate(45deg);  }
+  .menu-toggle.is-open  .bar.m  {  opacity:  0;  }
+  .menu-toggle.is-open  .bar.b  {  top:  22px;  transform:  rotate(-45deg);  }
+
+  .mobile-menu  {
+    position:  fixed;  inset:  0;  z-index:  100;
+    background:  oklch(28%  0.022  60/  85%);
+    color:  oklch(96%  0.012  80);
+    display:  none;
+    overflow-y:  auto;  -webkit-overflow-scrolling:  touch;
+    transform:  translateY(-12px);  opacity:  0;  visibility:  hidden;
+    transition:  opacity  .32s  ease,  transform  .32s  ease,  visibility  0s  linear  .32s;
+  }
+  .mobile-menu.is-open  {
+    opacity:  1;  visibility:  visible;  transform:  translateY(0);
+    transition:  opacity  .35s  ease,  transform  .35s  ease,  visibility  0s  linear  0s;
+  }
+  .mobile-menu-inner  {
+    min-height:  100%;
+    padding:  24px  clamp(20px,  5vw,  36px)  56px;
+    display:  flex;  flex-direction:  column;  gap:  32px;
+  }
+  .mobile-menu-head  {
+    display:  flex;  align-items:  center;  justify-content:  space-between;
+    height:  64px;  padding-bottom:  16px;
+    border-bottom:  1px  solid  oklch(96%  0.012  80  /  0.14);
+  }
+  .mobile-menu-head  img  {
+    height:  56px;  width:  auto;
+    filter:  invert(1)  sepia(0.05)  saturate(0.6)  brightness(1);
+  }
+  .mm-kicker  {
+    font-family:  var(--font-mono);  font-size:  11px;
+    letter-spacing:  0.22em;  text-transform:  uppercase;
+    color:  oklch(96%  0.012  80  /  0.55);
+  }
+  .mm-section  {  display:  grid;  gap:  14px;  }
+  .mm-section-h  {
+    font-family:  var(--font-mono);  font-size:  11px;
+    letter-spacing:  0.22em;  text-transform:  uppercase;
+    color:  oklch(96%  0.012  80  /  0.55);
+    margin:  0  0  4px;  font-weight:  600;
+  }
+  .mm-nav-main  {
+    list-style:  none;  padding:  0;  margin:  0;
+    display:  grid;  gap:  8px;
+  }
+  .mm-nav-main  a  {
+    font-family:  var(--font-display);
+    font-size:  clamp(28px,  6vw,  38px);  font-weight:  500;
+    letter-spacing:  -0.005em;  color:  oklch(96%  0.012  80);
+    line-height:  1.18;  transition:  color  .15s  ease-out;
+    display:  block;  padding:  4px  0;
+  }
+  .mm-nav-main  a:hover,  .mm-nav-main  a:focus-visible  {  color:  var(--yellow);  outline:  none;  }
+  .mm-nav-sub  {
+    list-style:  none;  padding:  14px  0  0;  margin:  10px  0  0;
+    display:  grid;  gap:  10px;
+    border-top:  1px  solid  oklch(96%  0.012  80  /  0.12);
+  }
+  .mm-nav-sub  a  {
+    font-family:  var(--font-body);  font-size:  14.5px;
+    color:  oklch(96%  0.012  80  /  0.78);
+    transition:  color  .15s  ease-out;
+  }
+  .mm-nav-sub  a:hover,  .mm-nav-sub  a:focus-visible  {  color:  oklch(96%  0.012  80);  outline:  none;  }
+  .mm-contact  {  margin:  0;  display:  grid;  gap:  12px;  }
+  .mm-contact  .mm-row  {
+    display:  grid;  grid-template-columns:  70px  1fr;  gap:  16px;
+    font-size:  14.5px;  line-height:  1.55;
+  }
+  .mm-contact  dt  {
+    font-family:  var(--font-mono);  font-size:  10.5px;
+    letter-spacing:  0.16em;  text-transform:  uppercase;
+    color:  oklch(96%  0.012  80  /  0.55);
+    padding-top:  2px;  margin:  0;
+  }
+  .mm-contact  dd  {  margin:  0;  color:  oklch(96%  0.012  80  /  0.92);  }
+  .mm-contact  dd  a  {  transition:  color  .15s  ease-out;  }
+  .mm-contact  dd  a:hover,  .mm-contact  dd  a:focus-visible  {  color:  var(--yellow);  outline:  none;  }
+  .mm-lang-row  {  display:  flex;  gap:  12px;  align-items:  center;  }
+  .mm-lang-label  {
+    font-family:  var(--font-mono);  font-size:  10.5px;
+    letter-spacing:  0.16em;  text-transform:  uppercase;
+    color:  oklch(96%  0.012  80  /  0.55);
+  }
+  .mm-lang-row  .lang-btn  {
+    color:  oklch(96%  0.012  80  /  0.65);
+    padding:  6px  8px;
+  }
+  .mm-lang-row  .lang-btn:hover,  .mm-lang-row  .lang-btn:focus-visible  {  color:  oklch(96%  0.012  80);  outline:  none;  }
+  .mm-lang-row  .lang-btn.is-active  {  color:  var(--yellow);  font-weight:  700;  }
+  .mm-cta  {  margin-top:  auto;  padding-top:  16px;  }
+  .mm-cta  .btn  {
+    width:  100%;  height:  56px;
+    justify-content:  center;  font-size:  15px;  border-radius:  12px;
+  }
+
+  .mobile-menu  .mm-anim  {
+    opacity:  0;  transform:  translateY(16px);
+    transition:  opacity  .45s  ease,  transform  .45s  cubic-bezier(.2,.7,.25,1.05);
+  }
+  .mobile-menu.is-open  .mm-anim  {  opacity:  1;  transform:  translateY(0);  }
+  .mobile-menu.is-open  .mm-anim.d1  {  transition-delay:  .12s;  }
+  .mobile-menu.is-open  .mm-anim.d2  {  transition-delay:  .18s;  }
+  .mobile-menu.is-open  .mm-anim.d3  {  transition-delay:  .26s;  }
+  .mobile-menu.is-open  .mm-anim.d4  {  transition-delay:  .34s;  }
+  .mobile-menu.is-open  .mm-anim.d5  {  transition-delay:  .42s;  }
+
+  @media  (prefers-reduced-motion:  reduce)  {
+    .mobile-menu,  .mobile-menu  .mm-anim,  .menu-toggle  .bar  {
+      transition:  opacity  .2s  ease  !important;
+      transform:  none  !important;
+    }
+  }
+
+  @media  (max-width:  768px)  {
+    .nav-inner  {  height:  72px;  gap:  16px;  }
+    .nav-logo  img  {  height:  48px;  }
+    .nav-links,
+    .nav-cta  .nav-lang,
+    .nav-cta  .btn-primary  {  display:  none;  }
+    .menu-toggle  {  display:  inline-block;  }
+    .mobile-menu  {  display:  block;  }
+  }
+
+  .mm-exit  {
+    appearance:  none;
+    background:  transparent;
+    border:  1px  solid  oklch(96%  0.012  80  /  0.22);
+    color:  oklch(96%  0.012  80  /  0.78);
+    font-family:  var(--font-mono);
+    font-size:  11px;
+    font-weight:  600;
+    letter-spacing:  0.22em;
+    line-height:  1;
+    text-transform:  uppercase;
+    padding:  10px  12px;
+    border-radius:  999px;
+    transition:  color  .2s  ease,  border-color  .2s  ease,  background  .2s  ease;
+  }
+  .mm-exit:hover  {
+    color:  oklch(96%  0.012  80);
+    border-color:  oklch(96%  0.012  80  /  0.5);
+    background:  oklch(96%  0.012  80  /  0.08);
+  }
+  .mm-exit:focus-visible  {
+    outline:  2px  solid  var(--yellow);
+    outline-offset:  3px;
+  }
+  #mobileMenuExit  {
+    width:  44px;
+    height:  44px;
+    border-radius:  50%;
+    border:  1px  solid  oklch(96%  0.012  80  /  0.34);
+    background:  oklch(96%  0.012  80  /  0.05);
+    color:  transparent;
+    font-size:  0;
+    line-height:  0;
+    padding:  0;
+    position:  relative;
+    flex-shrink:  0;
+    transition:  background  .2s  ease,  border-color  .2s  ease,  transform  .2s  ease;
+  }
+  #mobileMenuExit::before,
+  #mobileMenuExit::after  {
+    content:  "";
+    position:  absolute;
+    left:  50%;
+    top:  50%;
+    width:  18px;
+    height:  1.5px;
+    background:  oklch(96%  0.012  80);
+    transform-origin:  center;
+  }
+  #mobileMenuExit::before  {  transform:  translate(-50%,  -50%)  rotate(45deg);  }
+  #mobileMenuExit::after  {  transform:  translate(-50%,  -50%)  rotate(-45deg);  }
+  #mobileMenuExit:hover  {
+    background:  oklch(96%  0.012  80  /  0.12);
+    border-color:  oklch(96%  0.012  80  /  0.62);
+    transform:  rotate(90deg);
+  }
+  #mobileMenuExit:focus-visible  {
+    outline:  2px  solid  var(--yellow);
+    outline-offset:  4px;
+  }
+  .mobile-menu  {
+    background:  oklch(28%  0.022  60  /  75%)  !important;
+  }
+  .mobile-menu-head  .nav-logo  {
+    display:  none  !important;
+  }
+  .mm-nav-main  li:nth-child(n+2),
+  .mm-section.nav-list  >  a:nth-of-type(n+2)  {
+    display:  none  !important;
+  }
+  .mobile-menu  .mm-cta  {
+    display:  none  !important;
+  }
+  @media  (max-width:  768px)  {
+    .nav-inner  {
+      justify-content:  space-between;
+    }
+    .nav-cta  {
+      margin-left:  auto;
+    }
+    .menu-toggle  {
+      position:  fixed;
+      top:  calc(14px  +  env(safe-area-inset-top,  0px));
+      right:  calc(18px  +  env(safe-area-inset-right,  0px));
+      z-index:  160;
+      display:  inline-flex;
+      align-items:  center;
+      justify-content:  center;
+    }
+  }
+  /*  Text  logo  nav  批隞logo嚗cope    .nav嚗蔣booking  footer  Ｘ  .footer-logo嚗*/
+  .nav  .footer-logo  {
+    display:  inline-flex;
+    flex-direction:  column;
+    justify-content:  center;
+    flex-shrink:  0;
+    margin-right:  12px;
+    line-height:  1;
+    text-decoration:  none;
+    color:  var(--brown);
+  }
+  .nav  .footer-logo-text  {
+    font-family:  var(--font-display);
+    font-size:  22px;
+    font-weight:  600;
+    letter-spacing:  0.18em;
+    text-transform:  uppercase;
+    color:  var(--brown);
+  }
+  .nav  .footer-logo-tagline  {
+    font-family:  var(--font-mono);
+    font-size:  11px;
+    letter-spacing:  0.32em;
+    text-transform:  uppercase;
+    color:  var(--muted);
+    margin-top:  4px;
+  }
+  @media  (max-width:  1024px)  {
+    .nav  .footer-logo-text  {  font-size:  19px;  letter-spacing:  0.16em;  }
+    .nav  .footer-logo-tagline  {  font-size:  10px;  letter-spacing:  0.28em;  }
+  }
+  @media  (max-width:  768px)  {
+    .nav  .footer-logo-text  {  font-size:  18px;  letter-spacing:  0.14em;  }
+    .nav  .footer-logo-tagline  {  font-size:  9.5px;  letter-spacing:  0.24em;  }
+  }
+
+  /*  NAV  REFINE  摨蝐唾蝝圈蝺#FAEEDA  銝潦桐對
+      nav  湧擃漲敺銝  8pxH繚EN繚JP  唾踴蝝甇交憭扼蔭銝*/
+  .nav  {  border-bottom:  1.5px  solid  #FAEEDA;  }
+  .nav-inner  {  height:  104px;  }
+  .nav-links  {  justify-content:  center;  gap:  26px;  font-size:  16px;  }
+  .nav-lang  {  font-size:  14px;  }
+  .lang-btn  {  padding:  6px  10px;  font-size:  14px;  }
+  .nav  .btn-primary  {  height:  48px;  font-size:  15px;  padding:  0  26px;  border-radius:  12px;  }
+  @media  (max-width:  1280px)  {  .nav-links  {  font-size:  15px;  gap:  20px;  }  }
+  @media  (max-width:  1024px)  {
+    .nav-links  {  font-size:  14px;  gap:  16px;  }
+    .nav-inner  {  height:  96px;  }
+    .nav-lang  {  font-size:  13px;  }
+    .lang-btn  {  padding:  5px  8px;  font-size:  13px;  }
+    .nav  .btn-primary  {  height:  44px;  font-size:  14px;  padding:  0  22px;  }
+  }
+  /*    /SYNC    */
+</style>
+</head>
+<body>
+
+<!--    NAV    -->
+<!--  甈橘獢  nav  +  68px  hamburger  +  drawer  -->
+<nav  class="nav">
+  <div  class="container  nav-inner">
+    <a  href="home-around-website-mockup.html"  class="nav-logo"  aria-label="Home  Around  Taiwan  Tours">
+      <img  src="mor0bric-home-around-LOGO.png"  alt="Home  Around  Taiwan  Tours"  />
+    </a>
+    <div  class="nav-links">
+      <a  href="home-around-website-mockup.html"  data-i18n="nav.home">首頁</a>
+      <a  href="#"  data-i18n="nav.about">關於我們</a>
+      <a  href="#"  data-i18n="nav.guide">景點攻略</a>
+      <a  href="#"  data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a>
+      <a  href="#"  data-i18n="nav.contact">聯絡我們</a>
+      <a  href="#"  data-i18n="nav.insurance">網路投保旅平險</a>
+    </div>
+    <div  class="nav-cta">
+      <div  class="nav-lang"  role="group"  data-i18n-aria="nav.lang.aria"  aria-label="Language">
+        <button  type="button"  class="lang-btn  is-active"  data-lang-btn="zh">ZH</button>
+        <span  class="sep">·</span>
+        <button  type="button"  class="lang-btn"  data-lang-btn="en">EN</button>
+        <span  class="sep">·</span>
+        <button  type="button"  class="lang-btn"  data-lang-btn="ja">JP</button>
+      </div>
+      <a  href="booking.html"  class="btn  btn-primary"  data-i18n="nav.book">立即訂房</a>
+      <button  type="button"  class="menu-toggle"  id="menuToggle"  aria-label="開啟選單"  aria-expanded="false"  aria-controls="mobileMenu">
+        <span  class="bar  t"  aria-hidden="true"></span>
+        <span  class="bar  m"  aria-hidden="true"></span>
+        <span  class="bar  b"  aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<aside  class="mobile-menu"  id="mobileMenu"  role="dialog"  aria-modal="true"  aria-label="行動版選單"  hidden>
+  <div  class="mobile-menu-inner">
+    <div  class="mobile-menu-head  mm-anim  d1">
+      <button  type="button"  class="mm-exit"  id="mobileMenuExit"  aria-label="關閉選單">離開</button>
+    </div>
+
+    <section  class="mm-section  mm-anim  d2">
+      <h4  class="mm-section-h">Navigation</h4>
+      <ul  class="mm-nav-main">
+        <li><a  href="rooms.html">Rooms</a></li>
+      </ul>
+      <ul  class="mm-nav-sub">
+        <li><a  href="#"  data-i18n="nav.about">關於我們</a></li>
+        <li><a  href="#"  data-i18n="nav.guide">景點攻略</a></li>
+        <li><a  href="#">電子票券</a></li>
+        <li><a  href="#">最新消息</a></li>
+        <li><a  href="#">直營旅店</a></li>
+        <li><a  href="#">合作夥伴</a></li>
+        <li><a  href="#"  data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a></li>
+        <li><a  href="#"  data-i18n="nav.contact">聯絡我們</a></li>
+        <li><a  href="#"  data-i18n="nav.insurance">網路投保旅平險</a></li>
+      </ul>
+    </section>
+
+    <section  class="mm-section  mm-anim  d3">
+      <h4  class="mm-section-h">Contact  &amp;  Hours</h4>
+      <dl  class="mm-contact">
+        <div  class="mm-row"><dt>地址</dt><dd>高雄市鹽埕區河西路137號</dd></div>
+        <div  class="mm-row"><dt>市話</dt><dd><a  href="tel:+88675337989">(07)533-7989</a></dd></div>
+        <div  class="mm-row"><dt>Email</dt><dd><a  href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd></div>
+        <div  class="mm-row"><dt>Hours</dt><dd>Open  24  hours</dd></div>
+      </dl>
+    </section>
+
+    <section  class="mm-section  mm-lang-row  mm-anim  d4">
+      <span  class="mm-lang-label">Language</span>
+      <button  type="button"  class="lang-btn  is-active"  data-lang-btn="zh">ZH</button>
+      <button  type="button"  class="lang-btn"  data-lang-btn="en">EN</button>
+      <button  type="button"  class="lang-btn"  data-lang-btn="ja">JP</button>
+    </section>
+  </div>
+</aside>
+
+<!--    BREADCRUMB    -->
+<div  class="container">
+  <div  class="breadcrumb">
+    <a  href="home-around-website-mockup.html"  data-i18n="nav.home">擐  Home</a>
+    <span  class="sep">/</span>
+    <a  href="home-around-website-mockup.html#hotels"  data-i18n="nav.stays">渡  Hotels</a>
+    <span  class="sep">/</span>
+    <!--  bc-hotel  JS  撖怠憌臬+  booking  摮見嚗葡韏i18n  -->
+    <span  id="bc-hotel">  Booking</span>
+  </div>
+</div>
+
+<!--    MAIN    -->
+<main  id="main"></main>
+
+<!--    FOOTER    -->
+<footer  class="footer">
+  <div  class="container  footer-inner">
+    <div>
+      <div  class="footer-logo">
+        <img  src="mor0bric-home-around-LOGO.png"  alt="Home  Around"  />
+      </div>
+      <p  class="footer-tag"  data-i18n="foot.tag2">摰嗅予銝銵冗渡餌移蝺餌頂摰踹</p>
+    </div>
+    <div>
+      <h4  data-i18n="nav.stays">挪  Hotels</h4>
+      <ul>
+        <li><a  href="home-around-website-mockup.html#hotels"  data-i18n="foot.col1.li1">券渡</a></li>
+        <li><a  href="home-around-website-mockup.html#hotels"  data-i18n="tag.撖萇">撖萇</a></li>
+        <li><a  href="home-around-website-mockup.html#hotels"  data-i18n="foot.col1.li2">閬芸雿挪</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4  data-i18n="nav.tickets">蟡典  Tickets</h4>
+      <ul>
+        <li><a  href="#"  data-i18n="bk.voucher.refined">蝎曄溶蝟餃雿挪/a></li>
+        <li><a  href="home-around-website-mockup.html#trust"  data-i18n="nav.lookup">靽∟蟡典亥岷</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4  data-i18n="foot.col3.h">  About</h4>
+      <ul>
+        <li><a  href="#"  data-i18n="trust.lead.b">摰嗅予銝銵冗</a></li>
+        <li><a  href="#"  data-i18n="foot.col2.li4">憭乩撈唾</a></li>
+        <li><a  href="#"  data-i18n="foot.col3.li4">梁甈蝑/a></li>
+      </ul>
+    </div>
+  </div>
+  <div  class="container  footer-bottom">
+    <span  data-i18n="foot.copy">穢  2026  Home  Around  繚  摰嗅予銝銵冗</span>
+    <span  data-i18n="foot.made">Crafted  with  care  繚  蝢閮剖蝔v1.0</span>
+  </div>
+</footer>
+
+<!--  憭蝟餃貉-->
+<script  src="i18n.js"></script>
+<script  src="hotels-data.js"></script>
+<script>
+(function(){
+  var HOTELS = window.HOTELS || [];
+  var BASE_RATE = 2800;
+  var main = document.getElementById('main');
+  var params = new URLSearchParams(window.location.search);
+  var fallback = {
+    'nav.book':'????',
+    'bk.demo.label':'DEMO',
+    'bk.demo.body':'??? demo ???????????????????',
+    'bk.h1.full':'?????????????????',
+    'bk.section.stay':'????',
+    'bk.section.contact':'????',
+    'bk.field.hotel':'?? Hotel',
+    'bk.field.hotel.placeholder':'?????',
+    'bk.field.room':'?? Room type',
+    'bk.field.room.placeholder':'??????',
+    'bk.field.checkin':'????',
+    'bk.field.checkout':'????',
+    'bk.field.adults':'??',
+    'bk.field.children':'??',
+    'bk.field.children.hint':'0-12 ?',
+    'bk.field.voucher':'????',
+    'bk.voucher.aria':'????',
+    'bk.voucher.refined':'????',
+    'bk.voucher.boutique':'????',
+    'bk.voucher.cash':'????',
+    'bk.field.name':'?????',
+    'bk.field.name.placeholder':'???',
+    'bk.field.phone':'????',
+    'bk.field.phone.placeholder':'0912-345-678',
+    'bk.field.email':'Email',
+    'bk.field.email.placeholder':'name@example.com',
+    'bk.field.notes':'??',
+    'bk.field.notes.placeholder':'???????????????',
+    'bk.submit':'??????',
+    'bk.summary.title':'????',
+    'bk.summary.empty':'???????????????????',
+    'bk.summary.nights':'??',
+    'bk.summary.weekday':'??',
+    'bk.summary.weekend':'??',
+    'bk.summary.base':'?????',
+    'bk.summary.subtotal':'????',
+    'bk.success.title':'???????',
+    'bk.success.demo':'?? demo ????????????',
+    'bk.success.number':'Demo ????',
+    'hd.noAdd':'???',
+    'bk.aria.minus':'??',
+    'bk.aria.plus':'??'
+  };
+  function t(key){
+    try { return window.I18N && window.I18N.t ? window.I18N.t(key) : (fallback[key] || key); }
+    catch(e){ return fallback[key] || key; }
+  }
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function hotelName(h){ try { return window.I18N && window.I18N.hotelName ? window.I18N.hotelName(h) : h.name; } catch(e){ return h.name; } }
+  function regionName(r){ try { return window.I18N && window.I18N.regionName ? window.I18N.regionName(r) : r; } catch(e){ return r; } }
+  function roomName(r){ try { return window.I18N && window.I18N.roomName ? window.I18N.roomName(r) : r.name; } catch(e){ return r.name; } }
+  function fmt(d){ var y=d.getFullYear(); var m=String(d.getMonth()+1).padStart(2,'0'); var day=String(d.getDate()).padStart(2,'0'); return y+'-'+m+'-'+day; }
+  function parse(s){ if(!s) return null; var p=s.split('-').map(Number); if(p.length!==3) return null; var d=new Date(p[0],p[1]-1,p[2]); return isNaN(d) ? null : d; }
+  function isWeekend(d){ var day=d.getDay(); return day===5 || day===6; }
+  function nightsByType(ci, co){ var out={weekday:0, weekend:0}; if(!ci||!co||co<=ci) return out; for(var d=new Date(ci); d<co; d.setDate(d.getDate()+1)){ if(isWeekend(d)) out.weekend++; else out.weekday++; } return out; }
+  function getSelectedHotel(){ var id = document.getElementById('f-hotel') && document.getElementById('f-hotel').value; return HOTELS.find(function(h){ return h.id === id; }) || null; }
+  function getSelectedRoom(){ var h=getSelectedHotel(); var idx=document.getElementById('f-room') && document.getElementById('f-room').value; return h && idx !== '' ? h.rooms[Number(idx)] : null; }
+  function renderSummary(hotel, room, ci, co, adults, kids){
+    if(!hotel){ return '<div class="label-head">'+esc(t('bk.summary.title'))+'</div><div class="empty-state"><div class="ic">?</div>'+esc(t('bk.summary.empty'))+'</div>'; }
+    var nb=nightsByType(ci,co); var total=nb.weekday+nb.weekend;
+    var addW=room&&typeof room.weekday==='number'?room.weekday:0; var addE=room&&typeof room.weekend==='number'?room.weekend:0;
+    var subtotal=(BASE_RATE+addW)*nb.weekday+(BASE_RATE+addE)*nb.weekend;
+    return ''+
+      '<div class="label-head">'+esc(t('bk.summary.title'))+'</div>'+
+      '<h3>'+esc(hotelName(hotel))+'</h3>'+
+      '<div class="h-en">'+esc(regionName(hotel.region))+' ? '+esc(hotel.city||'')+'</div>'+
+      '<div class="row"><span class="k">'+esc(t('bk.field.room'))+'</span><span class="v">'+esc(room?roomName(room):'-')+'</span></div>'+
+      '<div class="row"><span class="k">'+esc(t('bk.field.checkin'))+'</span><span class="v num">'+(ci?fmt(ci):'-')+'</span></div>'+
+      '<div class="row"><span class="k">'+esc(t('bk.field.checkout'))+'</span><span class="v num">'+(co?fmt(co):'-')+'</span></div>'+
+      '<div class="row"><span class="k">'+esc(t('bk.summary.nights'))+'</span><span class="v num">'+total+' nights - '+esc(t('bk.summary.weekday'))+' - '+nb.weekday+' / '+esc(t('bk.summary.weekend'))+' - '+nb.weekend+'</span></div>'+
+      '<div class="row"><span class="k">'+esc(t('bk.field.adults'))+'</span><span class="v num">'+adults+(kids?' ? '+kids+' - '+esc(t('bk.field.children')):'')+'</span></div>'+
+      '<div class="breakdown">'+esc(t('bk.summary.base'))+' NT$<b>'+BASE_RATE.toLocaleString()+'</b>'+(addW||addE?'<br/>'+esc(t('bk.summary.weekday'))+' +NT$<b>'+addW.toLocaleString()+'</b> ? '+esc(t('bk.summary.weekend'))+' +NT$<b>'+addE.toLocaleString()+'</b>':'<br/>'+esc(t('hd.noAdd')))+'</div>'+
+      '<div class="total"><span class="k">'+esc(t('bk.summary.subtotal'))+'</span><span class="v"><sup>NT$</sup>'+subtotal.toLocaleString()+'</span></div>';
+  }
+  function render(){
+    if(!main) return;
+    var today=new Date(); today.setHours(0,0,0,0);
+    var ci=parse(params.get('checkin')) || new Date(today); ci.setDate(ci.getDate()+1);
+    var co=parse(params.get('checkout')) || new Date(ci); co.setDate(co.getDate()+2);
+    if(co<=ci){ co=new Date(ci); co.setDate(co.getDate()+1); }
+    var adults=Math.max(1, Math.min(8, parseInt(params.get('adults'),10)||2));
+    var kids=Math.max(0, Math.min(6, parseInt(params.get('kids'),10)||0));
+    var hotelId=params.get('hotel')||''; var roomParam=params.get('room')||'';
+    var byRegion={}; HOTELS.forEach(function(h){ (byRegion[h.region]=byRegion[h.region]||[]).push(h); });
+    var hotelOptions='<option value="">'+esc(t('bk.field.hotel.placeholder'))+'</option>';
+    Object.keys(byRegion).sort().forEach(function(reg){ hotelOptions+='<optgroup label="'+esc(regionName(reg))+'">'; byRegion[reg].sort(function(a,b){ return hotelName(a).localeCompare(hotelName(b)); }).forEach(function(h){ hotelOptions+='<option value="'+esc(h.id)+'"'+(h.id===hotelId?' selected':'')+'>'+esc(hotelName(h))+'</option>'; }); hotelOptions+='</optgroup>'; });
+    main.innerHTML = ''+
+      '<section class="booking-shell"><header class="head"><div class="eyebrow">'+esc(t('bk.demo.label'))+' - BOOKING</div><h1>'+esc(t('bk.h1.full')).replace(/&lt;br\/?&gt;/g,'<br/>')+'</h1><p class="deck">'+esc(t('bk.demo.body'))+'</p></header>'+
+      '<div class="body-grid"><form class="form-card" id="booking-form" novalidate>'+
+      '<div class="form-section"><h2>'+esc(t('bk.section.stay'))+'</h2><div class="section-en">STAY DETAILS</div>'+
+      '<div class="form-row single"><div class="field"><label for="f-hotel">'+esc(t('bk.field.hotel'))+'<span class="req">*</span></label><select id="f-hotel" name="hotel" required>'+hotelOptions+'</select><span class="err-msg">'+esc(t('bk.field.hotel.placeholder'))+'</span></div></div>'+
+      '<div class="form-row single"><div class="field"><label for="f-room">'+esc(t('bk.field.room'))+'<span class="req">*</span></label><select id="f-room" name="room" required disabled><option value="">'+esc(t('bk.field.room.placeholder'))+'</option></select><span class="err-msg">'+esc(t('bk.field.room.placeholder'))+'</span></div></div>'+
+      '<div class="form-row"><div class="field"><label for="f-checkin">'+esc(t('bk.field.checkin'))+'<span class="req">*</span></label><input type="date" id="f-checkin" name="checkin" required min="'+fmt(today)+'" value="'+fmt(ci)+'" /></div><div class="field"><label for="f-checkout">'+esc(t('bk.field.checkout'))+'<span class="req">*</span></label><input type="date" id="f-checkout" name="checkout" required min="'+fmt(today)+'" value="'+fmt(co)+'" /></div></div>'+
+      '<div class="form-row"><div class="field"><label>'+esc(t('bk.field.adults'))+'</label><div class="counter" data-counter="adults" data-min="1" data-max="8"><button type="button" data-step="-1" aria-label="'+esc(t('bk.aria.minus'))+'">-</button><span class="cv" id="cv-adults">'+adults+'</span><button type="button" data-step="1" aria-label="'+esc(t('bk.aria.plus'))+'">+</button></div><input type="hidden" id="f-adults" name="adults" value="'+adults+'" /></div><div class="field"><label>'+esc(t('bk.field.children'))+' <span class="hint" style="font-family:inherit;letter-spacing:0;font-size:11px;color:var(--muted);">'+esc(t('bk.field.children.hint'))+'</span></label><div class="counter" data-counter="kids" data-min="0" data-max="6"><button type="button" data-step="-1" aria-label="'+esc(t('bk.aria.minus'))+'">-</button><span class="cv" id="cv-kids">'+kids+'</span><button type="button" data-step="1" aria-label="'+esc(t('bk.aria.plus'))+'">+</button></div><input type="hidden" id="f-kids" name="kids" value="'+kids+'" /></div></div>'+
+      '<div class="form-row single"><div class="field"><label>'+esc(t('bk.field.voucher'))+'</label><div class="seg" role="radiogroup" aria-label="'+esc(t('bk.voucher.aria'))+'"><input type="radio" name="voucher" id="v-1" value="refined" checked /><label for="v-1">'+esc(t('bk.voucher.refined'))+'</label><input type="radio" name="voucher" id="v-2" value="boutique" /><label for="v-2">'+esc(t('bk.voucher.boutique'))+'</label><input type="radio" name="voucher" id="v-3" value="cash" /><label for="v-3">'+esc(t('bk.voucher.cash'))+'</label></div></div></div></div>'+
+      '<div class="form-section"><h2>'+esc(t('bk.section.contact'))+'</h2><div class="section-en">CONTACT</div><div class="form-row"><div class="field"><label for="f-name">'+esc(t('bk.field.name'))+'<span class="req">*</span></label><input type="text" id="f-name" name="name" required autocomplete="name" placeholder="'+esc(t('bk.field.name.placeholder'))+'" /></div><div class="field"><label for="f-phone">'+esc(t('bk.field.phone'))+'<span class="req">*</span></label><input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="'+esc(t('bk.field.phone.placeholder'))+'" /></div></div><div class="form-row single"><div class="field"><label for="f-email">'+esc(t('bk.field.email'))+'</label><input type="email" id="f-email" name="email" autocomplete="email" placeholder="'+esc(t('bk.field.email.placeholder'))+'" /></div></div><div class="form-row single"><div class="field"><label for="f-notes">'+esc(t('bk.field.notes'))+'</label><textarea id="f-notes" name="notes" placeholder="'+esc(t('bk.field.notes.placeholder'))+'"></textarea></div></div></div>'+
+      '<div class="form-foot"><button class="submit-btn" type="submit">'+esc(t('bk.submit'))+'<span class="arr">?</span></button><p class="demo-note">'+esc(t('bk.demo.label'))+' - '+esc(t('bk.demo.body'))+'</p></div></form><aside class="summary" id="summary">'+renderSummary(null,null,ci,co,adults,kids)+'</aside></div></section>';
+    bind(roomParam);
+    if(hotelId){ var h=HOTELS.find(function(x){return x.id===hotelId;}); if(h){ document.getElementById('f-hotel').value=hotelId; populateRooms(h, roomParam); updateSummary(); } }
+  }
+  function populateRooms(hotel, roomNameParam){
+    var sel=document.getElementById('f-room'); if(!sel) return;
+    if(!hotel || !hotel.rooms){ sel.innerHTML='<option value="">'+esc(t('bk.field.room.placeholder'))+'</option>'; sel.disabled=true; return; }
+    var html='<option value="">'+esc(t('bk.field.room.placeholder'))+'</option>';
+    hotel.rooms.forEach(function(r,i){ var add=typeof r.weekday==='number'&&r.weekday>0?' (+'+r.weekday+')':''; var selected=roomNameParam && r.name===roomNameParam ? ' selected' : ''; html+='<option value="'+i+'"'+selected+'>'+esc(roomName(r))+add+'</option>'; });
+    sel.innerHTML=html; sel.disabled=false;
+  }
+  function updateSummary(){
+    var hotel=getSelectedHotel(); var room=getSelectedRoom(); var ci=parse(document.getElementById('f-checkin').value); var co=parse(document.getElementById('f-checkout').value); var ad=parseInt(document.getElementById('f-adults').value,10)||2; var kd=parseInt(document.getElementById('f-kids').value,10)||0;
+    document.getElementById('summary').innerHTML=renderSummary(hotel,room,ci,co,ad,kd);
+  }
+  function bind(roomParam){
+    document.querySelectorAll('.counter').forEach(function(box){ var key=box.dataset.counter; var min=Number(box.dataset.min); var max=Number(box.dataset.max); var cv=box.querySelector('.cv'); var hidden=document.getElementById('f-'+key); box.querySelectorAll('button').forEach(function(btn){ btn.addEventListener('click', function(){ var next=Math.max(min, Math.min(max, Number(hidden.value)+Number(btn.dataset.step))); hidden.value=next; cv.textContent=next; updateSummary(); }); }); });
+    var hotelSel=document.getElementById('f-hotel'); hotelSel.addEventListener('change', function(){ var hotel=getSelectedHotel(); populateRooms(hotel, null); updateSummary(); });
+    ['f-room','f-checkin','f-checkout'].forEach(function(id){ document.getElementById(id).addEventListener('change', function(){ var ci=parse(document.getElementById('f-checkin').value); var co=parse(document.getElementById('f-checkout').value); if(ci && co && co<=ci){ var n=new Date(ci); n.setDate(n.getDate()+1); document.getElementById('f-checkout').value=fmt(n); } if(ci) document.getElementById('f-checkout').min=fmt(ci); updateSummary(); }); });
+    document.getElementById('booking-form').addEventListener('submit', function(e){ e.preventDefault(); var required=['f-hotel','f-room','f-checkin','f-checkout','f-name','f-phone']; var ok=true; required.forEach(function(id){ var el=document.getElementById(id); var bad=!el.value; el.closest('.field').classList.toggle('is-error', bad); if(bad) ok=false; }); if(!ok) return; var order='HA-'+Math.random().toString(36).slice(2,8).toUpperCase(); main.innerHTML='<section class="booking-shell success"><div class="success-card"><div class="check">?</div><h1>'+esc(t('bk.success.title'))+'</h1><p>'+esc(t('bk.success.demo'))+'</p><div class="order-no"><span>'+esc(t('bk.success.number'))+'</span><b>'+order+'</b></div><a class="btn btn-primary" href="home-around-website-mockup.html">???</a></div></section>'; });
+  }
+  render();
+})();
+</script>
+
+  <script  src="chat-booking-widget.js"></script>
+
+  <!--  SYNC:  -24.html  狡  mobile  menu  controller  -->
+  <script>
+    (function(){
+      var  toggle  =  document.getElementById('menuToggle');
+      var  menu    =  document.getElementById('mobileMenu');
+      var  exit    =  document.getElementById('mobileMenuExit');
+      if  (!toggle  ||  !menu)  return;
+      var  lastFocused  =  null;
+      function  openMenu()  {
+        lastFocused  =  document.activeElement;
+        menu.hidden  =  false;
+        void  menu.offsetWidth;
+        menu.classList.add('is-open');
+        toggle.classList.add('is-open');
+        toggle.setAttribute('aria-expanded',  'true');
+        toggle.setAttribute('aria-label',  '關閉選單');
+        document.body.classList.add('is-menu-open');
+        var  firstLink  =  menu.querySelector('a,  button');
+        if  (firstLink)  {
+          try  {  firstLink.focus({  preventScroll:  true  });  }  catch  (_)  {  firstLink.focus();  }
+        }
+      }
+      function  closeMenu()  {
+        menu.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded',  'false');
+        toggle.setAttribute('aria-label',  '開啟選單');
+        document.body.classList.remove('is-menu-open');
+        setTimeout(function(){
+          if  (!menu.classList.contains('is-open'))  menu.hidden  =  true;
+        },  360);
+        if  (lastFocused  &&  lastFocused.focus)  {
+          try  {  lastFocused.focus({  preventScroll:  true  });  }  catch  (_)  {  lastFocused.focus();  }
+        }
+      }
+      toggle.addEventListener('click',  function(){
+        if  (menu.classList.contains('is-open'))  closeMenu();
+        else  openMenu();
+      });
+      if  (exit)  exit.addEventListener('click',  closeMenu);
+      document.addEventListener('keydown',  function(e){
+        if  (e.key  ===  'Escape'  &&  menu.classList.contains('is-open'))  closeMenu();
+      });
+      menu.addEventListener('click',  function(e){
+        var  a  =  e.target.closest('a');
+        if  (a  &&  a.getAttribute('href')  &&  a.getAttribute('href')  !==  '#')  closeMenu();
+      });
+      var  mq  =  window.matchMedia('(min-width:  769px)');
+      function  handleMq()  {
+        if  (mq.matches  &&  menu.classList.contains('is-open'))  closeMenu();
+      }
+      if  (mq.addEventListener)  mq.addEventListener('change',  handleMq);
+      else  if  (mq.addListener)  mq.addListener(handleMq);
+    })();
+  </script>
+</body>
+</html>
+
+

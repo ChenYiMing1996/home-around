@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "Home Around Taiwan Tours — 最新版（無月信）",
+  "entry": "home-around-website-mockup-current.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-05-05T05:28:53.330Z",
+  "updatedAt": "2026-05-05T05:28:53.353Z",
+  "sourceSkillId": "blog-post",
+  "metadata": {
+    "identifier": "home-around-website-mockup-current",
+    "artifactType": "text/html",
+    "inferred": false
+  }
+}

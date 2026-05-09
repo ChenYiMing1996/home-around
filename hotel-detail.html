@@ -1,0 +1,1307 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>旅宿詳情 — Home Around Taiwan Tours</title>
+<style>
+  :root {
+    --bg:        oklch(96.5% 0.012 80);
+    --surface:   oklch(100% 0 0);
+    --cream:     oklch(98% 0.05 95);
+    --fg:        oklch(20% 0.012 60);
+    --brown:     oklch(34% 0.018 60);
+    --muted:     oklch(48% 0.012 60);
+    --border:    oklch(82% 0.008 60);
+    --hairline:  oklch(82% 0.008 60 / 0.7);
+    --teal:      oklch(67% 0.09 185);
+    --yellow:    oklch(82% 0.16 88);
+    --green:     oklch(74% 0.13 130);
+
+    --font-display: 'Noto Serif TC', 'Tiempos Headline', 'Newsreader', 'Iowan Old Style', Georgia, serif;
+    --font-body:    'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Inter', 'Microsoft JhengHei', system-ui, sans-serif;
+    --font-mono:    ui-monospace, 'JetBrains Mono', 'IBM Plex Mono', Menlo, monospace;
+
+    --maxw: 1280px;
+    --pad-x: clamp(20px, 4vw, 48px);
+    --section-y: clamp(56px, 7vw, 96px);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--fg); background: var(--bg);
+    font-size: 17px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .container { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad-x); }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--teal);
+  }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ─── NAV (same as homepage) ─── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklch, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-inner { display: flex; align-items: center; height: 96px; gap: 28px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-right: 12px; }
+  .nav-logo img { height: 66px; width: auto; }
+  .nav-links {
+    display: flex; align-items: center; gap: 18px; font-size: 13.5px;
+    color: var(--brown); white-space: nowrap; flex: 1; min-width: 0;
+  }
+  .nav-links a { position: relative; padding: 6px 0; transition: color .2s ease-out; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  /* 語言切換群組 — 與 home-around-website-mockup.html 共用樣式邏輯 */
+  .nav-lang {
+    display: inline-flex; align-items: center; gap: 0;
+    font-family: var(--font-mono); font-size: 11.5px;
+    letter-spacing: 0.08em; color: var(--muted);
+  }
+  .nav-lang .sep { margin: 0 4px; opacity: 0.5; pointer-events: none; }
+  .lang-btn {
+    background: transparent; border: 0; padding: 4px 4px;
+    font: inherit; color: var(--muted); cursor: pointer;
+    line-height: 1; border-radius: 3px;
+    transition: color .15s ease-out;
+  }
+  .lang-btn:hover { color: var(--brown); }
+  .lang-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .lang-btn.is-active { color: var(--brown); font-weight: 700; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 44px; padding: 0 22px; border-radius: 10px;
+    font-size: 14.5px; font-weight: 600;
+    border: 1px solid transparent;
+    transition: all .2s ease-out;
+  }
+  .btn-primary { background: var(--yellow); color: var(--fg); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px -6px oklch(82% 0.16 88 / 0.6); }
+  .btn-ghost { background: transparent; color: var(--brown); border-color: var(--border); }
+  .btn-ghost:hover { border-color: var(--brown); }
+
+  /* ─── BREADCRUMB ─── */
+  .breadcrumb {
+    padding: 24px 0 12px;
+    font-family: var(--font-mono);
+    font-size: 11.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .breadcrumb a { color: var(--muted); transition: color .15s; }
+  .breadcrumb a:hover { color: var(--brown); }
+  .breadcrumb .sep { margin: 0 10px; opacity: 0.5; }
+  .breadcrumb b { color: var(--brown); font-weight: 600; }
+
+  /* ─── HOTEL HEADER ─── */
+  .h-head { padding: 16px 0 28px; }
+  .h-head .region {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 14px;
+  }
+  .h-head h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1.06; letter-spacing: -0.012em;
+    color: var(--brown); margin: 0;
+    max-width: 22ch;
+  }
+  .h-head .en {
+    font-family: var(--font-display);
+    font-style: italic; font-weight: 400;
+    font-size: 19px; color: var(--muted);
+    margin-top: 8px;
+  }
+  .h-tags {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-top: 22px;
+  }
+  .h-tag {
+    font-size: 12px; padding: 5px 12px; border-radius: 100px;
+    border: 1px solid var(--hairline); color: var(--muted);
+    font-family: var(--font-body);
+  }
+  .h-tag.teal { color: var(--teal); border-color: oklch(67% 0.09 185 / 0.4); }
+  .h-tag.green { color: oklch(36% 0.13 130); border-color: oklch(74% 0.13 130 / 0.45); background: oklch(96% 0.04 130 / 0.7); }
+  .h-tag.brown { color: var(--brown); border-color: var(--brown); background: transparent; }
+
+  /* ─── PHOTO GALLERY ─── */
+  .gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    gap: 12px;
+    margin-bottom: var(--section-y);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .gallery > div {
+    position: relative; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .gallery > div:first-child { grid-row: 1 / 3; }
+  .g-label {
+    position: absolute; left: 16px; top: 16px;
+    background: var(--surface);
+    color: var(--brown);
+    font-family: var(--font-mono);
+    font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 11px; border-radius: 4px;
+    border: 1px solid var(--hairline);
+  }
+  .g-fill { position: absolute; inset: 0; }
+  .g-grain {
+    position: absolute; inset: 0;
+    pointer-events: none; opacity: 0.4;
+    background-image:
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.06), transparent),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.05), transparent);
+    background-size: 200px 200px, 220px 220px;
+  }
+
+  /* ─── ROOM PHOTO THEMES ─── */
+  /* Each theme renders 6 differentiated gradient compositions to demo room photos.
+     Replace the gradient stack with real <img> when production assets land. */
+  /* WARM — cream / golden lamp / wood */
+  .rt-warm-1 { background: radial-gradient(ellipse 60% 60% at 70% 30%, oklch(86% 0.12 80 / 0.6) 0%, transparent 60%), radial-gradient(ellipse 35% 30% at 25% 80%, oklch(60% 0.08 50 / 0.4) 0%, transparent 60%), linear-gradient(160deg, oklch(48% 0.05 60) 0%, oklch(72% 0.08 70) 60%, oklch(88% 0.10 80) 100%); }
+  .rt-warm-2 { background: radial-gradient(circle at 40% 50%, oklch(82% 0.16 75 / 0.5) 0%, transparent 50%), linear-gradient(135deg, oklch(36% 0.04 50) 0%, oklch(58% 0.08 60) 55%, oklch(82% 0.10 80) 100%); }
+  .rt-warm-3 { background: linear-gradient(180deg, oklch(85% 0.06 80) 0%, oklch(72% 0.10 70) 50%, oklch(48% 0.06 50) 100%); }
+  .rt-warm-4 { background: radial-gradient(ellipse 55% 70% at 30% 30%, oklch(90% 0.08 85 / 0.45) 0%, transparent 60%), linear-gradient(220deg, oklch(78% 0.10 75) 0%, oklch(56% 0.07 60) 100%); }
+  .rt-warm-5 { background: radial-gradient(circle at 60% 30%, oklch(88% 0.12 80 / 0.4) 0%, transparent 55%), linear-gradient(170deg, oklch(40% 0.04 50) 0%, oklch(64% 0.08 65) 100%); }
+
+  /* OCEAN — teal / blue / cool window light */
+  .rt-ocean-1 { background: radial-gradient(ellipse 55% 70% at 75% 25%, oklch(82% 0.10 195 / 0.55) 0%, transparent 60%), linear-gradient(165deg, oklch(26% 0.03 220) 0%, oklch(38% 0.05 200) 50%, oklch(58% 0.08 185) 100%); }
+  .rt-ocean-2 { background: radial-gradient(circle at 40% 60%, oklch(72% 0.08 195 / 0.4) 0%, transparent 50%), linear-gradient(135deg, oklch(30% 0.04 215) 0%, oklch(48% 0.06 200) 60%, oklch(70% 0.08 190) 100%); }
+  .rt-ocean-3 { background: linear-gradient(180deg, oklch(58% 0.08 195) 0%, oklch(75% 0.06 195) 60%, oklch(88% 0.04 200) 100%); }
+  .rt-ocean-4 { background: radial-gradient(ellipse 60% 40% at 50% 70%, oklch(82% 0.06 195 / 0.4) 0%, transparent 55%), linear-gradient(220deg, oklch(34% 0.04 220) 0%, oklch(52% 0.07 195) 100%); }
+  .rt-ocean-5 { background: radial-gradient(circle at 70% 40%, oklch(78% 0.10 195 / 0.5) 0%, transparent 50%), linear-gradient(170deg, oklch(22% 0.03 220) 0%, oklch(42% 0.06 200) 100%); }
+
+  /* ISLAND — turquoise / sand / sky */
+  .rt-island-1 { background: radial-gradient(ellipse 60% 50% at 50% 30%, oklch(85% 0.08 195 / 0.5) 0%, transparent 60%), linear-gradient(180deg, oklch(72% 0.10 195) 0%, oklch(85% 0.06 90) 60%, oklch(90% 0.04 90) 100%); }
+  .rt-island-2 { background: radial-gradient(ellipse 45% 35% at 30% 70%, oklch(85% 0.08 90 / 0.5) 0%, transparent 60%), linear-gradient(150deg, oklch(62% 0.10 195) 0%, oklch(82% 0.08 110) 100%); }
+  .rt-island-3 { background: linear-gradient(180deg, oklch(82% 0.08 195) 0%, oklch(74% 0.06 195) 50%, oklch(64% 0.08 195) 100%); }
+  .rt-island-4 { background: radial-gradient(circle at 60% 30%, oklch(88% 0.06 90 / 0.5) 0%, transparent 55%), linear-gradient(220deg, oklch(58% 0.10 195) 0%, oklch(82% 0.07 100) 100%); }
+  .rt-island-5 { background: linear-gradient(135deg, oklch(48% 0.10 195) 0%, oklch(72% 0.08 195) 50%, oklch(86% 0.06 90) 100%); }
+
+  /* FOREST — green / moss / natural light */
+  .rt-forest-1 { background: radial-gradient(ellipse 60% 50% at 60% 30%, oklch(82% 0.12 130 / 0.45) 0%, transparent 60%), linear-gradient(170deg, oklch(28% 0.04 130) 0%, oklch(48% 0.08 130) 50%, oklch(70% 0.10 110) 100%); }
+  .rt-forest-2 { background: radial-gradient(circle at 35% 65%, oklch(74% 0.10 130 / 0.4) 0%, transparent 55%), linear-gradient(135deg, oklch(34% 0.05 140) 0%, oklch(52% 0.08 130) 60%, oklch(78% 0.10 110) 100%); }
+  .rt-forest-3 { background: linear-gradient(180deg, oklch(58% 0.10 130) 0%, oklch(72% 0.10 120) 50%, oklch(86% 0.08 100) 100%); }
+  .rt-forest-4 { background: radial-gradient(ellipse 65% 50% at 50% 50%, oklch(82% 0.06 100 / 0.45) 0%, transparent 60%), linear-gradient(220deg, oklch(38% 0.06 130) 0%, oklch(60% 0.09 120) 100%); }
+  .rt-forest-5 { background: radial-gradient(circle at 70% 35%, oklch(80% 0.08 110 / 0.4) 0%, transparent 50%), linear-gradient(170deg, oklch(30% 0.04 135) 0%, oklch(54% 0.08 125) 100%); }
+
+  /* URBAN — dark wood / amber / city */
+  .rt-urban-1 { background: radial-gradient(circle at 32% 58%, oklch(72% 0.16 60 / 0.5) 0%, transparent 38%), radial-gradient(circle at 75% 32%, oklch(66% 0.13 80 / 0.32) 0%, transparent 35%), linear-gradient(180deg, oklch(14% 0.018 60) 0%, oklch(26% 0.04 50) 100%); }
+  .rt-urban-2 { background: radial-gradient(ellipse 50% 60% at 70% 40%, oklch(70% 0.12 70 / 0.45) 0%, transparent 60%), linear-gradient(140deg, oklch(20% 0.025 50) 0%, oklch(34% 0.05 50) 60%, oklch(50% 0.08 60) 100%); }
+  .rt-urban-3 { background: linear-gradient(180deg, oklch(18% 0.02 60) 0%, oklch(32% 0.05 50) 50%, oklch(54% 0.08 60) 100%); }
+  .rt-urban-4 { background: radial-gradient(ellipse 60% 40% at 30% 70%, oklch(60% 0.10 60 / 0.4) 0%, transparent 60%), linear-gradient(220deg, oklch(22% 0.03 50) 0%, oklch(40% 0.06 55) 100%); }
+  .rt-urban-5 { background: radial-gradient(circle at 60% 30%, oklch(72% 0.14 65 / 0.4) 0%, transparent 50%), linear-gradient(170deg, oklch(16% 0.02 55) 0%, oklch(36% 0.05 55) 100%); }
+
+  /* SUNSET — orange / pink / coral horizon */
+  .rt-sunset-1 { background: radial-gradient(ellipse 55% 35% at 50% 60%, oklch(80% 0.18 60 / 0.5) 0%, transparent 55%), linear-gradient(180deg, oklch(35% 0.10 30) 0%, oklch(56% 0.18 40) 38%, oklch(74% 0.18 60) 70%, oklch(86% 0.14 80) 100%); }
+  .rt-sunset-2 { background: radial-gradient(circle at 60% 50%, oklch(78% 0.18 50 / 0.5) 0%, transparent 50%), linear-gradient(135deg, oklch(42% 0.10 30) 0%, oklch(64% 0.16 50) 60%, oklch(82% 0.14 80) 100%); }
+  .rt-sunset-3 { background: linear-gradient(180deg, oklch(64% 0.18 50) 0%, oklch(78% 0.16 65) 50%, oklch(88% 0.10 90) 100%); }
+  .rt-sunset-4 { background: radial-gradient(ellipse 60% 40% at 30% 60%, oklch(74% 0.16 50 / 0.45) 0%, transparent 55%), linear-gradient(220deg, oklch(36% 0.08 30) 0%, oklch(60% 0.16 50) 100%); }
+  .rt-sunset-5 { background: radial-gradient(circle at 65% 40%, oklch(82% 0.16 60 / 0.45) 0%, transparent 50%), linear-gradient(165deg, oklch(40% 0.10 35) 0%, oklch(68% 0.16 55) 100%); }
+
+  /* ─── BODY GRID ─── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 64px;
+    margin-bottom: var(--section-y);
+    align-items: start;
+  }
+
+  /* ─── ROOMS / PRICE TABLE ─── */
+  .section-block {
+    margin-bottom: 64px;
+  }
+  .section-block h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--brown);
+    margin: 0 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: -0.005em;
+  }
+  .room-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    background: var(--surface);
+  }
+  .room-card-photo {
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+  }
+  .room-card-body {
+    padding: 22px 26px 24px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .room-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 21px; color: var(--brown);
+    margin: 0 0 4px;
+  }
+  .room-en {
+    font-family: var(--font-display);
+    font-style: italic; font-size: 13.5px;
+    color: var(--muted);
+  }
+  .price-box {
+    display: flex; gap: 28px;
+    border-left: 1px solid var(--hairline);
+    padding-left: 24px;
+  }
+  .price-cell {
+    text-align: right;
+  }
+  .price-cell .label {
+    font-family: var(--font-mono);
+    font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .price-cell .v {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 22px;
+    color: var(--brown);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .price-cell .v sup { font-size: 10px; vertical-align: 4px; color: var(--muted); margin-right: 2px; }
+  .price-cell .v.no-add { color: var(--teal); font-size: 14px; font-style: italic; }
+  .room-book {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--teal);
+    padding: 6px 0; margin-top: 14px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s ease-out;
+  }
+  .room-book:hover { border-bottom-color: var(--teal); }
+  .room-card-body .room-meta { display: flex; flex-direction: column; }
+
+  /* ─── NOTES / TRANSIT ─── */
+  .notes-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .notes-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 17px;
+    color: var(--brown); margin: 0 0 12px;
+  }
+  .notes-card ul { padding-left: 20px; margin: 0; }
+  .notes-card ul li {
+    font-size: 14.5px; line-height: 1.7; color: var(--fg);
+    margin-bottom: 4px;
+  }
+  .notes-card.seasonal {
+    background: oklch(96% 0.04 195 / 0.5);
+    border-color: oklch(67% 0.09 185 / 0.4);
+  }
+  .notes-card.seasonal h3 { color: var(--teal); }
+
+  /* ─── CONTACT SIDEBAR ─── */
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    position: sticky; top: 116px;
+  }
+  .contact-card .price-from {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 22px;
+  }
+  .contact-card .price-from small {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .contact-card .price-from .v {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 28px; color: var(--brown);
+    font-variant-numeric: tabular-nums;
+  }
+  .contact-card .price-from .v sup { font-size: 12px; vertical-align: 8px; color: var(--muted); margin-right: 2px; }
+  .contact-card .price-from .v em { font-style: normal; font-size: 14px; color: var(--muted); margin-left: 6px; }
+
+  .contact-row {
+    display: flex; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: flex-start;
+  }
+  .contact-row:last-of-type { border-bottom: 0; }
+  .contact-row .icon {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: oklch(94% 0.012 60);
+    color: var(--brown);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    font-family: var(--font-mono);
+  }
+  .contact-row .label {
+    font-family: var(--font-mono);
+    font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .contact-row .v {
+    font-size: 14.5px; color: var(--brown);
+    font-weight: 500; font-variant-numeric: tabular-nums;
+  }
+  .contact-row .v.address { font-weight: 400; line-height: 1.5; }
+  .contact-row a.v { color: var(--brown); transition: color .15s; }
+  .contact-row a.v:hover { color: var(--teal); }
+
+  .book-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 56px;
+    background: var(--yellow);
+    color: var(--fg);
+    font-weight: 700; font-size: 16px;
+    border: 0; border-radius: 10px;
+    margin-top: 22px;
+    transition: filter .2s ease-out;
+  }
+  .book-btn:hover { filter: brightness(1.06); }
+
+  .social-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-top: 12px;
+  }
+  .social-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--brown);
+    font-size: 13.5px; font-weight: 600;
+    transition: all .2s ease-out;
+    background: var(--surface);
+  }
+  .social-btn .ic {
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 700;
+    border-radius: 4px;
+    color: var(--surface);
+  }
+  .social-btn .ic.fb { background: #1877f2; }
+  .social-btn .ic.line { background: #06c755; }
+  .social-btn:hover { border-color: var(--brown); transform: translateY(-1px); }
+
+  /* ─── MAP ─── */
+  .map-section {
+    margin-bottom: var(--section-y);
+  }
+  .map-frame {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+    aspect-ratio: 16/9;
+    max-height: 480px;
+    position: relative;
+  }
+  .map-frame iframe { width: 100%; height: 100%; border: 0; }
+  .map-fallback-link {
+    margin-top: 16px;
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--teal); font-size: 14px; font-weight: 600;
+    border-bottom: 1px solid oklch(67% 0.09 185 / 0.3);
+    padding-bottom: 2px;
+  }
+  .map-fallback-link::after { content: "↗"; }
+  .map-fallback-link:hover { color: var(--brown); border-color: var(--brown); }
+
+  /* ─── RELATED ─── */
+  .related {
+    padding: var(--section-y) 0;
+    border-top: 1px solid var(--border);
+  }
+  .related h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px; color: var(--brown);
+    margin: 0 0 32px;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .rel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .25s ease-out, box-shadow .25s ease-out;
+  }
+  .rel-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px -22px oklch(20% 0.012 60 / 0.18); }
+  .rel-photo {
+    aspect-ratio: 4/3; position: relative; overflow: hidden;
+  }
+  .rel-body { padding: 18px 20px 22px; }
+  .rel-loc {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .rel-name {
+    font-family: var(--font-display);
+    font-weight: 500; font-size: 18px;
+    color: var(--brown); margin: 0;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: oklch(28% 0.018 60);
+    color: oklch(80% 0.012 60);
+    padding: 80px 0 36px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 48px; padding-bottom: 56px;
+    border-bottom: 1px solid oklch(40% 0.018 60);
+  }
+  .foot-brand img { height: 84px; margin-bottom: 22px; }
+  .foot-brand p {
+    font-size: 14px; line-height: 1.65;
+    max-width: 38ch; color: oklch(78% 0.012 60); margin: 0 0 22px;
+  }
+  .foot-social { display: flex; gap: 12px; }
+  .foot-social a {
+    width: 36px; height: 36px;
+    border: 1px solid oklch(45% 0.018 60);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: oklch(85% 0.012 60); font-size: 13px;
+    transition: all .2s ease-out;
+  }
+  .foot-social a:hover { border-color: var(--yellow); color: var(--yellow); }
+  .foot-col h5 {
+    font-family: var(--font-mono); font-size: 11px;
+    font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: oklch(98% 0.05 95); margin: 8px 0 20px;
+  }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .foot-col a { color: oklch(80% 0.012 60); font-size: 14px; transition: color .15s; }
+  .foot-col a:hover { color: var(--yellow); }
+  .foot-bottom {
+    padding-top: 28px;
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    font-family: var(--font-mono); font-size: 11.5px;
+    letter-spacing: 0.06em; color: oklch(65% 0.012 60);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1280px) {
+    .nav-links { gap: 14px; font-size: 13px; }
+  }
+  @media (max-width: 1024px) {
+    .nav-lang { display: none; }
+    .nav-links { gap: 12px; font-size: 12.5px; }
+    .body-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-card { position: static; }
+    .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 280px 220px 220px; }
+    .gallery > div:first-child { grid-row: 1; grid-column: 1 / 3; }
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .gallery { grid-template-columns: 1fr; grid-template-rows: 240px 200px 200px; }
+    .gallery > div:first-child { grid-column: 1; }
+    .gallery > div:nth-child(4), .gallery > div:nth-child(5) { display: none; }
+    .h-head h1 { font-size: 32px; }
+    .price-box { padding-left: 0; border-left: 0; padding-top: 16px; border-top: 1px solid var(--hairline); width: 100%; }
+    .related-grid { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── ERROR STATE ─── */
+  .err {
+    text-align: center;
+    padding: 120px 24px;
+  }
+  .err h1 {
+    font-family: var(--font-display);
+    font-size: 36px; color: var(--brown); margin: 0 0 12px;
+  }
+  .err p { color: var(--muted); margin: 0 0 24px; }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="home-around-website-mockup.html" class="nav-logo">
+        <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
+      </a>
+      <div class="nav-links">
+        <a href="home-around-website-mockup.html" data-i18n="nav.home">首頁</a>
+        <a href="#" data-i18n="nav.about">關於我們</a>
+        <a href="#" data-i18n="nav.guide">景點攻略</a>
+        <a href="#" data-i18n="nav.tickets">電子票券</a>
+        <a href="#" data-i18n="nav.news">最新消息</a>
+        <a href="home-around-website-mockup.html#all-stays" class="active" style="color: var(--teal);" data-i18n="nav.stays">直營旅店</a>
+        <a href="#" data-i18n="nav.partners">合作夥伴</a>
+        <a href="#" data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a>
+        <a href="#" data-i18n="nav.contact">聯絡我們</a>
+        <a href="#" data-i18n="nav.insurance">網路投保旅平險</a>
+      </div>
+      <div class="nav-cta">
+        <div class="nav-lang" role="group" data-i18n-aria="nav.lang.aria">
+          <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
+          <span class="sep">·</span>
+          <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
+          <span class="sep">·</span>
+          <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
+        </div>
+        <a id="navBookBtn" href="#booking" class="btn btn-primary" data-i18n="nav.book">立即訂房</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB — bc-name 由 JS 寫入飯店名（已透過 I18N.hotelName 取對應語言） -->
+  <div class="container breadcrumb" id="breadcrumb">
+    <a href="home-around-website-mockup.html" data-i18n="nav.home">首頁</a>
+    <span class="sep">/</span>
+    <a href="home-around-website-mockup.html#all-stays" data-i18n="nav.stays">直營旅店</a>
+    <span class="sep">/</span>
+    <b id="bc-name">載入中…</b>
+  </div>
+
+  <!-- ROOT — JS will render into here -->
+  <div id="hotel-root"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
+          <p><span data-i18n="foot.tag">慢一點，就到家了。</span><br/><span data-i18n="foot.tag2">Hand-picked stays and slow experiences across Taiwan, since 2021.</span></p>
+          <div class="foot-social">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="LINE">LN</a>
+            <a href="#" aria-label="Email">@</a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h5 data-i18n="foot.col1.h">探索 Discover</h5>
+          <ul>
+            <li><a href="home-around-website-mockup.html#all-stays" data-i18n="foot.col1.li1">所有旅宿</a></li>
+            <li><a href="#" data-i18n="foot.col1.li2">親子家庭</a></li>
+            <li><a href="#" data-i18n="foot.col1.li3">在地體驗</a></li>
+            <li><a href="#" data-i18n="foot.col1.li4">每月編輯精選</a></li>
+            <li><a href="#" data-i18n="foot.col1.li5">優惠專區</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5 data-i18n="foot.col2.h">協助 Support</h5>
+          <ul>
+            <li><a href="#" data-i18n="foot.col2.li1">常見問題</a></li>
+            <li><a href="#" data-i18n="foot.col2.li2">取消與退款</a></li>
+            <li><a href="#" data-i18n="foot.col2.li3">聯絡我們</a></li>
+            <li><a href="#" data-i18n="foot.col2.li4">旅宿合作申請</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5 data-i18n="foot.col3.h">關於 About</h5>
+          <ul>
+            <li><a href="#" data-i18n="foot.col3.li1">編輯團隊</a></li>
+            <li><a href="#" data-i18n="foot.col3.li2">嚴選原則</a></li>
+            <li><a href="#" data-i18n="foot.col3.li3">媒體報導</a></li>
+            <li><a href="#" data-i18n="foot.col3.li4">隱私權政策</a></li>
+            <li><a href="#" data-i18n="foot.col3.li5">使用條款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span data-i18n="foot.copy">© 2026 HOME AROUND TAIWAN TOURS · 統一編號 12345678</span>
+        <span data-i18n="foot.made">MADE WITH 慢慢來 · IN TAIPEI</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 多語系字典與切換器 — 必須在 hotels-data.js 與動態渲染 script 之前 -->
+  <script src="i18n.js"></script>
+  <!-- Hotel data -->
+  <script src="hotels-data.js"></script>
+
+  <script>
+  // 立即套用語系到 nav/breadcrumb/footer 等靜態 data-i18n 元素
+  if (window.I18N) window.I18N.applyToDom();
+
+  // ── Render hotel detail — 抽成 named function 以便 localechange 重渲染 ──
+  // 所有靜態文字 (section header / labels / CTA) 透過 I18N.t(key) 取，
+  // 房型 / tag / 飯店名走資料層 helpers (I18N.hotelName / tagName / roomName / regionName)，
+  // notes / seasonal / transit 因 32 間皆為長中文敘述，保留原文並標示 (中文原文)。
+  function renderHotelDetail() {
+    var params = new URLSearchParams(location.search);
+    var id = params.get('id') || (window.HOTELS && window.HOTELS[0] && window.HOTELS[0].id);
+    var hotel = window.HOTELS_BY_ID && window.HOTELS_BY_ID[id];
+    var root = document.getElementById('hotel-root');
+    var I = window.I18N;
+    var t = I ? I.t : function(k){ return k; };
+
+    if (!hotel) {
+      root.innerHTML = '<div class="container err">' +
+        '<h1>' + t('hd.err.h1') + '</h1>' +
+        '<p>' + t('hd.err.body') + '</p>' +
+        '<a class="btn btn-ghost" href="home-around-website-mockup.html">' + t('hd.err.back') + '</a>' +
+        '</div>';
+      document.getElementById('bc-name').textContent = t('hd.bc.notFound.title');
+      document.title = t('hd.bc.notFound.title') + ' — Home Around';
+      return;
+    }
+
+    var hotelDisplayName = I ? I.hotelName(hotel) : hotel.name;
+    var hotelRegion = I ? I.regionName(hotel.region) : hotel.region;
+
+    // ── Update title + breadcrumb + nav book button
+    document.title = hotelDisplayName + ' — Home Around Taiwan Tours';
+    document.getElementById('bc-name').textContent = hotelDisplayName;
+    var navBookBtn = document.getElementById('navBookBtn');
+    if (navBookBtn) navBookBtn.href = 'booking.html?hotel=' + encodeURIComponent(hotel.id);
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function fmtPriceAdd(v) {
+      if (typeof v === 'string') return '<span class="v no-add">' + escapeHtml(v) + '</span>';
+      if (v === 0) return '<span class="v no-add">' + t('hd.noAdd') + '</span>';
+      return '<span class="v"><sup>+NT$</sup>' + Number(v).toLocaleString() + '</span>';
+    }
+    function tagClass(tag) {
+      if (/寵物友善|親子|家庭/.test(tag)) return 'green';
+      if (/精緻系列|精品|商旅/.test(tag)) return '';
+      if (/海景|溫泉|捷運|機場|海岸|湖景/.test(tag)) return 'teal';
+      return '';
+    }
+
+    var theme = hotel.theme || 'warm';
+    function ph(n) { return 'rt-' + theme + '-' + n; }
+
+    /* 真實房型照（5 張）由 getHotelPhotos 取出：第 1 張為 hotel.photo，其餘從 theme pool 補。
+       下面渲染用 inline background-image 套上；rt-* gradient 仍當作載入中／失敗的底色。 */
+    var galleryPhotos = (window.getHotelPhotos ? window.getHotelPhotos(hotel, 5) : []);
+    function photoStyle(src) {
+      if (!src) return '';
+      return ' style="background-image:url(\'' + src + '\'); background-size:cover; background-position:center;"';
+    }
+
+    var related = window.HOTELS.filter(function(h){
+      return h.id !== hotel.id && (h.region.split(' ')[0] === hotel.region.split(' ')[0] || h.theme === hotel.theme);
+    }).slice(0, 3);
+    if (related.length < 3) {
+      var fillers = window.HOTELS.filter(function(h){
+        return h.id !== hotel.id && related.indexOf(h) === -1;
+      }).slice(0, 3 - related.length);
+      related = related.concat(fillers);
+    }
+
+    var roomsHtml = hotel.rooms.map(function(r, i){
+      var photoCls = ph((i % 5) + 1);
+      // 房型卡照片 — 每張卡用 gallery 池的不同張，避免一頁內重複過多
+      var roomPhoto = galleryPhotos[(i + 1) % galleryPhotos.length] || galleryPhotos[0];
+      var rName = I ? I.roomName(r) : r.name;
+      return '' +
+        '<article class="room-card">' +
+          '<div class="room-card-photo">' +
+            '<div class="g-fill ' + photoCls + '"' + photoStyle(roomPhoto) + '></div>' +
+            '<div class="g-grain"></div>' +
+            '<span class="g-label">' + escapeHtml(r.en || r.name) + '</span>' +
+          '</div>' +
+          '<div class="room-card-body">' +
+            '<div class="room-meta">' +
+              '<h3 class="room-name">' + escapeHtml(rName) + '</h3>' +
+              '<div class="room-en">' + escapeHtml(r.en || '') + '</div>' +
+              '<a class="room-book" href="booking.html?hotel=' + encodeURIComponent(hotel.id) +
+                '&room=' + encodeURIComponent(r.name) + '">' + t('hd.room.book') + '</a>' +
+            '</div>' +
+            '<div class="price-box">' +
+              '<div class="price-cell">' +
+                '<div class="label">' + t('hd.weekday') + '</div>' +
+                fmtPriceAdd(r.weekday) +
+              '</div>' +
+              '<div class="price-cell">' +
+                '<div class="label">' + t('hd.weekend') + '</div>' +
+                fmtPriceAdd(r.weekend) +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</article>';
+    }).join('');
+
+    // ── Notes / Seasonal — 保留中文原文（32 間長文敘述未翻譯，標示原文）
+    var langLabel = (I && I.current !== 'zh') ? ' <small style="color:var(--muted); font-weight: normal; font-size: 12px; letter-spacing: 0;">' + t('hd.notesNotice') + '</small>' : '';
+    var notesHtml = '';
+    if (hotel.notes && hotel.notes.length) {
+      notesHtml += '<div class="notes-card">' +
+        '<h3>' + t('hd.section.notes') + langLabel + '</h3>' +
+        '<ul>' + hotel.notes.map(function(n){ return '<li>' + escapeHtml(n) + '</li>'; }).join('') + '</ul>' +
+        '</div>';
+    }
+    if (hotel.seasonal) {
+      notesHtml += '<div class="notes-card seasonal">' +
+        '<h3>' + t('hd.section.seasonal') + langLabel + '</h3>' +
+        '<ul><li>' + escapeHtml(hotel.seasonal) + '</li></ul>' +
+        '</div>';
+    }
+
+    var transitHtml = '';
+    if (hotel.transit && hotel.transit.length) {
+      transitHtml = '<div class="section-block">' +
+        '<h2>' + t('hd.section.transit') + langLabel + '</h2>' +
+        '<div class="notes-card">' +
+          '<ul>' + hotel.transit.map(function(t){ return '<li>' + escapeHtml(t) + '</li>'; }).join('') + '</ul>' +
+        '</div>' +
+      '</div>';
+    }
+
+    var tagsHtml = (hotel.tags || []).map(function(tag){
+      var tagText = I ? I.tagName(tag) : tag;
+      return '<span class="h-tag ' + tagClass(tag) + '">' + escapeHtml(tagText) + '</span>';
+    }).join('');
+
+    var baseDouble = 2800;
+    var minAdd = Math.min.apply(null, hotel.rooms.map(function(r){
+      return typeof r.weekday === 'number' ? r.weekday : 9999;
+    }).filter(function(v){ return v !== 9999; }));
+    if (!isFinite(minAdd)) minAdd = 0;
+    var fromPrice = baseDouble + minAdd;
+
+    var mapSrc = 'https://maps.google.com/maps?q=' + encodeURIComponent(hotel.address) + '&t=&z=16&ie=UTF8&iwloc=&output=embed';
+    var mapLink = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(hotel.address);
+
+    root.innerHTML = '' +
+      '<div class="container">' +
+        '<header class="h-head">' +
+          '<div class="region">' + escapeHtml(hotelRegion) + ' · ' + escapeHtml(hotel.city) + '</div>' +
+          '<h1>' + escapeHtml(hotelDisplayName) + '</h1>' +
+          '<div class="en">' + escapeHtml(hotel.enName || '') + '</div>' +
+          '<div class="h-tags">' + tagsHtml + '</div>' +
+        '</header>' +
+
+        '<div class="gallery">' +
+          '<div><div class="g-fill ' + ph(1) + '"' + photoStyle(galleryPhotos[0]) + '></div><div class="g-grain"></div><span class="g-label">' + t('hd.gallery.label') + '</span></div>' +
+          '<div><div class="g-fill ' + ph(2) + '"' + photoStyle(galleryPhotos[1]) + '></div><div class="g-grain"></div></div>' +
+          '<div><div class="g-fill ' + ph(3) + '"' + photoStyle(galleryPhotos[2]) + '></div><div class="g-grain"></div></div>' +
+          '<div><div class="g-fill ' + ph(4) + '"' + photoStyle(galleryPhotos[3]) + '></div><div class="g-grain"></div></div>' +
+          '<div><div class="g-fill ' + ph(5) + '"' + photoStyle(galleryPhotos[4]) + '></div><div class="g-grain"></div></div>' +
+        '</div>' +
+
+        '<div class="body-grid">' +
+          '<div>' +
+            '<div class="section-block">' +
+              '<h2>' + t('hd.section.rooms') + '</h2>' +
+              '<p style="color: var(--muted); font-size: 14.5px; margin: 0 0 22px;">' +
+                escapeHtml(t('hd.section.rooms.intro')) +
+              '</p>' +
+              roomsHtml +
+              notesHtml +
+            '</div>' +
+            transitHtml +
+          '</div>' +
+
+          '<aside class="contact-card" id="booking">' +
+            '<div class="price-from">' +
+              '<small>' + t('hd.from') + '</small>' +
+              '<div class="v"><sup>NT$</sup>' + fromPrice.toLocaleString() + '<em>' + t('hd.perNight') + '</em></div>' +
+            '</div>' +
+
+            '<div class="contact-row">' +
+              '<span class="icon">電</span>' +
+              '<div>' +
+                '<div class="label">' + t('hd.contact.phone') + '</div>' +
+                '<a class="v" href="tel:' + escapeHtml(hotel.phone.replace(/[^\d+]/g, '')) + '">' + escapeHtml(hotel.phone) + '</a>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class="contact-row">' +
+              '<span class="icon">時</span>' +
+              '<div>' +
+                '<div class="label">' + t('hd.contact.hours') + '</div>' +
+                '<div class="v">' + escapeHtml(hotel.bookingHours) + '</div>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class="contact-row">' +
+              '<span class="icon">址</span>' +
+              '<div>' +
+                '<div class="label">' + t('hd.contact.address') + '</div>' +
+                '<div class="v address">' + escapeHtml(hotel.address) + '</div>' +
+              '</div>' +
+            '</div>' +
+
+            '<a class="book-btn" href="booking.html?hotel=' + encodeURIComponent(hotel.id) + '" style="text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">' + t('hd.book.now') + '</a>' +
+
+            '<div class="social-row">' +
+              '<a class="social-btn" href="' + escapeHtml(hotel.fb) + '" target="_blank" rel="noopener">' +
+                '<span class="ic fb">f</span>' + t('hd.fb') + '</a>' +
+              '<a class="social-btn" href="' + escapeHtml(hotel.line) + '" target="_blank" rel="noopener">' +
+                '<span class="ic line">L</span>' + t('hd.line') + '</a>' +
+            '</div>' +
+          '</aside>' +
+        '</div>' +
+
+        '<div class="map-section">' +
+          '<div class="section-block" style="margin-bottom: 24px;">' +
+            '<h2>' + t('hd.section.location') + '</h2>' +
+          '</div>' +
+          '<div class="map-frame">' +
+            '<iframe src="' + mapSrc + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="' + escapeHtml(hotelDisplayName) + '"></iframe>' +
+          '</div>' +
+          '<a class="map-fallback-link" href="' + mapLink + '" target="_blank" rel="noopener">' + t('hd.map.fallback') + '</a>' +
+        '</div>' +
+      '</div>' +
+
+      '<section class="related">' +
+        '<div class="container">' +
+          '<h3>' + t('hd.related.h') + '</h3>' +
+          '<div class="related-grid">' +
+            related.map(function(r, i){
+              var rName = I ? I.hotelName(r) : r.name;
+              var rRegion = I ? I.regionName(r.region) : r.region;
+              return '' +
+                '<a class="rel-card" href="hotel-detail.html?id=' + encodeURIComponent(r.id) + '">' +
+                  '<div class="rel-photo">' +
+                    /* 「你可能也喜歡」展示其他飯店,用 theme 漸層而非房型實拍照 */
+                    '<div class="g-fill rt-' + (r.theme || 'warm') + '-' + ((i + 1) % 5 + 1) + '"></div>' +
+                    '<div class="g-grain"></div>' +
+                  '</div>' +
+                  '<div class="rel-body">' +
+                    '<div class="rel-loc">' + escapeHtml(rRegion) + '</div>' +
+                    '<h4 class="rel-name">' + escapeHtml(rName) + '</h4>' +
+                  '</div>' +
+                '</a>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+      '</section>';
+  }
+  renderHotelDetail();
+  document.addEventListener('localechange', renderHotelDetail);
+  </script>
+
+  <script src="chat-booking-widget.js"></script>
+<script>
+  (function(){
+    if (window.__HA_PAGE_MOBILE_NAV__) return;
+    window.__HA_PAGE_MOBILE_NAV__ = true;
+
+    var css = `
+      @media (max-width: 768px) {
+        body.is-menu-open { overflow: hidden; }
+        .nav-inner { height: 72px; }
+        .nav-logo img { height: 48px; }
+        .nav-links,
+        .nav-cta .nav-lang,
+        .nav-cta .btn-primary { display: none !important; }
+        .menu-toggle {
+          display: inline-flex !important;
+          position: fixed;
+          top: 14px;
+          right: 18px;
+          z-index: 220;
+          width: 46px;
+          height: 46px;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid color-mix(in oklch, var(--brown, #4b413b) 45%, transparent);
+          border-radius: 999px;
+          background: color-mix(in oklch, var(--bg, #f8f1e5) 88%, transparent);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          cursor: pointer;
+        }
+        .menu-toggle .bar {
+          position: absolute;
+          left: 12px;
+          width: 20px;
+          height: 1.5px;
+          background: var(--brown, #4b413b);
+          transition: transform .32s ease, opacity .2s ease, top .25s ease;
+        }
+        .menu-toggle .bar.t { top: 16px; }
+        .menu-toggle .bar.m { top: 22px; }
+        .menu-toggle .bar.b { top: 28px; }
+        .menu-toggle.is-open {
+          border-color: oklch(96% 0.012 80 / .28);
+          background: transparent;
+        }
+        .menu-toggle.is-open .bar { background: oklch(96% 0.012 80); }
+        .menu-toggle.is-open .bar.t { top: 22px; transform: rotate(45deg); }
+        .menu-toggle.is-open .bar.m { opacity: 0; }
+        .menu-toggle.is-open .bar.b { top: 22px; transform: rotate(-45deg); }
+      }
+      @media (min-width: 769px) {
+        .menu-toggle,
+        .mobile-menu { display: none !important; }
+      }
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px);
+        background: oklch(28% 0.022 60 / 75%);
+        color: oklch(96% 0.012 80);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        transition: opacity .34s ease, transform .34s ease, visibility 0s linear .34s;
+        overflow-y: auto;
+      }
+      .mobile-menu.is-open {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: opacity .38s ease, transform .38s ease, visibility 0s linear 0s;
+      }
+      .mobile-menu-inner {
+        min-height: 100%;
+        padding: 88px clamp(22px, 6vw, 36px) 42px;
+        display: grid;
+        align-content: start;
+        gap: 32px;
+      }
+      .mm-kicker {
+        margin: 0 0 12px;
+        font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+        font-size: 11px;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: oklch(96% 0.012 80 / .58);
+      }
+      .mm-nav-main,
+      .mm-nav-sub {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .mm-nav-main {
+        display: grid;
+        gap: 14px;
+      }
+      .mm-nav-main a {
+        font-family: var(--font-display, Georgia, serif);
+        font-size: clamp(34px, 10vw, 52px);
+        line-height: 1;
+        color: oklch(96% 0.012 80);
+      }
+      .mm-nav-sub {
+        margin-top: 22px;
+        padding-top: 18px;
+        border-top: 1px solid oklch(96% 0.012 80 / .16);
+        display: grid;
+        gap: 12px;
+      }
+      .mm-nav-sub a {
+        font-size: 15px;
+        color: oklch(96% 0.012 80 / .78);
+      }
+      .mm-contact {
+        padding-top: 22px;
+        border-top: 1px solid oklch(96% 0.012 80 / .16);
+      }
+      .mm-contact dl {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 10px 18px;
+        margin: 0;
+        font-size: 14px;
+      }
+      .mm-contact dt {
+        font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+        font-size: 10.5px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: oklch(96% 0.012 80 / .55);
+      }
+      .mm-contact dd { margin: 0; color: oklch(96% 0.012 80 / .92); }
+      .mm-lang {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        color: oklch(96% 0.012 80 / .65);
+      }
+      .mm-lang .lang-btn { color: inherit; }
+      .mm-cta .btn {
+        width: 100%;
+        height: 56px;
+        justify-content: center;
+      }
+      .mobile-menu .mm-anim {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.25,1.05);
+      }
+      .mobile-menu.is-open .mm-anim { opacity: 1; transform: translateY(0); }
+      .mobile-menu.is-open .d1 { transition-delay: .08s; }
+      .mobile-menu.is-open .d2 { transition-delay: .14s; }
+      .mobile-menu.is-open .d3 { transition-delay: .20s; }
+      .mobile-menu.is-open .d4 { transition-delay: .26s; }
+      .mobile-menu.is-open .d5 { transition-delay: .32s; }
+    `;
+    var style = document.createElement('style');
+    style.setAttribute('data-ha-page-mobile-nav', '');
+    style.textContent = css;
+    document.head.appendChild(style);
+
+    var nav = document.querySelector('.nav');
+    var navInner = document.querySelector('.nav-inner') || nav;
+    if (!nav || !navInner) return;
+
+    var toggle = document.getElementById('menuToggle');
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.id = 'menuToggle';
+      toggle.className = 'menu-toggle';
+      toggle.setAttribute('aria-label', '開啟選單');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-controls', 'mobileMenu');
+      toggle.innerHTML = '<span class="bar t"></span><span class="bar m"></span><span class="bar b"></span>';
+      navInner.appendChild(toggle);
+    }
+
+    var menu = document.getElementById('mobileMenu');
+    if (!menu) {
+      menu = document.createElement('aside');
+      menu.id = 'mobileMenu';
+      menu.className = 'mobile-menu';
+      menu.setAttribute('role', 'dialog');
+      menu.setAttribute('aria-modal', 'true');
+      menu.setAttribute('aria-label', '行動版選單');
+      menu.hidden = true;
+      menu.innerHTML = `
+        <div class="mobile-menu-inner">
+          <nav class="mm-section mm-anim d1" aria-label="行動版主導覽">
+            <p class="mm-kicker">Navigation</p>
+            <ul class="mm-nav-main">
+              <li><a href="rooms.html">Rooms</a></li>
+            </ul>
+            <ul class="mm-nav-sub">
+              <li><a href="#">關於我們</a></li>
+              <li><a href="#">景點攻略</a></li>
+              <li><a href="#">電子票券</a></li>
+              <li><a href="#">最新消息</a></li>
+              <li><a href="#">直營旅店</a></li>
+              <li><a href="#">合作夥伴</a></li>
+              <li><a href="#">家天下台南行旅信託票券查詢</a></li>
+              <li><a href="#">聯絡我們</a></li>
+              <li><a href="#">網路投保旅平險</a></li>
+            </ul>
+          </nav>
+          <section class="mm-contact mm-anim d2">
+            <p class="mm-kicker">Contact &amp; Hours</p>
+            <dl>
+              <dt>地址</dt><dd>高雄市鹽埕區河西路137號</dd>
+              <dt>市話</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd>
+              <dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd>
+              <dt>Hours</dt><dd>Open 24 hours</dd>
+            </dl>
+          </section>
+          <section class="mm-lang mm-anim d3" aria-label="語言切換">
+            <span class="mm-kicker">Language</span>
+            <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
+            <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
+            <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
+          </section>
+          <div class="mm-cta mm-anim d4">
+            <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">立即訂房</a>
+          </div>
+        </div>
+      `;
+      nav.insertAdjacentElement('afterend', menu);
+    }
+
+    var lastFocused = null;
+    function openMenu() {
+      lastFocused = document.activeElement;
+      menu.hidden = false;
+      requestAnimationFrame(function(){
+        menu.classList.add('is-open');
+        toggle.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', '關閉選單');
+        document.body.classList.add('is-menu-open');
+      });
+    }
+    function closeMenu() {
+      menu.classList.remove('is-open');
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', '開啟選單');
+      document.body.classList.remove('is-menu-open');
+      setTimeout(function(){ if (!menu.classList.contains('is-open')) menu.hidden = true; }, 420);
+      if (lastFocused && lastFocused.focus) lastFocused.focus({ preventScroll: true });
+    }
+    toggle.addEventListener('click', function(){
+      if (menu.classList.contains('is-open')) closeMenu();
+      else openMenu();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+    });
+    menu.addEventListener('click', function(e){
+      var a = e.target.closest('a');
+      if (a && a.getAttribute('href') && a.getAttribute('href') !== '#') closeMenu();
+    });
+    var mq = window.matchMedia('(min-width: 769px)');
+    function handleMq() {
+      if (mq.matches && menu.classList.contains('is-open')) closeMenu();
+    }
+    if (mq.addEventListener) mq.addEventListener('change', handleMq);
+    else if (mq.addListener) mq.addListener(handleMq);
+  })();
+</script>
+</body>
+<style id="ha-mobile-nav-repair">
+  .nav .footer-logo { display: none !important; }
+  .nav .nav-logo {
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+  }
+  .nav .nav-logo img {
+    display: block !important;
+    height: 56px !important;
+    width: auto !important;
+  }
+  .ha-mobile-close-fix {
+    position: fixed !important;
+    top: 18px !important;
+    right: 18px !important;
+    z-index: 10020 !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(250,238,218,.42) !important;
+    background: rgba(75,65,59,.46) !important;
+    color: #FAEEDA !important;
+    display: none;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    backdrop-filter: blur(10px);
+  }
+  .ha-mobile-close-fix::before,
+  .ha-mobile-close-fix::after {
+    content: "";
+    position: absolute;
+    width: 19px;
+    height: 1.6px;
+    background: currentColor;
+  }
+  .ha-mobile-close-fix::before { transform: rotate(45deg); }
+  .ha-mobile-close-fix::after { transform: rotate(-45deg); }
+  body.is-menu-open .ha-mobile-close-fix,
+  body.ha-menu-open .ha-mobile-close-fix,
+  .mobile-menu.is-open .ha-mobile-close-fix { display: inline-flex !important; }
+  @media (max-width: 768px) {
+    .nav .nav-logo img { height: 48px !important; }
+  }
+</style>
+<script id="ha-mobile-nav-repair-js">
+  (function(){
+    var logo = 'mor0bric-home-around-LOGO.png';
+    var menu = document.getElementById('mobileMenu') || document.querySelector('.mobile-menu');
+    var toggle = document.getElementById('menuToggle') || document.querySelector('.menu-toggle');
+
+    document.querySelectorAll('.nav').forEach(function(nav){
+      var current = nav.querySelector('.nav-logo, .footer-logo');
+      if (!current) return;
+      var a = document.createElement('a');
+      a.href = 'home-around-website-mockup.html';
+      a.className = 'nav-logo';
+      a.setAttribute('aria-label', 'Home Around Taiwan Tours');
+      a.innerHTML = '<img src="' + logo + '" alt="Home Around Taiwan Tours">';
+      current.replaceWith(a);
+    });
+
+    function setOpen(open){
+      if (!menu) return;
+      menu.hidden = false;
+      menu.classList.toggle('is-open', open);
+      document.body.classList.toggle('is-menu-open', open);
+      document.body.classList.toggle('ha-menu-open', open);
+      if (toggle) {
+        toggle.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      }
+      if (!open) setTimeout(function(){ if (!menu.classList.contains('is-open')) menu.hidden = true; }, 360);
+    }
+
+    if (menu && !document.getElementById('haMobileCloseFix')) {
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.id = 'haMobileCloseFix';
+      close.className = 'ha-mobile-close-fix';
+      close.setAttribute('aria-label', '關閉選單');
+      close.addEventListener('click', function(){ setOpen(false); });
+      menu.appendChild(close);
+    }
+    if (toggle && !toggle.__haNavRepairBound) {
+      toggle.__haNavRepairBound = true;
+      toggle.addEventListener('click', function(e){
+        e.preventDefault();
+        setOpen(!(menu && menu.classList.contains('is-open')));
+      });
+    }
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') setOpen(false);
+    });
+  })();
+</script>
+</html>

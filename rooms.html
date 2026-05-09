@@ -1,0 +1,1544 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>?豢??踹? ??Home Around Taiwan Tours</title>
+<style>
+  /* ??? Tokens ??Home Around CI 蝬剜?銝????????????????????? */
+  :root {
+    --bg:        oklch(96.5% 0.012 80);
+    --surface:   oklch(100% 0 0);
+    --cream:     oklch(98% 0.05 95);
+    --fg:        oklch(20% 0.012 60);
+    --brown:     oklch(34% 0.018 60);
+    --muted:     oklch(48% 0.012 60);
+    --border:    oklch(82% 0.008 60);
+    --hairline:  oklch(82% 0.008 60 / 0.7);
+    --teal:      oklch(67% 0.09 185);
+    --yellow:    oklch(82% 0.16 88);
+    --green:     oklch(74% 0.13 130);
+    --danger:    oklch(58% 0.18 30);
+
+    --font-display: 'Noto Serif TC', 'Tiempos Headline', 'Newsreader', 'Iowan Old Style', Georgia, serif;
+    --font-body:    'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Inter', 'Microsoft JhengHei', system-ui, sans-serif;
+    --font-mono:    ui-monospace, 'JetBrains Mono', 'IBM Plex Mono', Menlo, monospace;
+
+    --maxw: 1280px;
+    --pad-x: clamp(20px, 4vw, 48px);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--fg); background: var(--bg);
+    font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .container { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad-x); }
+  .num { font-variant-numeric: tabular-nums; }
+  .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); }
+
+  /* ??? NAV (?????? ??????????????????????????????????? */
+  .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in oklch, var(--bg) 88%, transparent); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--hairline); }
+  .nav-inner { display: flex; align-items: center; height: 88px; gap: 28px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-right: 12px; }
+  .nav-logo img { height: 60px; width: auto; }
+  .nav-links { display: flex; align-items: center; gap: 18px; font-size: 13.5px; color: var(--brown); white-space: nowrap; flex: 1; min-width: 0; }
+  .nav-links a { position: relative; padding: 6px 0; transition: color .2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .nav-lang { display: inline-flex; align-items: center; gap: 0; font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); }
+  .nav-lang .sep { margin: 0 4px; opacity: 0.5; pointer-events: none; }
+  .lang-btn { background: transparent; border: 0; padding: 4px; font: inherit; color: var(--muted); cursor: pointer; line-height: 1; border-radius: 3px; transition: color .15s; }
+  .lang-btn:hover { color: var(--brown); }
+  .lang-btn.is-active { color: var(--brown); font-weight: 700; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 22px; border-radius: 10px; font-size: 14.5px; font-weight: 600; border: 1px solid transparent; transition: all .2s; }
+  .btn-primary { background: var(--yellow); color: var(--fg); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px -6px oklch(82% 0.16 88 / 0.6); }
+
+  /* ??? PAGE HEAD ?????????????????????????????????????????? */
+  .page-head {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 0 28px;
+  }
+  .breadcrumb {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+  }
+  .breadcrumb a:hover { color: var(--brown); }
+  .breadcrumb .sep { margin: 0 8px; opacity: 0.4; }
+  .page-head h1 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 40px);
+    color: var(--brown); margin: 0 0 6px; letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .page-head .sub {
+    color: var(--muted); font-size: 14.5px;
+    max-width: 56ch;
+  }
+
+  /* ??? FILTER BAR (? chip ?? ????????????????????????? */
+  .filter-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky; top: 88px; z-index: 30;
+  }
+  .filter-row {
+    display: flex; align-items: center; gap: 14px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 14px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13.5px; color: var(--brown);
+    transition: border-color .15s;
+  }
+  .chip b {
+    font-weight: 600; color: var(--brown);
+    font-variant-numeric: tabular-nums;
+  }
+  .chip .label {
+    font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-right: 2px;
+  }
+  .chip.editable:hover { border-color: var(--teal); cursor: pointer; }
+  .filter-row .spacer { flex: 1; }
+  .filter-edit-link {
+    color: var(--brown); font-size: 13.5px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 0;
+    border-bottom: 1.5px solid transparent;
+    transition: border-color .15s, color .15s;
+  }
+  .filter-edit-link:hover { color: var(--teal); border-color: var(--teal); }
+  .filter-edit-link::before { content: "??; transition: transform .2s; }
+  .filter-edit-link:hover::before { transform: translateX(-3px); }
+
+  /* ??? SUMMARY ??????????????????????????????????????????? */
+  .results-summary {
+    padding: 28px 0 14px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .results-summary .count {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: 22px; color: var(--brown);
+    letter-spacing: -0.005em;
+  }
+  .results-summary .count b { font-weight: 500; color: var(--teal); }
+  .results-summary .legend {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; color: var(--muted);
+  }
+
+  /* ??? ROOMS LIST ???????????????????????????????????????? */
+  .rooms-list { padding-bottom: 64px; display: grid; gap: 18px; }
+  .room-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 280px 1fr auto;
+    gap: 0;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .room-card:hover {
+    transform: translateY(-2px);
+    border-color: oklch(67% 0.09 185 / 0.5);
+    box-shadow: 0 14px 32px -22px oklch(20% 0.012 60 / 0.18);
+  }
+  .room-photo {
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+  }
+  .room-photo .ph-x { position: absolute; inset: 0; }
+  .room-photo .room-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--surface); color: var(--brown);
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 3px;
+    border: 1px solid var(--hairline);
+  }
+  .room-photo .room-tag.teal { background: var(--teal); color: white; border-color: transparent; }
+  .room-photo .room-tag.family { background: var(--green); color: oklch(20% 0.05 130); border-color: transparent; }
+
+  .hp-warm   { background: linear-gradient(135deg, oklch(38% 0.04 50) 0%, oklch(64% 0.08 70) 50%, oklch(86% 0.10 80) 100%); }
+  .hp-ocean  { background: linear-gradient(135deg, oklch(28% 0.04 220) 0%, oklch(54% 0.08 195) 60%, oklch(82% 0.06 195) 100%); }
+  .hp-island { background: linear-gradient(135deg, oklch(56% 0.10 195) 0%, oklch(82% 0.06 195) 50%, oklch(90% 0.04 90) 100%); }
+  .hp-forest { background: linear-gradient(135deg, oklch(34% 0.05 140) 0%, oklch(58% 0.09 130) 60%, oklch(82% 0.10 110) 100%); }
+  .hp-urban  { background: linear-gradient(135deg, oklch(18% 0.02 60) 0%, oklch(36% 0.05 55) 60%, oklch(56% 0.10 60) 100%); }
+  .hp-sunset { background: linear-gradient(135deg, oklch(38% 0.08 30) 0%, oklch(62% 0.16 50) 60%, oklch(84% 0.14 80) 100%); }
+
+  .room-body {
+    padding: 24px 26px 22px;
+    border-left: 1px solid var(--hairline);
+    display: flex; flex-direction: column; gap: 8px;
+    min-width: 0;
+  }
+  .room-hotel-row {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; gap: 8px; align-items: center;
+    flex-wrap: wrap;
+  }
+  .room-hotel-row a {
+    color: var(--brown); text-decoration: none;
+    transition: color .15s;
+    border-bottom: 1px dotted var(--hairline);
+  }
+  .room-hotel-row a:hover { color: var(--teal); border-bottom-color: var(--teal); }
+  .room-hotel-row .sep { opacity: 0.4; }
+  .room-name {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 22px; color: var(--brown);
+    margin: 0; line-height: 1.2;
+  }
+  .room-en {
+    color: var(--muted); font-style: italic; font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .room-features {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-top: 6px;
+    font-size: 13px; color: var(--muted);
+  }
+  .room-feature { display: inline-flex; align-items: center; gap: 6px; }
+  .room-feature svg { flex-shrink: 0; opacity: 0.7; }
+  .price-breakdown {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-mono); font-size: 11.5px;
+    letter-spacing: 0.04em; color: var(--muted);
+    line-height: 1.6;
+  }
+  .price-breakdown .row { display: flex; justify-content: space-between; gap: 16px; }
+  .price-breakdown .row.sub { color: oklch(60% 0.012 60); }
+  .price-breakdown .row.total { color: var(--brown); margin-top: 4px; padding-top: 4px; border-top: 1px dotted var(--hairline); font-weight: 600; }
+
+  .room-cta-col {
+    padding: 24px 26px;
+    border-left: 1px solid var(--hairline);
+    background: var(--cream);
+    display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between;
+    gap: 14px; min-width: 240px;
+  }
+  .price-block { text-align: right; }
+  .price-block .from {
+    font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .price-block .total {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 32px; color: var(--brown); line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .price-block .total sup {
+    font-size: 14px; vertical-align: top;
+    margin-right: 2px; color: var(--muted);
+  }
+  .price-block .for-stay {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.06em; color: var(--muted);
+    margin-top: 6px;
+  }
+  .room-select {
+    background: var(--yellow); color: var(--fg);
+    border: 0; padding: 12px 22px; border-radius: 100px;
+    font-size: 14px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: filter .15s, transform .2s;
+    width: 100%; justify-content: center;
+  }
+  .room-select::after { content: "??; transition: transform .2s; }
+  .room-select:hover { filter: brightness(1.06); }
+  .room-select:hover::after { transform: translateX(3px); }
+
+  .room-card.is-package .price-block .total {
+    font-size: 22px; color: var(--muted);
+  }
+  .room-card.is-package .room-select {
+    background: transparent; color: var(--brown);
+    border: 1px solid var(--border);
+  }
+  .room-card.is-package .room-select:hover { border-color: var(--brown); }
+
+  /* ??? 蝛箇??????????????????????????????????????????????? */
+  .empty {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    padding: 56px 32px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty h3 {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 22px; color: var(--brown);
+    margin: 0 0 10px;
+  }
+  .empty p { margin: 0 0 18px; max-width: 48ch; margin-inline: auto; line-height: 1.65; }
+  .empty .empty-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border: 1px solid var(--brown);
+    border-radius: 100px; font-size: 14px; font-weight: 600;
+    color: var(--brown); transition: all .2s;
+  }
+  .empty .empty-cta:hover { background: var(--brown); color: oklch(98% 0.05 95); }
+
+  /* ??? FOOTER ???????????????????????????????????????????? */
+  footer { background: oklch(28% 0.018 60); color: oklch(80% 0.012 60); padding: 60px 0 28px; margin-top: 64px; }
+  .foot-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-bottom: 28px; border-bottom: 1px solid oklch(40% 0.018 60); }
+  .foot-brand { display: flex; align-items: center; gap: 16px; }
+  .foot-brand img { height: 56px; width: auto; }
+  .foot-brand .tag { color: oklch(78% 0.012 60); font-size: 13px; max-width: 32ch; line-height: 1.5; }
+  .foot-bottom { padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: oklch(65% 0.012 60); }
+
+  /* ??? DEMO BAR ?????????????????????????????????????????? */
+  .demo-bar {
+    background: var(--brown); color: oklch(98% 0.05 95);
+    padding: 12px 0;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+  .demo-bar b { color: var(--yellow); font-weight: 600; letter-spacing: 0.1em; }
+
+  /* ??? RESPONSIVE ???????????????????????????????????????? */
+  @media (max-width: 1024px) {
+    .room-card { grid-template-columns: 220px 1fr; }
+    .room-cta-col {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center;
+      border-left: 0;
+      border-top: 1px solid var(--hairline);
+      min-width: 0;
+    }
+    .price-block { text-align: left; }
+    .room-select { width: auto; padding: 10px 22px; }
+    .nav-links { gap: 12px; font-size: 12.5px; }
+    .nav-lang { display: none; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .room-card { grid-template-columns: 1fr; }
+    .room-photo { aspect-ratio: 16/9; }
+    .room-body { border-left: 0; border-top: 1px solid var(--hairline); }
+    .room-cta-col { flex-direction: column; align-items: stretch; gap: 12px; }
+    .price-block { text-align: left; }
+    .room-select { width: 100%; }
+    .filter-row { gap: 8px; }
+    .chip { padding: 7px 12px; font-size: 12.5px; }
+  }
+
+  /* ?????????????????????????????????????????????????
+     SYNC: 擐? -24.html ??璈?nav + 768px mobile menu
+     ???粹???銝?日??Ｘ??nav 璅??
+     ????????????????????????????????????????????????? */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklch, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    height: 96px;
+    gap: 28px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+  .nav-logo img { height: 66px; width: auto; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 13.5px;
+    color: var(--brown);
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+  .nav-links a {
+    position: relative;
+    padding: 6px 0;
+    transition: color .2s ease-out;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1.5px;
+    background: var(--brown);
+  }
+  .nav-cta {
+    display: flex; align-items: center; gap: 14px;
+    flex-shrink: 0;
+  }
+  .nav-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .nav-lang .sep { margin: 0 4px; opacity: 0.5; pointer-events: none; }
+  .lang-btn {
+    background: transparent;
+    border: 0;
+    padding: 4px 4px;
+    font: inherit;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+    border-radius: 3px;
+    transition: color .15s ease-out;
+  }
+  .lang-btn:hover { color: var(--brown); }
+  .lang-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .lang-btn.is-active { color: var(--brown); font-weight: 700; }
+
+  @media (max-width: 1280px) {
+    .nav-links { gap: 14px; font-size: 13px; }
+  }
+  @media (max-width: 1024px) {
+    .nav-lang { display: none; }
+    .nav-links { gap: 12px; font-size: 12.5px; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
+
+  body.is-menu-open { overflow: hidden; }
+  .menu-toggle {
+    display: none; width: 44px; height: 44px;
+    background: transparent; border: 0; padding: 0;
+    cursor: pointer; position: relative; z-index: 110; flex-shrink: 0;
+  }
+  .menu-toggle:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
+  .menu-toggle .bar {
+    position: absolute; left: 10px; width: 24px; height: 1.5px;
+    background: var(--brown);
+    transition: transform .4s cubic-bezier(.6,.05,.2,1.4), opacity .25s ease, top .25s ease, background .25s ease;
+  }
+  .menu-toggle .bar.t { top: 16px; }
+  .menu-toggle .bar.m { top: 22px; }
+  .menu-toggle .bar.b { top: 28px; }
+  .menu-toggle.is-open .bar { background: oklch(96% 0.012 80); }
+  .menu-toggle.is-open .bar.t { top: 22px; transform: rotate(45deg); }
+  .menu-toggle.is-open .bar.m { opacity: 0; }
+  .menu-toggle.is-open .bar.b { top: 22px; transform: rotate(-45deg); }
+
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 100;
+    background: oklch(28% 0.022 60/ 85%);
+    color: oklch(96% 0.012 80);
+    display: none;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    transform: translateY(-12px); opacity: 0; visibility: hidden;
+    transition: opacity .32s ease, transform .32s ease, visibility 0s linear .32s;
+  }
+  .mobile-menu.is-open {
+    opacity: 1; visibility: visible; transform: translateY(0);
+    transition: opacity .35s ease, transform .35s ease, visibility 0s linear 0s;
+  }
+  .mobile-menu-inner {
+    min-height: 100%;
+    padding: 24px clamp(20px, 5vw, 36px) 56px;
+    display: flex; flex-direction: column; gap: 32px;
+  }
+  .mobile-menu-head {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; padding-bottom: 16px;
+    border-bottom: 1px solid oklch(96% 0.012 80 / 0.14);
+  }
+  .mobile-menu-head img {
+    height: 56px; width: auto;
+    filter: invert(1) sepia(0.05) saturate(0.6) brightness(1);
+  }
+  .mm-kicker {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: oklch(96% 0.012 80 / 0.55);
+  }
+  .mm-section { display: grid; gap: 14px; }
+  .mm-section-h {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: oklch(96% 0.012 80 / 0.55);
+    margin: 0 0 4px; font-weight: 600;
+  }
+  .mm-nav-main {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: 8px;
+  }
+  .mm-nav-main a {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 6vw, 38px); font-weight: 500;
+    letter-spacing: -0.005em; color: oklch(96% 0.012 80);
+    line-height: 1.18; transition: color .15s ease-out;
+    display: block; padding: 4px 0;
+  }
+  .mm-nav-main a:hover, .mm-nav-main a:focus-visible { color: var(--yellow); outline: none; }
+  .mm-nav-sub {
+    list-style: none; padding: 14px 0 0; margin: 10px 0 0;
+    display: grid; gap: 10px;
+    border-top: 1px solid oklch(96% 0.012 80 / 0.12);
+  }
+  .mm-nav-sub a {
+    font-family: var(--font-body); font-size: 14.5px;
+    color: oklch(96% 0.012 80 / 0.78);
+    transition: color .15s ease-out;
+  }
+  .mm-nav-sub a:hover, .mm-nav-sub a:focus-visible { color: oklch(96% 0.012 80); outline: none; }
+  .mm-contact { margin: 0; display: grid; gap: 12px; }
+  .mm-contact .mm-row {
+    display: grid; grid-template-columns: 70px 1fr; gap: 16px;
+    font-size: 14.5px; line-height: 1.55;
+  }
+  .mm-contact dt {
+    font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: oklch(96% 0.012 80 / 0.55);
+    padding-top: 2px; margin: 0;
+  }
+  .mm-contact dd { margin: 0; color: oklch(96% 0.012 80 / 0.92); }
+  .mm-contact dd a { transition: color .15s ease-out; }
+  .mm-contact dd a:hover, .mm-contact dd a:focus-visible { color: var(--yellow); outline: none; }
+  .mm-lang-row { display: flex; gap: 12px; align-items: center; }
+  .mm-lang-label {
+    font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: oklch(96% 0.012 80 / 0.55);
+  }
+  .mm-lang-row .lang-btn {
+    color: oklch(96% 0.012 80 / 0.65);
+    padding: 6px 8px;
+  }
+  .mm-lang-row .lang-btn:hover, .mm-lang-row .lang-btn:focus-visible { color: oklch(96% 0.012 80); outline: none; }
+  .mm-lang-row .lang-btn.is-active { color: var(--yellow); font-weight: 700; }
+  .mm-cta { margin-top: auto; padding-top: 16px; }
+  .mm-cta .btn {
+    width: 100%; height: 56px;
+    justify-content: center; font-size: 15px; border-radius: 12px;
+  }
+
+  .mobile-menu .mm-anim {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.25,1.05);
+  }
+  .mobile-menu.is-open .mm-anim { opacity: 1; transform: translateY(0); }
+  .mobile-menu.is-open .mm-anim.d1 { transition-delay: .12s; }
+  .mobile-menu.is-open .mm-anim.d2 { transition-delay: .18s; }
+  .mobile-menu.is-open .mm-anim.d3 { transition-delay: .26s; }
+  .mobile-menu.is-open .mm-anim.d4 { transition-delay: .34s; }
+  .mobile-menu.is-open .mm-anim.d5 { transition-delay: .42s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu, .mobile-menu .mm-anim, .menu-toggle .bar {
+      transition: opacity .2s ease !important;
+      transform: none !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nav-inner { height: 72px; gap: 16px; }
+    .nav-logo img { height: 48px; }
+    .nav-links,
+    .nav-cta .nav-lang,
+    .nav-cta .btn-primary { display: none; }
+    .menu-toggle { display: inline-block; }
+    .mobile-menu { display: block; }
+  }
+
+  .mm-exit {
+    appearance: none;
+    background: transparent;
+    border: 1px solid oklch(96% 0.012 80 / 0.22);
+    color: oklch(96% 0.012 80 / 0.78);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    border-radius: 999px;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .mm-exit:hover {
+    color: oklch(96% 0.012 80);
+    border-color: oklch(96% 0.012 80 / 0.5);
+    background: oklch(96% 0.012 80 / 0.08);
+  }
+  .mm-exit:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+  }
+  #mobileMenuExit {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid oklch(96% 0.012 80 / 0.34);
+    background: oklch(96% 0.012 80 / 0.05);
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+    padding: 0;
+    position: relative;
+    flex-shrink: 0;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  #mobileMenuExit::before,
+  #mobileMenuExit::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 1.5px;
+    background: oklch(96% 0.012 80);
+    transform-origin: center;
+  }
+  #mobileMenuExit::before { transform: translate(-50%, -50%) rotate(45deg); }
+  #mobileMenuExit::after { transform: translate(-50%, -50%) rotate(-45deg); }
+  #mobileMenuExit:hover {
+    background: oklch(96% 0.012 80 / 0.12);
+    border-color: oklch(96% 0.012 80 / 0.62);
+    transform: rotate(90deg);
+  }
+  #mobileMenuExit:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 4px;
+  }
+  .mobile-menu {
+    background: oklch(28% 0.022 60 / 75%) !important;
+  }
+  .mobile-menu-head .nav-logo {
+    display: none !important;
+  }
+  .mm-nav-main li:nth-child(n+2),
+  .mm-section.nav-list > a:nth-of-type(n+2) {
+    display: none !important;
+  }
+  .mobile-menu .mm-cta {
+    display: none !important;
+  }
+  @media (max-width: 768px) {
+    .nav-inner {
+      justify-content: space-between;
+    }
+    .nav-cta {
+      margin-left: auto;
+    }
+    .menu-toggle {
+      position: fixed;
+      top: calc(14px + env(safe-area-inset-top, 0px));
+      right: calc(18px + env(safe-area-inset-right, 0px));
+      z-index: 160;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  /* Text logo ??nav ?批?隞????logo嚗cope ?? .nav嚗?敶梢?嗡? .footer-logo ?冽?嚗?*/
+  .nav .footer-logo {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 12px;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--brown);
+  }
+  .nav .footer-logo-text {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brown);
+  }
+  .nav .footer-logo-tagline {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  @media (max-width: 1024px) {
+    .nav .footer-logo-text { font-size: 19px; letter-spacing: 0.16em; }
+    .nav .footer-logo-tagline { font-size: 10px; letter-spacing: 0.28em; }
+  }
+  @media (max-width: 768px) {
+    .nav .footer-logo-text { font-size: 18px; letter-spacing: 0.14em; }
+    .nav .footer-logo-tagline { font-size: 9.5px; letter-spacing: 0.24em; }
+  }
+
+  /* NAV REFINE ??摨蝐唾蝝圈?蝺?#FAEEDA 銝?潦??桐??對?
+     nav ?湧?擃漲敺銝? 8px?H繚EN繚JP ???唾??踴?蝝?甇交憭扼蔭銝?*/
+  .nav { border-bottom: 1.5px solid #FAEEDA; }
+  .nav-inner { height: 104px; }
+  .nav-links { justify-content: center; gap: 26px; font-size: 16px; }
+  .nav-lang { font-size: 14px; }
+  .lang-btn { padding: 6px 10px; font-size: 14px; }
+  .nav .btn-primary { height: 48px; font-size: 15px; padding: 0 26px; border-radius: 12px; }
+  @media (max-width: 1280px) { .nav-links { font-size: 15px; gap: 20px; } }
+  @media (max-width: 1024px) {
+    .nav-links { font-size: 14px; gap: 16px; }
+    .nav-inner { height: 96px; }
+    .nav-lang { font-size: 13px; }
+    .lang-btn { padding: 5px 8px; font-size: 13px; }
+    .nav .btn-primary { height: 44px; font-size: 14px; padding: 0 22px; }
+  }
+  /* ??? /SYNC ??? */
+</style>
+</head>
+<body>
+
+  <div class="demo-bar">
+    <b data-i18n="rooms.demo.label">DEMO</b>
+    <span data-i18n="rooms.demo.body">?祇??箇內?阮嚗?????誑瞍詨惜?脣?隞?嚗???迨?踹??脣閮銵典??/span>
+  </div>
+
+  <!-- NAV ??????-24.html ?狡嚗?璈?nav + ??68px hamburger + drawer -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="home-around-website-mockup.html" class="footer-logo">
+        <span class="footer-logo-text">HOME AROUND</span>
+        <span class="footer-logo-tagline">Taiwan Tours</span>
+      </a>
+      <div class="nav-links">
+        <a href="home-around-website-mockup.html" data-i18n="nav.home">擐?</a>
+        <a href="#" data-i18n="nav.about">???/a>
+        <a href="#" data-i18n="nav.guide">?舫??餌</a>
+        <a href="#" data-i18n="nav.lookup">摰嗅予銝???縑閮巨?豢閰?/a>
+        <a href="#" data-i18n="nav.contact">?舐窗??/a>
+        <a href="#" data-i18n="nav.insurance">蝬脰楝???像??/a>
+      </div>
+      <div class="nav-cta">
+        <div class="nav-lang" role="group" data-i18n-aria="nav.lang.aria">
+          <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
+          <span class="sep">繚</span>
+          <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
+          <span class="sep">繚</span>
+          <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
+        </div>
+        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">蝡閮</a>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="???詨" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="bar t" aria-hidden="true"></span>
+          <span class="bar m" aria-hidden="true"></span>
+          <span class="bar b" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="銵???? hidden>
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-head mm-anim d1">
+        <a href="home-around-website-mockup.html" class="nav-logo" aria-label="Home Around ?????? tabindex="0">
+          <!-- <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" /> -->
+        </a>
+        <button type="button" class="mm-exit" id="mobileMenuExit" aria-label="???詨">?ａ?</button>
+      </div>
+
+      <section class="mm-section mm-anim d2">
+        <h4 class="mm-section-h">Navigation</h4>
+        <ul class="mm-nav-main">
+          <li><a href="rooms.html">Rooms</a></li>
+          <!-- <li><a href="#experiences">Experiences</a></li>
+          <li><a href="#food-drinks">Food &amp; Drinks</a></li>
+          <li><a href="#yacht">Yacht</a></li> -->
+        </ul>
+        <ul class="mm-nav-sub">
+          <li><a href="#" data-i18n="nav.about">???/a></li>
+          <li><a href="#" data-i18n="nav.guide">?舫??餌</a></li>
+          <li><a href="#">?餃?蟡典</a></li>
+          <li><a href="#">??唳???/a></li>
+          <li><a href="#">?渡???</a></li>
+          <li><a href="#">??憭乩撈</a></li>
+          <li><a href="#" data-i18n="nav.lookup">摰嗅予銝???縑閮巨?豢閰?/a></li>
+          <li><a href="#" data-i18n="nav.contact">?舐窗??/a></li>
+          <li><a href="#" data-i18n="nav.insurance">蝬脰楝???像??/a></li>
+        </ul>
+      </section>
+
+      <section class="mm-section mm-anim d3">
+        <h4 class="mm-section-h">Contact &amp; Hours</h4>
+        <dl class="mm-contact">
+          <div class="mm-row"><dt>?啣?</dt><dd>擃?撣厭??瘝唾正頝?37??/dd></div>
+          <div class="mm-row"><dt>撣店</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd></div>
+          <div class="mm-row"><dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd></div>
+          <div class="mm-row"><dt>Hours</dt><dd>Open 24 hours</dd></div>
+        </dl>
+      </section>
+
+      <section class="mm-section mm-lang-row mm-anim d4">
+        <span class="mm-lang-label">Language</span>
+        <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
+        <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
+        <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
+      </section>
+
+      <div class="mm-cta mm-anim d5">
+        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">蝡閮</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- PAGE HEAD -->
+  <section class="page-head">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="home-around-website-mockup.html" data-i18n="nav.home">擐?</a>
+        <span class="sep">/</span>
+        <span data-i18n="rooms.crumb">?豢??踹?</span>
+      </div>
+      <h1 data-i18n="rooms.heading">蝚血?璇辣???/h1>
+      <p class="sub" id="pageSub" data-i18n="rooms.sub">靘雿??犖?貉??桃??堆??蝚血?璇辣????單?閰衣???摰踹?寞??/p>
+    </div>
+  </section>
+
+  <!-- FILTER BAR ??憿舐內雿輻??撠?隞塚??臭??萄?擐?靽格 -->
+  <section class="filter-bar">
+    <div class="container filter-row" id="filterRow">
+      <!-- ??JS ??憛怠 chips -->
+      <div class="spacer"></div>
+      <a href="home-around-website-mockup.html#searchForm" class="filter-edit-link" data-i18n="rooms.modifySearch">靽格??</a>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <main class="container">
+    <div class="results-summary">
+      <div class="count" id="resultsCount" aria-live="polite">
+        <!-- "?箸?曉 <b>5</b> 蝔桃泵??隞嗥??踹?" -->
+      </div>
+      <div class="legend" data-i18n="rooms.legend">瘥撐?詨?砍 NT$2,800嚗? 繚 ?靘?像??西?</div>
+    </div>
+    <div id="roomsList" class="rooms-list"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
+          <span class="tag" data-i18n="foot.tag">?Ｖ?暺?撠勗摰嗡???/span>
+        </div>
+        <div class="foot-bottom" style="border: 0; padding: 0;">
+          <span data-i18n="foot.copy">穢 2026 HOME AROUND TAIWAN TOURS 繚 蝯曹?蝺刻? 12345678</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="hotels-data.js"></script>
+  <script>
+  /* ???????????????????????????????????????????????????????
+     rooms.html 銵
+     ???????????????????????????????????????????????????????
+     ?交 URL ?嚗otel / checkin / checkout / adults / kids
+     1. 閫???嚗? filterChips
+     2. ?冽瘥?捆???犖=2??鈭?3??鈭?4?鈭?6嚗?閮?2嚗?     3. ??hotel/摰寥?蝭拚 ??閮?瘥??蜇?對??箸??2800 + ?嚗?     4. 撟喳??亙??貉?蝞??曹??勗?乩??????
+     5. 皜脫? room-card ?”嚗TA ?函?撘? anchor click 頝喳 booking.html
+     6. localechange 鈭辣 ???皜脫?嚗18n ???踹?嚗ㄞ摨?嚗?  ??????????????????????????????????????????????????????? */
+  (function(){
+    'use strict';
+
+    if (window.I18N) window.I18N.applyToDom();
+
+    var I = window.I18N;
+    var HOTELS = window.HOTELS || [];
+    var BY_ID = window.HOTELS_BY_ID || {};
+    var BASE_VOUCHER = 2800;
+
+    // ?? 1. 霈 URL ? ????????????????????????????????????
+    function getParam(name) {
+      var m = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+      return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
+    }
+    function isYmd(s) { return /^\d{4}-\d{2}-\d{2}$/.test(s); }
+
+    var rawHotelId = getParam('hotel');
+    var rawCheckin = getParam('checkin');
+    var rawCheckout = getParam('checkout');
+    var rawAdults = parseInt(getParam('adults'), 10);
+    var rawKids = parseInt(getParam('kids'), 10);
+
+    // ?身?潸?朣?蝣箔??喃蝙鋆賊脣銋撅內
+    var today = new Date(); today.setHours(0,0,0,0);
+    function fmtDate(d){
+      var y = d.getFullYear();
+      var m = String(d.getMonth()+1).padStart(2,'0');
+      var dd = String(d.getDate()).padStart(2,'0');
+      return y + '-' + m + '-' + dd;
+    }
+    var defCi = new Date(today); defCi.setDate(today.getDate() + 1);
+    var defCo = new Date(defCi); defCo.setDate(defCi.getDate() + 2);
+
+    var hotelId = (rawHotelId && BY_ID[rawHotelId]) ? rawHotelId : '';
+    var checkin = isYmd(rawCheckin) ? rawCheckin : fmtDate(defCi);
+    var checkout = isYmd(rawCheckout) ? rawCheckout : fmtDate(defCo);
+    if (checkout <= checkin) {
+      var d = new Date(checkin); d.setDate(d.getDate() + 1);
+      checkout = fmtDate(d);
+    }
+    var adults = (rawAdults >= 1 && rawAdults <= 8) ? rawAdults : 2;
+    var kids = (rawKids >= 0 && rawKids <= 6) ? rawKids : 0;
+    var totalGuests = adults + kids;
+
+    // ?? 2. 撟喳??亙??賂??曹??勗?乩??箏??伐??望?勗??箏像?伐???
+    function nightsBreakdown(ciStr, coStr) {
+      var ci = new Date(ciStr + 'T00:00:00');
+      var co = new Date(coStr + 'T00:00:00');
+      var nights = Math.round((co - ci) / (1000*60*60*24));
+      var weekday = 0, weekend = 0;
+      for (var i = 0; i < nights; i++) {
+        var d = new Date(ci); d.setDate(ci.getDate() + i);
+        var dow = d.getDay(); // 0=Sun ... 5=Fri 6=Sat
+        if (dow === 5 || dow === 6) weekend++; else weekday++;
+      }
+      return { total: nights, weekday: weekday, weekend: weekend };
+    }
+    var nights = nightsBreakdown(checkin, checkout);
+
+    // ?? 3. 摰寥??冽 (銝剜? / ?望??踹??賣?? ???????????????
+    function roomCapacity(roomName, en) {
+      var s = (roomName || '') + ' ' + (en || '');
+      if (/?凋犖|6\s*鈭漏six|6-bed/i.test(s)) return 6;
+      if (/?犖|4\s*鈭漏family|quad|four/i.test(s)) return 4;
+      if (/銝犖|3\s*鈭漏triple|three/i.test(s)) return 3;
+      if (/?犖|2\s*鈭漏double|twin|??|憟|cabin/i.test(s)) return 2;
+      return 2;
+    }
+
+    // ?? 4. ?寞閮?嚗銝?踹?嚗???????????????????????????
+    // ?嚗 total, perNight, isPackage, surchargeWeekday, surchargeWeekend, weekday, weekend, basePerNight }
+    function calcRoomPrice(room, breakdown) {
+      var sw = room.weekday;
+      var se = room.weekend;
+      var isPackageWeekend = typeof se === 'string'; // ??靘?璉?憿?      // 撟單??芣?摮?      var swNum = (typeof sw === 'number') ? sw : 0;
+      // ??嚗?璉?銝???銝閮??詨? ???湔?詨?
+      var seNum = (typeof se === 'number') ? se : 0;
+
+      var weekdayCost = (BASE_VOUCHER + swNum) * breakdown.weekday;
+      var weekendCost = (BASE_VOUCHER + seNum) * breakdown.weekend;
+      var total = weekdayCost + weekendCost;
+
+      return {
+        total: total,
+        weekdayCost: weekdayCost,
+        weekendCost: weekendCost,
+        surchargeWeekday: swNum,
+        surchargeWeekend: seNum,
+        isPackage: isPackageWeekend && breakdown.weekend > 0,
+        packageNote: isPackageWeekend ? se : null
+      };
+    }
+
+    // ?? 5. 蝭拚銝衣?皜 ?????????????????????????????
+    function getCandidates() {
+      // 靘?嚗?摰?hotel 撠勗?摰塚??血????hotel
+      var sourceHotels = hotelId ? [BY_ID[hotelId]].filter(Boolean) : HOTELS.slice();
+
+      var out = [];
+      sourceHotels.forEach(function(h){
+        (h.rooms || []).forEach(function(r){
+          var cap = roomCapacity(r.name, r.en);
+          if (cap < totalGuests) return; // 摰寥?銝雲
+          var price = calcRoomPrice(r, nights);
+          out.push({
+            hotel: h, room: r, capacity: cap, price: price
+          });
+        });
+      });
+
+      // ??嚗???hotel ?臬鋡急?摰???撠梁雁??摨?嚗????蝮賢?? + 摰寥?
+      out.sort(function(a, b){
+        if (a.price.isPackage !== b.price.isPackage) return a.price.isPackage ? 1 : -1;
+        if (a.price.total !== b.price.total) return a.price.total - b.price.total;
+        return a.capacity - b.capacity;
+      });
+
+      return out;
+    }
+
+    // ?? 6. 撌亙嚗TML escape & ?詨??澆? ???????????????????
+    function escapeHtml(s){
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function nf(n) {
+      // NT$ ??雿?      return (n || 0).toLocaleString('en-US');
+    }
+    function dateLabel(s) {
+      // YYYY-MM-DD ??"5/6 (Tue)"
+      if (!isYmd(s)) return s;
+      var d = new Date(s + 'T00:00:00');
+      var DOW_ZH = ['??,'銝','鈭?,'銝?,'??,'鈭?,'??];
+      var DOW_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      var DOW_JA = ['??,'??,'??,'瘞?,'??,'??,'??];
+      var lang = (I && I.current) || 'zh';
+      var labelDow = lang === 'en' ? DOW_EN[d.getDay()]
+                  : lang === 'ja' ? DOW_JA[d.getDay()]
+                  : DOW_ZH[d.getDay()];
+      return (d.getMonth()+1) + '/' + d.getDate() + ' (' + labelDow + ')';
+    }
+
+    function tt(key, fb) {
+      // ??i18n key嚗??停 fallback
+      if (!I) return fb;
+      var v = I.t(key);
+      return v === key ? fb : v;
+    }
+
+    // ?? 7. 皜脫? ??????????????????????????????????????????
+    function renderFilterRow() {
+      var row = document.getElementById('filterRow');
+      if (!row) return;
+      var spacer = row.querySelector('.spacer');
+      var editLink = row.querySelector('.filter-edit-link');
+      // 皜???chip嚗靽? spacer + edit link嚗?      var children = Array.from(row.children);
+      children.forEach(function(c){
+        if (c !== spacer && c !== editLink) row.removeChild(c);
+      });
+
+      var hotelLabel = hotelId
+        ? (I && I.hotelName ? I.hotelName(BY_ID[hotelId]) : BY_ID[hotelId].name)
+        : tt('rooms.chip.hotel.any', '?券 32 ??摰?);
+      var nightsLabel = nights.total + ' ' + tt('rooms.nights', '??);
+      var guestsLabel = adults + ' ' + tt('search.adults', '憭找犖')
+        + (kids > 0 ? ' 繚 ' + kids + ' ' + tt('search.kids', '?咱') : '');
+
+      var html =
+        '<span class="chip">' +
+          '<span class="label">' + escapeHtml(tt('rooms.chip.where', '?桃???)) + '</span>' +
+          '<b>' + escapeHtml(hotelLabel) + '</b>' +
+        '</span>' +
+        '<span class="chip">' +
+          '<span class="label">' + escapeHtml(tt('rooms.chip.dates', '?乩???')) + '</span>' +
+          '<b>' + escapeHtml(dateLabel(checkin)) + ' ??' + escapeHtml(dateLabel(checkout)) + '</b>' +
+          '<span class="num" style="color: var(--muted); font-size: 12px;">繚 ' + escapeHtml(nightsLabel) + '</span>' +
+        '</span>' +
+        '<span class="chip">' +
+          '<span class="label">' + escapeHtml(tt('rooms.chip.guests', '?乩?鈭箸')) + '</span>' +
+          '<b class="num">' + escapeHtml(guestsLabel) + '</b>' +
+        '</span>';
+
+      // ??chips ? spacer 銋?
+      var temp = document.createElement('div');
+      temp.innerHTML = html;
+      while (temp.firstChild) row.insertBefore(temp.firstChild, spacer);
+    }
+
+    function renderResults() {
+      var listEl = document.getElementById('roomsList');
+      var countEl = document.getElementById('resultsCount');
+      if (!listEl || !countEl) return;
+
+      var items = getCandidates();
+
+      // count line
+      var nResult = items.filter(function(it){ return !it.price.isPackage; }).length;
+      var template = tt('rooms.count', '?箸?曉 {n} 蝔桃泵??隞嗥??踹?');
+      countEl.innerHTML = template.replace('{n}', '<b>' + nResult + '</b>');
+
+      if (items.length === 0) {
+        listEl.innerHTML =
+          '<div class="empty">' +
+            '<h3>' + escapeHtml(tt('rooms.empty.title', '瘝?摰蝚血????)) + '</h3>' +
+            '<p>' + escapeHtml(tt('rooms.empty.body',
+              '?函?鈭箸?航頞?甇日尹?踹?銝??岫閰行?撠犖?賂???擐??隞?摰踴?)) + '</p>' +
+            '<a href="home-around-website-mockup.html#searchForm" class="empty-cta">' +
+              escapeHtml(tt('rooms.modifySearch', '靽格??')) + ' ?? +
+            '</a>' +
+          '</div>';
+        return;
+      }
+
+      // build cards
+      var html = items.map(function(it){
+        var h = it.hotel, r = it.room, p = it.price;
+        var hotelName = (I && I.hotelName) ? I.hotelName(h) : h.name;
+        var roomDispName = (I && I.roomName) ? I.roomName(r) : r.name;
+        var regionLabel = (I && I.regionName) ? I.regionName(h.region) : h.region;
+        var theme = h.theme || 'warm';
+
+        /* ?迨?踹 hotel.rooms ??index嚗??箸?摮????宏??
+           霈?銝?ㄞ摨???＊蝷箔?????踹???閫??*/
+        var rIdx = (h.rooms || []).indexOf(r);
+        var photosForHotel = window.getHotelPhotos ? window.getHotelPhotos(h, 5) : [];
+        var roomPhoto = photosForHotel[(rIdx >= 0 ? rIdx : 0) % (photosForHotel.length || 1)] || h.photo;
+        var photoStyle = roomPhoto
+          ? ' style="background-image:url(\'' + roomPhoto + '\'); background-size:cover; background-position:center;"'
+          : '';
+
+        // 璅惜?莎?撖萇?? / 閬芸? / 瘚瑟 / 皞急?
+        var badge = null;
+        if ((h.tags || []).some(function(t){ return /撖萇??|閬芸?|摰嗅滬/.test(t); })) {
+          badge = { cls: 'family', text: tt('all.badge.family', '閬芸?嚗秘??) };
+        } else if ((h.tags || []).some(function(t){ return /皞急?/.test(t); })) {
+          badge = { cls: 'teal', text: tt('all.badge.spring', '皞急?') };
+        } else if ((h.tags || []).some(function(t){ return /瘚瑟|瘚瑕硫|?Ｗ雀/.test(t); })) {
+          badge = { cls: 'teal', text: tt('all.badge.coast', '瘚瑟') };
+        }
+
+        // 摰寥? icon (鈭箏耦 svg)
+        var personSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+        var bedSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M2 16h20"/><path d="M6 10V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/></svg>';
+        var calSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+
+        // price breakdown text (mono)
+        var bdParts = [];
+        if (nights.weekday > 0) {
+          var wkLine = tt('rooms.bd.weekday', '撟單 +{add} ? {n} ??)
+            .replace('{add}', nf(p.surchargeWeekday))
+            .replace('{n}', nights.weekday);
+          bdParts.push(
+            '<div class="row sub">' +
+              '<span>' + escapeHtml(wkLine) + '</span>' +
+              '<span>NT$' + nf(p.weekdayCost) + '</span>' +
+            '</div>'
+          );
+        }
+        if (nights.weekend > 0) {
+          if (p.isPackage) {
+            var pkgLine = tt('rooms.bd.package', '? {note} (甇斗????航?)')
+              .replace('{note}', p.packageNote || '');
+            bdParts.push(
+              '<div class="row sub" style="color: var(--danger);">' +
+                '<span>' + escapeHtml(pkgLine) + '</span>' +
+              '</div>'
+            );
+          } else {
+            var weLine = tt('rooms.bd.weekend', '? +{add} ? {n} ??)
+              .replace('{add}', nf(p.surchargeWeekend))
+              .replace('{n}', nights.weekend);
+            bdParts.push(
+              '<div class="row sub">' +
+                '<span>' + escapeHtml(weLine) + '</span>' +
+                '<span>NT$' + nf(p.weekendCost) + '</span>' +
+              '</div>'
+            );
+          }
+        }
+        var voucherCount = nights.total;
+        bdParts.push(
+          '<div class="row total">' +
+            '<span>' + escapeHtml(tt('rooms.bd.voucherCount', '雿輻??)) + '</span>' +
+            '<span class="num">' + voucherCount + ' ' + escapeHtml(tt('rooms.bd.vouchers', '撘?)) + '</span>' +
+          '</div>'
+        );
+
+        var cardClass = p.isPackage ? 'room-card is-package' : 'room-card';
+        var totalDisplay = p.isPackage
+          ? '<span style="font-size: 16px;">' + escapeHtml(tt('rooms.priceUnavailable', '甇斗????航?')) + '</span>'
+          : '<sup>NT$</sup>' + nf(p.total);
+        var ctaText = p.isPackage
+          ? tt('rooms.cta.unavailable', '隢???舐窗摰Ｘ?')
+          : tt('rooms.cta.select', '?豢?甇斗??);
+
+        // 暺?select ?蝔???anchor click 頝喳 booking.html
+        var bookParams = new URLSearchParams();
+        bookParams.set('hotel', h.id);
+        bookParams.set('room', r.name);
+        bookParams.set('checkin', checkin);
+        bookParams.set('checkout', checkout);
+        bookParams.set('adults', String(adults));
+        if (kids > 0) bookParams.set('kids', String(kids));
+        var bookUrl = 'booking.html?' + bookParams.toString();
+
+        return '' +
+          '<article class="' + cardClass + '" data-hotel="' + escapeHtml(h.id) + '" data-room="' + escapeHtml(r.name) + '">' +
+            '<div class="room-photo">' +
+              '<div class="ph-x hp-' + escapeHtml(theme) + '"' + photoStyle + '></div>' +
+              (badge ? '<span class="room-tag ' + badge.cls + '">' + escapeHtml(badge.text) + '</span>' : '') +
+            '</div>' +
+            '<div class="room-body">' +
+              '<div class="room-hotel-row">' +
+                '<a href="hotel-detail.html?id=' + escapeHtml(h.id) + '">' + escapeHtml(hotelName) + '</a>' +
+                '<span class="sep">繚</span>' +
+                '<span>' + escapeHtml(regionLabel) + '</span>' +
+              '</div>' +
+              '<h3 class="room-name">' + escapeHtml(roomDispName) + '</h3>' +
+              (r.en && I && I.current === 'zh'
+                ? '<div class="room-en">' + escapeHtml(r.en) + '</div>'
+                : '') +
+              '<div class="room-features">' +
+                '<span class="room-feature">' + personSvg +
+                  ' <span>' + escapeHtml(tt('rooms.feature.capacity', '?臬捆蝝?)) +
+                  ' <b class="num">' + it.capacity + '</b> ' + escapeHtml(tt('rooms.feature.people', '鈭?)) +
+                  '</span>' +
+                '</span>' +
+                '<span class="room-feature">' + bedSvg +
+                  ' <span>' + escapeHtml(tt('rooms.feature.series', '蝎曄溶蝟餃?雿挪??)) + '</span>' +
+                '</span>' +
+                '<span class="room-feature">' + calSvg +
+                  ' <span class="num">' + nights.total + ' ' + escapeHtml(tt('rooms.feature.nights', '??)) + '</span>' +
+                '</span>' +
+              '</div>' +
+              '<div class="price-breakdown">' + bdParts.join('') + '</div>' +
+            '</div>' +
+            '<div class="room-cta-col">' +
+              '<div class="price-block">' +
+                '<div class="from">' + escapeHtml(tt('rooms.from', '雿挪?貊蜇閮?/ total')) + '</div>' +
+                '<div class="total">' + totalDisplay + '</div>' +
+                '<div class="for-stay">' + escapeHtml(tt('rooms.forStay', '撌脣 {n} ????).replace('{n}', nights.total)) + '</div>' +
+              '</div>' +
+              '<button type="button" class="room-select" data-href="' + escapeHtml(bookUrl) + '"' +
+                (p.isPackage ? ' disabled' : '') + '>' +
+                escapeHtml(ctaText) +
+              '</button>' +
+            '</div>' +
+          '</article>';
+      }).join('');
+
+      listEl.innerHTML = html;
+
+      // ?箔??函?撘? anchor click ?? native form submit / location.href嚗?      //   擐? search 銵典撌脤?霅?OD preview iframe sandbox 銝?頝臬??舀迤撣詨??芥?      listEl.querySelectorAll('button.room-select').forEach(function(btn){
+        if (btn.disabled) return;
+        btn.addEventListener('click', function(){
+          var url = btn.getAttribute('data-href');
+          if (!url) return;
+          var a = document.createElement('a');
+          a.href = url;
+          a.rel = 'noopener';
+          a.style.position = 'absolute';
+          a.style.left = '-9999px';
+          document.body.appendChild(a);
+          a.click();
+          try { document.body.removeChild(a); } catch (_) {}
+        });
+      });
+    }
+
+    function renderAll() {
+      renderFilterRow();
+      renderResults();
+    }
+
+    renderAll();
+    document.addEventListener('localechange', renderAll);
+  })();
+  </script>
+  <script src="chat-booking-widget.js"></script>
+
+  <!-- SYNC: ????-24.html ?狡 mobile menu controller -->
+  <script>
+    (function(){
+      var toggle = document.getElementById('menuToggle');
+      var menu   = document.getElementById('mobileMenu');
+      var exit   = document.getElementById('mobileMenuExit');
+      if (!toggle || !menu) return;
+      var lastFocused = null;
+      function openMenu() {
+        lastFocused = document.activeElement;
+        menu.hidden = false;
+        void menu.offsetWidth;
+        menu.classList.add('is-open');
+        toggle.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', '???詨');
+        document.body.classList.add('is-menu-open');
+        var firstLink = menu.querySelector('a, button');
+        if (firstLink) {
+          try { firstLink.focus({ preventScroll: true }); } catch (_) { firstLink.focus(); }
+        }
+      }
+      function closeMenu() {
+        menu.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', '???詨');
+        document.body.classList.remove('is-menu-open');
+        setTimeout(function(){
+          if (!menu.classList.contains('is-open')) menu.hidden = true;
+        }, 360);
+        if (lastFocused && lastFocused.focus) {
+          try { lastFocused.focus({ preventScroll: true }); } catch (_) { lastFocused.focus(); }
+        }
+      }
+      toggle.addEventListener('click', function(){
+        if (menu.classList.contains('is-open')) closeMenu();
+        else openMenu();
+      });
+      if (exit) exit.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+      });
+      menu.addEventListener('click', function(e){
+        var a = e.target.closest('a');
+        if (a && a.getAttribute('href') && a.getAttribute('href') !== '#') closeMenu();
+      });
+      var mq = window.matchMedia('(min-width: 769px)');
+      function handleMq() {
+        if (mq.matches && menu.classList.contains('is-open')) closeMenu();
+      }
+      if (mq.addEventListener) mq.addEventListener('change', handleMq);
+      else if (mq.addListener) mq.addListener(handleMq);
+    })();
+  </script>
+<style id="ha-hotel-detail-drawer-sync">
+  @media (max-width: 768px) {
+    body.is-menu-open { overflow: hidden; }
+    .nav-links,
+    .nav-cta .nav-lang,
+    .nav-cta .btn-primary { display: none !important; }
+    .menu-toggle {
+      display: inline-flex !important;
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      z-index: 220;
+      width: 46px;
+      height: 46px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid color-mix(in oklch, var(--brown, #4b413b) 45%, transparent);
+      border-radius: 999px;
+      background: color-mix(in oklch, var(--bg, #f8f1e5) 88%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+    .menu-toggle .bar {
+      position: absolute;
+      left: 12px;
+      width: 20px;
+      height: 1.5px;
+      background: var(--brown, #4b413b);
+      transition: transform .32s ease, opacity .2s ease, top .25s ease;
+    }
+    .menu-toggle .bar.t { top: 16px; }
+    .menu-toggle .bar.m { top: 22px; }
+    .menu-toggle .bar.b { top: 28px; }
+    .menu-toggle.is-open { border-color: oklch(96% 0.012 80 / .28); background: transparent; }
+    .menu-toggle.is-open .bar { background: oklch(96% 0.012 80); }
+    .menu-toggle.is-open .bar.t { top: 22px; transform: rotate(45deg); }
+    .menu-toggle.is-open .bar.m { opacity: 0; }
+    .menu-toggle.is-open .bar.b { top: 22px; transform: rotate(-45deg); }
+  }
+  @media (min-width: 769px) {
+    .menu-toggle,
+    .mobile-menu { display: none !important; }
+  }
+  .mobile-menu {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 200 !important;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    background: oklch(28% 0.022 60 / 75%) !important;
+    color: oklch(96% 0.012 80) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: opacity .34s ease, transform .34s ease, visibility 0s linear .34s;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-menu.is-open {
+    display: block !important;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity .38s ease, transform .38s ease, visibility 0s linear 0s;
+  }
+  .mobile-menu-inner {
+    min-height: 100% !important;
+    padding: 88px clamp(22px, 6vw, 36px) 42px !important;
+    display: grid !important;
+    align-content: start !important;
+    gap: 32px !important;
+  }
+  .mobile-menu-head {
+    height: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    display: block !important;
+  }
+  .mobile-menu-head .nav-logo { display: none !important; }
+  .mm-kicker,
+  .mm-section-h {
+    margin: 0 0 12px !important;
+    font-family: var(--font-mono, ui-monospace, Menlo, monospace) !important;
+    font-size: 11px !important;
+    letter-spacing: .2em !important;
+    text-transform: uppercase !important;
+    color: oklch(96% 0.012 80 / .58) !important;
+    font-weight: 600 !important;
+  }
+  .mm-nav-main,
+  .mm-nav-sub { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+  .mm-nav-main { display: grid !important; gap: 14px !important; }
+  .mm-nav-main a {
+    font-family: var(--font-display, Georgia, serif) !important;
+    font-size: clamp(34px, 10vw, 52px) !important;
+    line-height: 1 !important;
+    color: oklch(96% 0.012 80) !important;
+  }
+  .mm-nav-main li:nth-child(n+2) { display: none !important; }
+  .mm-nav-sub {
+    margin-top: 22px !important;
+    padding-top: 18px !important;
+    border-top: 1px solid oklch(96% 0.012 80 / .16) !important;
+    display: grid !important;
+    gap: 12px !important;
+  }
+  .mm-nav-sub a { font-size: 15px !important; color: oklch(96% 0.012 80 / .78) !important; }
+  .mm-contact {
+    padding-top: 22px !important;
+    border-top: 1px solid oklch(96% 0.012 80 / .16) !important;
+  }
+  .mm-contact dl {
+    display: grid !important;
+    grid-template-columns: 72px 1fr !important;
+    gap: 10px 18px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+  }
+  .mm-contact dt {
+    font-family: var(--font-mono, ui-monospace, Menlo, monospace) !important;
+    font-size: 10.5px !important;
+    letter-spacing: .16em !important;
+    text-transform: uppercase !important;
+    color: oklch(96% 0.012 80 / .55) !important;
+  }
+  .mm-contact dd { margin: 0 !important; color: oklch(96% 0.012 80 / .92) !important; }
+  .mm-lang,
+  .mm-lang-row { display: flex !important; gap: 14px !important; align-items: center !important; color: oklch(96% 0.012 80 / .65) !important; }
+  .mm-lang .lang-btn,
+  .mm-lang-row .lang-btn { color: inherit !important; }
+  .mobile-menu .mm-cta { display: none !important; }
+  .mobile-menu .mm-anim {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.25,1.05);
+  }
+  .mobile-menu.is-open .mm-anim { opacity: 1; transform: translateY(0); }
+  .mobile-menu.is-open .d1 { transition-delay: .08s; }
+  .mobile-menu.is-open .d2 { transition-delay: .14s; }
+  .mobile-menu.is-open .d3 { transition-delay: .20s; }
+  .mobile-menu.is-open .d4 { transition-delay: .26s; }
+  .mobile-menu.is-open .d5 { transition-delay: .32s; }
+  #mobileMenuExit {
+    position: fixed !important;
+    top: clamp(18px, 4vw, 28px) !important;
+    right: clamp(20px, 5vw, 36px) !important;
+    z-index: 230 !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    border: 1px solid oklch(96% 0.012 80 / 0.34) !important;
+    background: oklch(96% 0.012 80 / 0.05) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+  #mobileMenuExit::before,
+  #mobileMenuExit::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 1.5px;
+    background: oklch(96% 0.012 80);
+    transform-origin: center;
+  }
+  #mobileMenuExit::before { transform: translate(-50%, -50%) rotate(45deg); }
+  #mobileMenuExit::after { transform: translate(-50%, -50%) rotate(-45deg); }
+  #mobileMenuExit:hover { background: oklch(96% 0.012 80 / 0.12) !important; border-color: oklch(96% 0.012 80 / 0.62) !important; transform: rotate(90deg); }
+</style>
+<script id="ha-hotel-detail-drawer-sync-js">
+  (function(){
+    var toggle = document.getElementById('menuToggle');
+    var menu = document.getElementById('mobileMenu');
+    var exit = document.getElementById('mobileMenuExit');
+    var oldFix = document.getElementById('ha' + 'MobileCloseFix');
+    if (oldFix && oldFix.parentNode) oldFix.parentNode.removeChild(oldFix);
+    if (!toggle || !menu || toggle.dataset.hotelDrawerBound === 'true') return;
+    toggle.dataset.hotelDrawerBound = 'true';
+    var lastFocused = null;
+    function setOpen(open) {
+      if (open) {
+        lastFocused = document.activeElement;
+        menu.hidden = false;
+        requestAnimationFrame(function(){
+          menu.classList.add('is-open');
+          toggle.classList.add('is-open');
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.setAttribute('aria-label', '關閉選單');
+          document.body.classList.add('is-menu-open');
+        });
+      } else {
+        menu.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', '開啟選單');
+        document.body.classList.remove('is-menu-open');
+        window.setTimeout(function(){ if (!menu.classList.contains('is-open')) menu.hidden = true; }, 420);
+        if (lastFocused && lastFocused.focus) {
+          try { lastFocused.focus({ preventScroll: true }); } catch (_) { lastFocused.focus(); }
+        }
+      }
+    }
+    toggle.addEventListener('click', function(event){
+      event.preventDefault();
+      setOpen(!menu.classList.contains('is-open'));
+    });
+    if (exit && exit.dataset.hotelDrawerBound !== 'true') {
+      exit.dataset.hotelDrawerBound = 'true';
+      exit.addEventListener('click', function(){ setOpen(false); });
+    }
+    document.addEventListener('keydown', function(event){
+      if (event.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
+    });
+    var mq = window.matchMedia('(min-width: 769px)');
+    function handleMq(){ if (mq.matches && menu.classList.contains('is-open')) setOpen(false); }
+    if (mq.addEventListener) mq.addEventListener('change', handleMq);
+    else if (mq.addListener) mq.addListener(handleMq);
+  })();
+</script>
+</body>
+</html>

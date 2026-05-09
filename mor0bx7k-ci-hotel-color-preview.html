@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Around CI 飯店照片頁色彩比例預覽</title>
+  <style>
+    :root {
+      --yellow: #f2c21a;
+      --green: #91b94a;
+      --teal: #4fafa3;
+      --brown: #4b413b;
+      --cream: #fff6d8;
+      --warm-gray: #f4f1ec;
+      --charcoal: #2f2a27;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, var(--white) 0%, var(--warm-gray) 100%);
+      color: var(--charcoal);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 30px 0 64px;
+    }
+
+    .topbar {
+      min-height: 74px;
+      padding: 14px 22px;
+      border-radius: 8px;
+      background: var(--brown);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      box-shadow: 0 16px 34px rgba(47, 42, 39, 0.13);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+    }
+
+    .logo-placeholder {
+      width: 58px;
+      height: 38px;
+      border-radius: 6px;
+      background:
+        radial-gradient(circle at 20% 52%, var(--yellow) 0 7px, transparent 8px),
+        radial-gradient(circle at 48% 52%, var(--green) 0 7px, transparent 8px),
+        radial-gradient(circle at 76% 52%, var(--teal) 0 7px, transparent 8px),
+        rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(255, 246, 216, 0.82);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 0.94fr 1.06fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 26px;
+    }
+
+    .hero-copy,
+    .booking-panel,
+    .room-card,
+    .ratio-card {
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 16px 40px rgba(47, 42, 39, 0.10);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 450px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--teal);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--brown);
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--brown);
+      font-size: 26px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0;
+      color: var(--brown);
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .lead {
+      max-width: 520px;
+      margin-top: 18px;
+      color: #665c55;
+      font-size: 18px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      min-height: 46px;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 900;
+    }
+
+    .button.primary {
+      background: var(--yellow);
+      color: var(--charcoal);
+    }
+
+    .button.secondary {
+      background: rgba(79, 175, 163, 0.12);
+      color: #25796f;
+      border: 1px solid rgba(79, 175, 163, 0.42);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+      min-height: 450px;
+    }
+
+    .photo {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(47, 42, 39, 0.10), rgba(79, 175, 163, 0.15)),
+        linear-gradient(145deg, #d8d2c8, #fffaf0 36%, #b7c9c3 100%);
+    }
+
+    .photo.large {
+      grid-row: span 2;
+    }
+
+    .photo::before {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(75, 65, 59, 0.14) 0 16%, transparent 16% 21%, rgba(75, 65, 59, 0.10) 21% 36%, transparent 36%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 246, 216, 0.52));
+      box-shadow: 0 18px 40px rgba(47, 42, 39, 0.12);
+    }
+
+    .photo.large::after {
+      content: "房型照片區";
+      position: absolute;
+      left: 22px;
+      bottom: 22px;
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: rgba(75, 65, 59, 0.82);
+      color: var(--cream);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .section {
+      margin-top: 36px;
+    }
+
+    .booking-panel {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: end;
+      border-top: 4px solid var(--teal);
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field span {
+      color: #756a62;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .input-like {
+      min-height: 46px;
+      border: 1px solid #ded7cf;
+      border-radius: 8px;
+      background: var(--white);
+      padding: 11px 13px;
+      font-weight: 800;
+      color: var(--brown);
+    }
+
+    .rooms {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .room-card {
+      overflow: hidden;
+    }
+
+    .room-photo {
+      height: 180px;
+      background:
+        linear-gradient(145deg, rgba(255, 246, 216, 0.25), rgba(79, 175, 163, 0.10)),
+        linear-gradient(125deg, #cfc8bd 0%, #f8f3eb 42%, #9fb8b3 100%);
+      position: relative;
+    }
+
+    .room-photo::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      width: 46%;
+      height: 42%;
+      border-radius: 8px 8px 0 0;
+      background: rgba(75, 65, 59, 0.16);
+    }
+
+    .room-body {
+      padding: 18px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(79, 175, 163, 0.12);
+      color: #25796f;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .tag.green {
+      background: rgba(145, 185, 74, 0.13);
+      color: #5f7f24;
+    }
+
+    .price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--brown);
+      font-weight: 900;
+    }
+
+    .mini-cta {
+      color: var(--charcoal);
+      background: var(--yellow);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .ratio {
+      display: grid;
+      grid-template-columns: 60fr 20fr 10fr 7fr 3fr;
+      height: 74px;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 16px 40px rgba(47, 42, 39, 0.10);
+    }
+
+    .ratio-card {
+      padding: 24px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .legend-item {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #675d55;
+    }
+
+    .chip {
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(47, 42, 39, 0.12);
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .rooms,
+      .booking-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-grid {
+        min-height: 380px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .legend {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      main {
+        width: min(100% - 24px, 1160px);
+      }
+
+      .topbar,
+      .hero-copy,
+      .booking-panel,
+      .ratio-card {
+        padding: 18px;
+      }
+
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .photo.large {
+        grid-row: span 1;
+        min-height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo-placeholder" aria-hidden="true"></div>
+        <span>Home Around Taiwan Tours</span>
+      </div>
+      <nav aria-label="主要導覽">
+        <span>房型</span>
+        <span>住宿方案</span>
+        <span>旅遊行程</span>
+        <span>聯絡我們</span>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">60 / 20 / 10 / 7 / 3 色彩比例</p>
+        <h1>適合房型圖與飯店照片的品牌頁面</h1>
+        <p class="lead">大面積使用白、奶油與淺暖灰，讓照片成為主角；深棕建立穩定感，藍綠負責資訊重點，黃色只放在主要行動。</p>
+        <div class="actions">
+          <button class="button primary">查看空房</button>
+          <button class="button secondary">比較房型</button>
+        </div>
+      </div>
+
+      <div class="photo-grid" aria-label="飯店照片示意">
+        <div class="photo large"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+      </div>
+    </section>
+
+    <section class="section booking-panel">
+      <label class="field">
+        <span>入住日期</span>
+        <div class="input-like">2026 / 05 / 18</div>
+      </label>
+      <label class="field">
+        <span>退房日期</span>
+        <div class="input-like">2026 / 05 / 20</div>
+      </label>
+      <label class="field">
+        <span>旅客</span>
+        <div class="input-like">2 大 1 小</div>
+      </label>
+      <button class="button primary">搜尋房型</button>
+    </section>
+
+    <section class="section">
+      <h2>房型卡片示意</h2>
+      <div class="rooms">
+        <article class="room-card">
+          <div class="room-photo"></div>
+          <div class="room-body">
+            <h3>家庭景觀房</h3>
+            <div class="tag-row">
+              <span class="tag">房型重點</span>
+              <span class="tag green">親子友善</span>
+            </div>
+            <div class="price"><span>NT$ 3,600 起</span><span class="mini-cta">查看</span></div>
+          </div>
+        </article>
+        <article class="room-card">
+          <div class="room-photo"></div>
+          <div class="room-body">
+            <h3>雙人舒適房</h3>
+            <div class="tag-row">
+              <span class="tag">乾濕分離</span>
+              <span class="tag">近車站</span>
+            </div>
+            <div class="price"><span>NT$ 2,800 起</span><span class="mini-cta">查看</span></div>
+          </div>
+        </article>
+        <article class="room-card">
+          <div class="room-photo"></div>
+          <div class="room-body">
+            <h3>親子四人房</h3>
+            <div class="tag-row">
+              <span class="tag green">家庭推薦</span>
+              <span class="tag">加床可詢問</span>
+            </div>
+            <div class="price"><span>NT$ 4,200 起</span><span class="mini-cta">查看</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section ratio-card">
+      <h2>色彩比例</h2>
+      <div class="ratio" aria-label="色彩比例圖">
+        <div style="background: linear-gradient(90deg, var(--white), var(--cream), var(--warm-gray));"></div>
+        <div style="background: var(--brown);"></div>
+        <div style="background: var(--teal);"></div>
+        <div style="background: var(--yellow);"></div>
+        <div style="background: var(--green);"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="chip" style="background: var(--cream);"></span>60% 白 / 奶油 / 淺暖灰</div>
+        <div class="legend-item"><span class="chip" style="background: var(--brown);"></span>20% 深棕文字與頁首</div>
+        <div class="legend-item"><span class="chip" style="background: var(--teal);"></span>10% Island Teal</div>
+        <div class="legend-item"><span class="chip" style="background: var(--yellow);"></span>7% Taiwan Warm Yellow</div>
+        <div class="legend-item"><span class="chip" style="background: var(--green);"></span>3% Family Green</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

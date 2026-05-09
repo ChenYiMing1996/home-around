@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Around Taiwan Tours CI 色票預覽</title>
+  <style>
+    :root {
+      --yellow: #f2c21a;
+      --green: #91b94a;
+      --teal: #4fafa3;
+      --brown: #4b413b;
+      --cream: #fff6d8;
+      --sand: #e8d09a;
+      --leaf: #c7d96a;
+      --charcoal: #2f2a27;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0 64px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 36px;
+    }
+
+    .hero,
+    .panel,
+    .swatch-card,
+    .post {
+      border-radius: 8px;
+      box-shadow: 0 18px 46px rgba(47, 42, 39, 0.12);
+    }
+
+    .hero {
+      background: var(--brown);
+      color: var(--white);
+      padding: 34px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      color: var(--leaf);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--brown);
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .hero-copy {
+      max-width: 560px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 18px;
+      margin-top: 18px;
+    }
+
+    .logo-note {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      color: var(--cream);
+      font-weight: 700;
+    }
+
+    .logo-note::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 20px 0 0 var(--green), 40px 0 0 var(--teal);
+    }
+
+    .panel {
+      background: var(--white);
+      padding: 28px;
+    }
+
+    .tone-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .tone-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .section {
+      margin-top: 34px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .swatch-card {
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .swatch {
+      min-height: 132px;
+    }
+
+    .swatch-info {
+      padding: 16px;
+      background: var(--white);
+    }
+
+    .label {
+      color: #71665d;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .usage {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .post {
+      min-height: 260px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .post-title {
+      font-size: 30px;
+      line-height: 1.16;
+      font-weight: 900;
+      color: var(--brown);
+      max-width: 10ch;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-weight: 800;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--brown);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .button {
+      border: 0;
+      border-radius: 8px;
+      padding: 13px 18px;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: inherit;
+      color: var(--charcoal);
+    }
+
+    .button.primary {
+      background: var(--yellow);
+    }
+
+    .button.secondary {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .button.ghost {
+      background: transparent;
+      color: var(--brown);
+      border: 2px solid var(--brown);
+    }
+
+    @media (max-width: 860px) {
+      header,
+      .usage {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      main {
+        width: min(100% - 24px, 1120px);
+        padding-top: 24px;
+      }
+
+      .hero,
+      .panel,
+      .post {
+        padding: 22px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Home Around Taiwan Tours CI Preview</p>
+          <h1>溫暖家庭旅遊色彩系統</h1>
+          <p class="hero-copy">Logo 完全保留原樣，色票只延伸原品牌裡的黃色、綠色、藍綠與深灰棕，用於網站與社群視覺。</p>
+        </div>
+        <div class="logo-note">Logo 本體不改動</div>
+      </section>
+
+      <aside class="panel">
+        <h2>品牌感受</h2>
+        <p>親切、在地、家庭旅遊、輕鬆可信。整體視覺以暖色打底，搭配自然綠色與藍綠色作為行程分類或重點標示。</p>
+        <div class="tone-list">
+          <div class="tone-item"><span class="dot" style="background: var(--yellow);"></span> 主要行動與亮點</div>
+          <div class="tone-item"><span class="dot" style="background: var(--green);"></span> 自然、親子、安心</div>
+          <div class="tone-item"><span class="dot" style="background: var(--teal);"></span> 台灣島嶼與探索</div>
+          <div class="tone-item"><span class="dot" style="background: var(--brown);"></span> 標題、底色與穩定感</div>
+        </div>
+      </aside>
+    </header>
+
+    <section class="section">
+      <h2>主色</h2>
+      <div class="grid">
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--yellow);"></div>
+          <div class="swatch-info"><h3>Taiwan Warm Yellow</h3><p class="label">#F2C21A / CTA、重點標籤</p></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--green);"></div>
+          <div class="swatch-info"><h3>Family Green</h3><p class="label">#91B94A / 次要按鈕、自然分類</p></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--teal);"></div>
+          <div class="swatch-info"><h3>Island Teal</h3><p class="label">#4FAFA3 / 圖示、連結、點綴</p></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--brown);"></div>
+          <div class="swatch-info"><h3>Logo Dark Brown</h3><p class="label">#4B413B / 頁首、標題、深色背景</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>輔助色</h2>
+      <div class="grid">
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--cream);"></div>
+          <div class="swatch-info"><h3>Soft Cream</h3><p class="label">#FFF6D8 / 網站背景</p></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--sand);"></div>
+          <div class="swatch-info"><h3>Warm Sand</h3><p class="label">#E8D09A / 區塊底色、分隔</p></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--leaf);"></div>
+          <div class="swatch-info"><h3>Leaf Light</h3><p class="label">#C7D96A / 輕量標籤、背景圖形</p></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch" style="background: var(--charcoal);"></div>
+          <div class="swatch-info"><h3>Text Charcoal</h3><p class="label">#2F2A27 / 內文文字</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>網站與社群搭配預覽</h2>
+      <div class="usage">
+        <article class="post" style="background: var(--yellow);">
+          <div class="post-title">親子一日遊</div>
+          <div class="post-meta"><span>TAIWAN TOURS</span><span class="pill">立即查看</span></div>
+        </article>
+        <article class="post" style="background: var(--green);">
+          <div class="post-title" style="color: var(--white);">在地小旅行</div>
+          <div class="post-meta" style="color: var(--white);"><span>HOME AROUND</span><span class="pill" style="background: var(--yellow); color: var(--charcoal);">家庭推薦</span></div>
+        </article>
+        <article class="post" style="background: var(--brown);">
+          <div class="post-title" style="color: var(--cream);">慢慢走進台灣</div>
+          <div class="post-meta" style="color: var(--cream);"><span>LOGO 深色底適用</span><span class="pill" style="background: var(--teal);">探索</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section panel">
+      <h2>按鈕搭配</h2>
+      <p>網站主要行動建議用黃色；次要行動用綠色；文字型或低強度操作用深棕外框。</p>
+      <div class="button-row">
+        <button class="button primary">查看行程</button>
+        <button class="button secondary">親子推薦</button>
+        <button class="button ghost">了解更多</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

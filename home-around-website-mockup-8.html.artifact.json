@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "Home Around — 搜尋表單互動完成",
+  "entry": "home-around-website-mockup-8.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-05-05T06:45:59.747Z",
+  "updatedAt": "2026-05-05T06:45:59.762Z",
+  "sourceSkillId": "blog-post",
+  "metadata": {
+    "identifier": "home-around-website-mockup",
+    "artifactType": "text/html",
+    "inferred": false
+  }
+}

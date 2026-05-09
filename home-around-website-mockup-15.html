@@ -1,0 +1,1887 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Home Around Taiwan Tours — 美術設定稿</title>
+<style>
+  :root {
+    --bg:        oklch(96.5% 0.012 80);    /* warm-gray */
+    --surface:   oklch(100% 0 0);          /* white */
+    --cream:     oklch(98% 0.05 95);       /* soft cream */
+    --fg:        oklch(20% 0.012 60);      /* charcoal */
+    --brown:     oklch(34% 0.018 60);      /* logo dark brown */
+    --muted:     oklch(48% 0.012 60);
+    --border:    oklch(82% 0.008 60);
+    --hairline:  oklch(82% 0.008 60 / 0.7);
+    --teal:      oklch(67% 0.09 185);      /* island teal */
+    --yellow:    oklch(82% 0.16 88);       /* taiwan warm yellow */
+    --green:     oklch(74% 0.13 130);      /* family green */
+
+    --font-display: 'Noto Serif TC', 'Tiempos Headline', 'Newsreader', 'Iowan Old Style', Georgia, serif;
+    --font-body:    'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Inter', 'Microsoft JhengHei', system-ui, sans-serif;
+    --font-mono:    ui-monospace, 'JetBrains Mono', 'IBM Plex Mono', Menlo, monospace;
+
+    --maxw: 1280px;
+    --pad-x: clamp(20px, 4vw, 48px);
+    --section-y: clamp(72px, 9vw, 128px);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--fg);
+    background: var(--bg);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .container { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad-x); }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--brown);
+    line-height: 1.08;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklch, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    height: 96px;
+    gap: 28px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+  .nav-logo img { height: 66px; width: auto; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 13.5px;
+    color: var(--brown);
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+  .nav-links a {
+    position: relative;
+    padding: 6px 0;
+    transition: color .2s ease-out;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1.5px;
+    background: var(--brown);
+  }
+  .nav-cta {
+    display: flex; align-items: center; gap: 14px;
+    flex-shrink: 0;
+  }
+  /* 語言切換群組 — inline-flex 對齊三顆 lang-btn 與分隔點 */
+  .nav-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .nav-lang .sep { margin: 0 4px; opacity: 0.5; pointer-events: none; }
+  /* 為何用 button：可鍵盤 focus、screen reader 識別為控件 */
+  .lang-btn {
+    background: transparent;
+    border: 0;
+    padding: 4px 4px;
+    font: inherit;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+    border-radius: 3px;
+    transition: color .15s ease-out;
+  }
+  .lang-btn:hover { color: var(--brown); }
+  .lang-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .lang-btn.is-active { color: var(--brown); font-weight: 700; }
+  .lang {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .lang b { color: var(--brown); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 22px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all .2s ease-out;
+  }
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--fg);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px -6px oklch(82% 0.16 88 / 0.6); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--brown);
+    border-color: var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--brown); }
+
+  /* ─── HERO (auto-rotating room photo carousel) ─── */
+  .hero {
+    position: relative;
+    height: 78vh;
+    min-height: 620px;
+    overflow: hidden;
+    background: var(--brown);
+  }
+  /* Each slide is a layered gradient evoking one hotel room scene.
+     They crossfade (1.4s) every 6s. Pause on hover via JS. */
+  .hero-slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 1.4s ease-in-out;
+    will-change: opacity;
+  }
+  .hero-slide.is-active { opacity: 1; }
+
+  /* Hero 5 張 — 由 hotels-data.js 中的 5 間飯店主圖渲染。
+     scrim 仍會覆蓋一層暗色漸層，確保白色標題在所有圖上都讀得到。 */
+  .hero-slide { background-position: center; background-size: cover; background-repeat: no-repeat; background-color: oklch(28% 0.018 60); }
+  .hero-slide.s1 { background-image: url('photos/room-020-business-double-east-coast-wide.png'); }
+  .hero-slide.s2 { background-image: url('photos/room-008-hotel-double-city-3x2.png'); }
+  .hero-slide.s3 { background-image: url('photos/room-005-homestay-double-mountain-wide.png'); }
+  .hero-slide.s4 { background-image: url('photos/room-011-hotel-family-mountain-3x2.png'); }
+  .hero-slide.s5 { background-image: url('photos/room-002-homestay-double-east-coast-4x3.png'); }
+
+  /* Scrim — keeps text legible across all photos. 加強到 0.7 / 0.6 以涵蓋亮室內照 */
+  .hero-scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(95deg, oklch(15% 0.02 50 / 0.7) 0%, oklch(15% 0.02 50 / 0.35) 55%, oklch(15% 0.02 50 / 0.18) 90%),
+      linear-gradient(180deg, oklch(15% 0.02 50 / 0.18) 0%, transparent 40%, oklch(15% 0.02 50 / 0.6) 100%);
+    z-index: 1;
+  }
+
+  /* Faint film grain over the whole hero */
+  .hero-grain {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    z-index: 1;
+    background-image:
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.08), transparent),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.06), transparent),
+      radial-gradient(1px 1px at 50% 85%, rgba(255,255,255,0.05), transparent);
+    background-size: 200px 200px, 220px 220px, 180px 180px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 132px;
+  }
+
+  /* Carousel caption — top-right, aligned to container */
+  .hero-caption-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hero-caption-wrap .container { height: 100%; position: relative; }
+  .hero-caption {
+    position: absolute;
+    right: 0;
+    top: 56px;
+    pointer-events: auto;
+    max-width: 22ch;
+    text-align: right;
+    color: oklch(95% 0.012 60);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity .8s ease-out, transform .8s ease-out;
+  }
+  .hero-caption.is-visible { opacity: 0.92; transform: none; }
+  .hero-caption .room-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-top: 8px;
+    color: oklch(98% 0.05 95);
+  }
+  .hero-caption .index {
+    color: var(--yellow);
+    font-weight: 600;
+  }
+
+  /* Hero "view this hotel" link — appears in hero-meta, updates per slide */
+  .hero-view-link {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--yellow);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 10px 18px;
+    border: 1px solid oklch(82% 0.16 88 / 0.5);
+    border-radius: 100px;
+    transition: all .2s ease-out;
+    text-transform: none;
+  }
+  .hero-view-link:hover {
+    background: var(--yellow);
+    color: var(--fg);
+    border-color: var(--yellow);
+  }
+  .hero-view-link::after { content: "→"; transition: transform .2s; }
+  .hero-view-link:hover::after { transform: translateX(3px); }
+
+  /* Carousel dots — bottom-left, aligned to container */
+  .hero-dots {
+    position: absolute;
+    left: 0;
+    bottom: 80px;
+    pointer-events: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .hero-dot {
+    width: 28px;
+    height: 2px;
+    background: oklch(95% 0.012 60 / 0.3);
+    border: 0;
+    padding: 12px 0;
+    cursor: pointer;
+    position: relative;
+    transition: background .2s ease-out;
+  }
+  .hero-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 2px;
+    background: oklch(95% 0.012 60 / 0.3);
+    transition: background .3s ease-out;
+  }
+  .hero-dot.is-active::before {
+    background: var(--yellow);
+  }
+  .hero-dot:hover::before {
+    background: oklch(95% 0.012 60 / 0.7);
+  }
+  .hero-dot.is-active:hover::before { background: var(--yellow); }
+  .hero-eyebrow {
+    color: var(--yellow);
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 6.4vw, 92px);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: oklch(98% 0.05 95);
+    margin: 0;
+    max-width: 14ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--yellow);
+    opacity: 0.95;
+  }
+  .hero-sub {
+    margin-top: 22px;
+    font-size: 18px;
+    color: oklch(85% 0.012 60);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+  .hero-meta {
+    margin-top: 36px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    color: oklch(75% 0.012 60);
+    font-size: 13px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+  }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+  .dot.y { background: var(--yellow); }
+
+  /* ─── SEARCH BAR (floating, overlaps hero) ─── */
+  .search-wrap {
+    position: relative;
+    z-index: 5;
+    margin-top: -64px;
+    margin-bottom: var(--section-y);
+  }
+  .search {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow:
+      0 1px 0 oklch(100% 0 0 / 0.6) inset,
+      0 24px 56px -28px oklch(20% 0.012 60 / 0.25),
+      0 6px 16px -10px oklch(20% 0.012 60 / 0.12);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 0.9fr auto;
+    align-items: stretch;
+    /* overflow: visible so the guests popover isn't clipped */
+  }
+  .search > .field:first-child { border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
+  .field {
+    padding: 20px 22px;
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .field:last-of-type { border-right: 0; }
+  .field-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--brown);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .field-value .placeholder { color: oklch(70% 0.012 60); font-weight: 400; }
+  .search-cta {
+    background: var(--yellow);
+    border: 0;
+    padding: 0 36px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: filter .2s ease-out;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+  }
+  .search-cta:hover { filter: brightness(1.06); }
+
+  /* Interactive search controls — visually inherit field, native pickers retained */
+  .field-control {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--brown);
+    width: 100%;
+    cursor: pointer;
+    line-height: 1.3;
+    outline: none;
+  }
+  .field-control:focus-visible {
+    color: var(--teal);
+  }
+  .field-select {
+    position: relative;
+    /* 為何不加 padding-right：原本 36px 會把 select 推離 chevron，
+       導致 chevron 下方是 wrapper div 而非 select，pointer-events: none
+       的 click 落到 wrapper 沒有用。改由 select 自己留 padding-right。 */
+  }
+  .field-select > select.field-control {
+    padding-right: 16px; /* 留空間給 chevron，文字不會被遮 */
+  }
+  .field-select::after {
+    content: "";
+    position: absolute;
+    right: 22px; /* 與 .field 的 padding-right 對齊；此時 chevron 落在 select 範圍內 */
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -2px;
+    border-right: 1.5px solid var(--muted);
+    border-bottom: 1.5px solid var(--muted);
+    transform: rotate(45deg) translateY(-2px);
+    pointer-events: none; /* click 穿透到下方 select，原生 dropdown 才打得開 */
+  }
+  .field-control[type="date"] {
+    font-variant-numeric: tabular-nums;
+    /* keep native picker icon visible */
+  }
+  .field-control[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity .15s;
+    margin-left: 4px;
+  }
+  .field-control[type="date"]:hover::-webkit-calendar-picker-indicator { opacity: 0.8; }
+  .field-trigger {
+    appearance: none; background: transparent; border: 0; padding: 0;
+    font: inherit; font-size: 16px; font-weight: 500; color: var(--brown);
+    cursor: pointer; text-align: left; width: 100%;
+    display: flex; align-items: center; gap: 6px;
+    line-height: 1.3;
+  }
+  .field-trigger::after {
+    content: ""; display: inline-block;
+    width: 7px; height: 7px;
+    border-right: 1.5px solid var(--muted);
+    border-bottom: 1.5px solid var(--muted);
+    transform: rotate(45deg) translateY(-2px);
+    margin-left: auto;
+    transition: transform .2s;
+  }
+  .field-trigger.is-open::after { transform: rotate(-135deg) translateY(2px); }
+  .field-guests { position: relative; }
+  .guests-popover {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 18px 40px -18px oklch(20% 0.012 60 / 0.28), 0 6px 16px -10px oklch(20% 0.012 60 / 0.14);
+    padding: 18px 20px;
+    z-index: 12;
+    display: grid;
+    gap: 14px;
+  }
+  .guests-popover[hidden] { display: none; }
+  .g-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .g-name {
+    font-size: 14.5px; font-weight: 600; color: var(--brown);
+  }
+  .g-sub {
+    font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-top: 2px;
+  }
+  .counter {
+    display: inline-flex; align-items: center; gap: 0;
+    border: 1px solid var(--border); border-radius: 100px;
+    overflow: hidden;
+  }
+  .counter button {
+    appearance: none; background: transparent; border: 0;
+    width: 32px; height: 32px;
+    color: var(--brown); font-size: 16px; line-height: 1; font-weight: 500;
+    cursor: pointer; transition: background .15s, color .15s;
+  }
+  .counter button:hover:not(:disabled) {
+    background: var(--cream);
+    color: var(--teal);
+  }
+  .counter button:disabled { color: oklch(80% 0.005 60); cursor: not-allowed; }
+  .counter .cv {
+    min-width: 28px; text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-size: 14.5px; font-weight: 600; color: var(--brown);
+  }
+
+  /* ─── VALUE STRIP ─── */
+  .value-strip {
+    padding: 0 0 var(--section-y);
+  }
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .value-cell {
+    padding: 40px 36px;
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    gap: 22px;
+  }
+  .value-cell:last-child { border-right: 0; }
+  .value-num {
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--teal);
+    font-variant-numeric: tabular-nums;
+  }
+  .value-body h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--brown);
+  }
+  .value-body p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  /* ─── SECTION HEAD ─── */
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 56px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(32px, 3.6vw, 52px);
+    line-height: 1.1;
+    color: var(--brown);
+    margin: 12px 0 0;
+    letter-spacing: -0.01em;
+    max-width: 18ch;
+  }
+  .section-head .meta {
+    color: var(--muted);
+    font-size: 14.5px;
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 32ch;
+  }
+  .section-head .meta b {
+    color: var(--brown);
+    font-weight: 600;
+  }
+
+  /* ─── FEATURED STAYS ─── */
+  .stays {
+    padding-bottom: var(--section-y);
+  }
+  .stays-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .stay {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .25s ease-out, box-shadow .25s ease-out;
+    color: inherit;
+    text-decoration: none;
+  }
+  .stay:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -22px oklch(20% 0.012 60 / 0.18);
+  }
+  .stay-photo {
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+  }
+  .stay-photo .ph {
+    position: absolute; inset: 0;
+  }
+  .stay-photo .label {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: var(--surface);
+    color: var(--brown);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--hairline);
+  }
+  .stay-photo .label.family {
+    background: var(--green);
+    color: oklch(20% 0.05 130);
+    border-color: transparent;
+  }
+  .stay-photo .label.teal {
+    background: var(--teal);
+    color: white;
+    border-color: transparent;
+  }
+  /* photo placeholders — gentle gradient mood */
+  /* Editor's pick 3 卡 + Local experiences bento 5 — 改用真實房型照。
+     七個 ph-N 對應到不同房型圖；ph-3 同時被 editor's pick(langkawi 山林) 和 bento(luding 山中) 共用，皆為山景，共用合理。 */
+  .ph { background-position: center; background-size: cover; background-repeat: no-repeat; background-color: oklch(88% 0.012 60); }
+  .ph-1 { background-image: url('photos/room-002-homestay-double-east-coast-4x3.png'); } /* editor: bankala (海岸) */
+  .ph-2 { background-image: url('photos/room-008-hotel-double-city-3x2.png'); }          /* editor: yujing & bento: yujing (城市) */
+  .ph-3 { background-image: url('photos/room-005-homestay-double-mountain-wide.png'); }  /* editor: langkawi & bento: luding (山景) */
+  .ph-4 { background-image: url('photos/room-010-hotel-double-east-coast-3x2.png'); }    /* bento: bankala (墾丁海岸) */
+  .ph-5 { background-image: url('photos/room-001-homestay-double-city-3x2.png'); }       /* bento: yujing fallback (台南老屋感) */
+  .ph-6 { background-image: url('photos/room-003-homestay-family-mountain-3x2.png'); }   /* bento: yilan-doubleyolk (田野家庭) */
+  .ph-7 { background-image: url('photos/room-013-hotel-twin-east-coast-4x3.png'); }      /* bento: hualien-shangcheng (花蓮東岸) */
+
+  .stay-body {
+    padding: 22px 24px 26px;
+  }
+  .stay-loc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .stay-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--brown);
+    margin: 0 0 6px;
+    line-height: 1.2;
+  }
+  .stay-en {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .stay-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .tag {
+    font-size: 11.5px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--hairline);
+    color: var(--muted);
+  }
+  .tag.teal { color: var(--teal); border-color: oklch(67% 0.09 185 / 0.4); }
+  .stay-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+  }
+  .price small {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .price b {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--brown);
+    font-variant-numeric: tabular-nums;
+  }
+  .price b sup { font-size: 12px; vertical-align: top; margin-right: 2px; }
+  .price em { font-style: normal; font-size: 13px; color: var(--muted); margin-left: 4px; }
+  .stay-link {
+    color: var(--brown);
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stay-link::after { content: "→"; transition: transform .2s ease-out; }
+  .stay-link:hover { color: var(--teal); }
+  .stay-link:hover::after { transform: translateX(3px); }
+
+  /* ─── ALL STAYS GRID (clickable card grid linking to detail pages) ─── */
+  .all-stays { padding-bottom: var(--section-y); }
+  .all-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .h-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform .25s ease-out, box-shadow .25s ease-out, border-color .2s;
+    cursor: pointer;
+  }
+  .h-card:hover {
+    transform: translateY(-2px);
+    border-color: oklch(67% 0.09 185 / 0.5);
+    box-shadow: 0 12px 28px -20px oklch(20% 0.012 60 / 0.18);
+  }
+  .h-photo {
+    aspect-ratio: 16/10;
+    position: relative;
+    overflow: hidden;
+  }
+  .h-photo .ph-x { position: absolute; inset: 0; }
+  .h-photo .h-tag-badge {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: var(--surface);
+    color: var(--brown);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--hairline);
+  }
+  .h-photo .h-tag-badge.family { background: var(--green); color: oklch(20% 0.05 130); border-color: transparent; }
+  .h-photo .h-tag-badge.teal { background: var(--teal); color: white; border-color: transparent; }
+  .h-card-body {
+    padding: 14px 16px 16px;
+  }
+  .h-card-loc {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .h-card-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--brown);
+    margin: 0 0 6px;
+    line-height: 1.25;
+    /* clamp 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .h-card-tags {
+    display: flex; gap: 5px; flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .h-card-tags span {
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .h-card-tags span + span::before {
+    content: "·";
+    margin-right: 5px;
+    opacity: 0.5;
+  }
+
+  /* Photo gradient themes for hotel-grid (compact, 6 themes) */
+  .hp-warm   { background: linear-gradient(135deg, oklch(38% 0.04 50) 0%, oklch(64% 0.08 70) 50%, oklch(86% 0.10 80) 100%); }
+  .hp-ocean  { background: linear-gradient(135deg, oklch(28% 0.04 220) 0%, oklch(54% 0.08 195) 60%, oklch(82% 0.06 195) 100%); }
+  .hp-island { background: linear-gradient(135deg, oklch(56% 0.10 195) 0%, oklch(82% 0.06 195) 50%, oklch(90% 0.04 90) 100%); }
+  .hp-forest { background: linear-gradient(135deg, oklch(34% 0.05 140) 0%, oklch(58% 0.09 130) 60%, oklch(82% 0.10 110) 100%); }
+  .hp-urban  { background: linear-gradient(135deg, oklch(18% 0.02 60) 0%, oklch(36% 0.05 55) 60%, oklch(56% 0.10 60) 100%); }
+  .hp-sunset { background: linear-gradient(135deg, oklch(38% 0.08 30) 0%, oklch(62% 0.16 50) 60%, oklch(84% 0.14 80) 100%); }
+
+  .all-cta-row {
+    display: flex; justify-content: center;
+    margin-top: 44px;
+  }
+  .all-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 32px;
+    border: 1px solid var(--brown);
+    border-radius: 100px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--brown);
+    transition: all .2s ease-out;
+    font-family: var(--font-body);
+  }
+  .all-cta::after { content: "→"; transition: transform .2s ease-out; }
+  .all-cta:hover {
+    background: var(--brown);
+    color: oklch(98% 0.05 95);
+  }
+  .all-cta:hover::after { transform: translateX(3px); }
+
+  /* ─── FAMILY EDITORIAL ─── */
+  .family-section {
+    background: var(--cream);
+    padding: var(--section-y) 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .family-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .family-photo {
+    aspect-ratio: 4/5;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, oklch(56% 0.08 145) 0%, oklch(74% 0.10 130) 50%, oklch(88% 0.10 95) 100%);
+  }
+  .family-photo .badge {
+    position: absolute;
+    top: 20px; left: 20px;
+    background: var(--green);
+    color: oklch(20% 0.04 130);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .family-photo .pull {
+    position: absolute;
+    bottom: 24px; left: 24px; right: 24px;
+    color: oklch(98% 0.04 95);
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 400;
+    text-shadow: 0 2px 16px oklch(20% 0.04 130 / 0.5);
+  }
+  .family-text .eyebrow { color: var(--green); font-weight: 600; }
+  .family-text h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(34px, 4vw, 56px);
+    line-height: 1.08;
+    color: var(--brown);
+    margin: 18px 0 24px;
+    letter-spacing: -0.012em;
+  }
+  .family-text p {
+    color: var(--fg);
+    line-height: 1.75;
+    font-size: 17px;
+    margin: 0 0 18px;
+  }
+  .family-text p.lede { font-size: 19px; color: var(--brown); }
+  .family-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid oklch(82% 0.05 90);
+  }
+  .stat-cell {
+    padding-right: 16px;
+  }
+  .stat-cell + .stat-cell { padding-left: 24px; border-left: 1px solid oklch(82% 0.05 90); }
+  .stat-num {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 38px;
+    color: var(--brown);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-num small { font-size: 15px; color: var(--green); margin-left: 4px; }
+  .stat-cell p { font-size: 13px; color: var(--muted); margin: 8px 0 0; line-height: 1.5; }
+
+  /* ─── EXPERIENCE BENTO ─── */
+  .experiences {
+    padding: var(--section-y) 0;
+  }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 16px;
+  }
+  .bento > div {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border);
+  }
+  .bento .b1 { grid-column: 1 / 3; grid-row: 1 / 3; }
+  .bento .b4 { grid-column: 4 / 5; grid-row: 1 / 3; }
+  .b-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 22px 22px 20px;
+    background: linear-gradient(180deg, transparent 0%, oklch(20% 0.012 60 / 0.6) 60%, oklch(20% 0.012 60 / 0.85) 100%);
+    color: oklch(98% 0.05 95);
+  }
+  .b-overlay .kicker {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: oklch(85% 0.05 90);
+    margin-bottom: 6px;
+  }
+  .b-overlay h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .bento .b1 .b-overlay h4 { font-size: 32px; max-width: 16ch; }
+
+  /* ─── TRUST STRIP ─── */
+  .trust {
+    background: var(--brown);
+    color: oklch(95% 0.012 60);
+    padding: 64px 0 56px;
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: 1fr repeat(4, auto);
+    gap: 56px;
+    align-items: center;
+  }
+  .trust-lead {
+    color: oklch(82% 0.012 60);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .trust-lead b {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    color: oklch(98% 0.05 95);
+    margin-bottom: 6px;
+  }
+  .trust-stat {
+    border-left: 1px solid oklch(50% 0.018 60);
+    padding-left: 28px;
+  }
+  .trust-stat .n {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--yellow);
+    font-variant-numeric: tabular-nums;
+  }
+  .trust-stat .l {
+    margin-top: 8px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: oklch(75% 0.012 60);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: oklch(28% 0.018 60);
+    color: oklch(80% 0.012 60);
+    padding: 80px 0 36px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid oklch(40% 0.018 60);
+  }
+  .foot-brand img { height: 84px; margin-bottom: 22px; }
+  .foot-brand p {
+    font-size: 14px;
+    line-height: 1.65;
+    max-width: 38ch;
+    color: oklch(78% 0.012 60);
+    margin: 0 0 22px;
+  }
+  .foot-social {
+    display: flex; gap: 12px;
+  }
+  .foot-social a {
+    width: 36px; height: 36px;
+    border: 1px solid oklch(45% 0.018 60);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: oklch(85% 0.012 60);
+    font-size: 13px;
+    transition: all .2s ease-out;
+  }
+  .foot-social a:hover { border-color: var(--yellow); color: var(--yellow); }
+  .foot-col h5 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: oklch(98% 0.05 95);
+    margin: 8px 0 20px;
+  }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .foot-col a {
+    color: oklch(80% 0.012 60);
+    font-size: 14px;
+    transition: color .15s;
+  }
+  .foot-col a:hover { color: var(--yellow); }
+  .foot-bottom {
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    color: oklch(65% 0.012 60);
+  }
+
+
+  @media (max-width: 1024px) {
+    .search { grid-template-columns: 1fr 1fr; }
+    .field { border-right: 0; border-bottom: 1px solid var(--hairline); }
+    .search-cta { grid-column: 1 / -1; padding: 18px; border-bottom-left-radius: 14px; border-top-right-radius: 0; }
+    .search > .field:nth-child(2) { border-top-right-radius: 14px; }
+    .stays-grid { grid-template-columns: 1fr 1fr; }
+    .all-grid { grid-template-columns: repeat(3, 1fr); }
+    .family-grid { grid-template-columns: 1fr; gap: 48px; }
+    .bento { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 220px); }
+    .bento .b1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+    .bento .b4 { grid-column: 1 / 3; grid-row: 3 / 4; }
+    .trust-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  }
+  @media (max-width: 1280px) {
+    .nav-links { gap: 14px; font-size: 13px; }
+  }
+  @media (max-width: 1024px) {
+    .nav-lang { display: none; }
+    .nav-links { gap: 12px; font-size: 12.5px; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .stays-grid { grid-template-columns: 1fr; }
+    .all-grid { grid-template-columns: repeat(2, 1fr); }
+    .value-grid { grid-template-columns: 1fr; }
+    .value-cell { border-right: 0; border-bottom: 1px solid var(--hairline); }
+    .bento { grid-template-columns: 1fr; grid-template-rows: repeat(5, 220px); }
+    .bento .b1, .bento .b4 { grid-column: 1; }
+    .bento .b1 { grid-row: 1; } .bento .b2 { grid-row: 2; }
+    .bento .b3 { grid-row: 3; } .bento .b4 { grid-row: 4; } .bento .b5 { grid-row: 5; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV — single row: logo · all links · lang · CTA -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
+      </a>
+      <div class="nav-links">
+        <a href="#" class="active" data-i18n="nav.home">首頁</a>
+        <a href="#" data-i18n="nav.about">關於我們</a>
+        <a href="#" data-i18n="nav.guide">景點攻略</a>
+        <a href="#" data-i18n="nav.tickets">電子票券</a>
+        <a href="#" data-i18n="nav.news">最新消息</a>
+        <a href="#" data-i18n="nav.stays">直營旅店</a>
+        <a href="#" data-i18n="nav.partners">合作夥伴</a>
+        <a href="#" data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a>
+        <a href="#" data-i18n="nav.contact">聯絡我們</a>
+        <a href="#" data-i18n="nav.insurance">網路投保旅平險</a>
+      </div>
+      <div class="nav-cta">
+        <!-- 語言切換器：每顆 button 帶 data-lang-btn，i18n.js 會自動掛 click handler 與 active state -->
+        <div class="nav-lang" role="group" data-i18n-aria="nav.lang.aria">
+          <button type="button" class="lang-btn is-active" data-lang-btn="zh">ZH</button>
+          <span class="sep">·</span>
+          <button type="button" class="lang-btn" data-lang-btn="en">EN</button>
+          <span class="sep">·</span>
+          <button type="button" class="lang-btn" data-lang-btn="ja">JP</button>
+        </div>
+        <a href="booking.html" class="btn btn-primary" data-i18n="nav.book">立即訂房</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO — auto-rotating room photo carousel
+       data-rooms ties each visual mood to a real hotel so the [查看此旅宿] CTA
+       can deep-link to its detail page. -->
+  <header class="hero" id="heroCarousel"
+          data-rooms='[
+            {"id":"taitung-luvdao-shuangfa","loc":"台東綠島 · 海島晨光","room":"雙發飯店 / Shuang Fa Hotel"},
+            {"id":"tainan-yujing","loc":"台南玉井 · 寵物友善","room":"家天下行旅 / Jiatianxia Inn"},
+            {"id":"yilan-langkawi","loc":"宜蘭羅東 · 300 坪庭園","room":"蘭卡威庭園民宿 / Langkawi Garden"},
+            {"id":"hsinchu-jianshi","loc":"新竹尖石 · 山中泡湯","room":"朝日溫泉會館 / Asahi Hot Spring"},
+            {"id":"kenting-bankala","loc":"墾丁南灣 · 海岸夕陽","room":"班卡拉 / Bankala"}
+          ]'>
+    <div class="hero-slide s1 is-active"></div>
+    <div class="hero-slide s2"></div>
+    <div class="hero-slide s3"></div>
+    <div class="hero-slide s4"></div>
+    <div class="hero-slide s5"></div>
+    <div class="hero-scrim"></div>
+    <div class="hero-grain"></div>
+
+    <div class="container hero-content">
+      <div class="hero-eyebrow eyebrow" data-i18n="hero.eyebrow">Spring 2026 · 春日限定旅程</div>
+      <!-- 用 data-i18n-html 因為 headline 含 <em><br/> 結構 -->
+      <h1 data-i18n-html="hero.headline.full">慢一點， <em>就到家了。</em><br/>Home, around Taiwan.</h1>
+      <p class="hero-sub" data-i18n="hero.sub">
+        從都會商旅到山中溫泉、海島民宿到老屋客棧 ——
+        Home Around 集結全台 32 間直營旅店，一張精緻系列住宿券，
+        走遍 13 縣市的慢步調台灣。
+      </p>
+      <div class="hero-meta">
+        <span><i class="dot"></i> <span data-i18n="hero.meta.coverage">全島 13 縣市 · 32 間直營旅店</span></span>
+        <span><i class="dot y"></i> <span data-i18n="hero.meta.voucher">一張券通用 · 平假日彈性加價</span></span>
+        <a href="hotel-detail.html?id=taitung-luvdao-shuangfa" class="hero-view-link" id="heroViewLink" data-i18n="hero.viewLink">查看此旅宿</a>
+      </div>
+    </div>
+
+    <!-- caption + dots — wrapped in container to align with content -->
+    <div class="hero-caption-wrap">
+      <div class="container">
+        <div class="hero-caption is-visible" id="heroCaption" aria-live="polite">
+          <span class="index"><span id="heroIdx">01</span> / 05</span>
+          <span class="room-name" id="heroRoom">台東綠島 · 海島晨光 — 雙發飯店</span>
+        </div>
+        <div class="hero-dots" role="tablist" data-i18n-aria="hero.aria">
+          <button class="hero-dot is-active" data-idx="0" aria-label="1"></button>
+          <button class="hero-dot" data-idx="1" aria-label="2"></button>
+          <button class="hero-dot" data-idx="2" aria-label="3"></button>
+          <button class="hero-dot" data-idx="3" aria-label="4"></button>
+          <button class="hero-dot" data-idx="4" aria-label="5"></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH (overlapping) — interactive: hotel select / dates / guests popover, submits to booking.html -->
+  <section class="container search-wrap" data-i18n-aria="search.aria" aria-label="搜尋空房">
+    <form class="search" id="searchForm" action="rooms.html" method="get">
+      <div class="field field-select">
+        <label class="field-label" for="search-hotel" data-i18n="search.where.label">目的地 Where</label>
+        <select id="search-hotel" name="hotel" class="field-control">
+          <option value="" data-i18n="search.where.any">— 全部 32 間旅宿 —</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="search-checkin" data-i18n="search.checkin.label">入住 Check-in</label>
+        <input type="date" id="search-checkin" name="checkin" class="field-control num" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="search-checkout" data-i18n="search.checkout.label">退房 Check-out</label>
+        <input type="date" id="search-checkout" name="checkout" class="field-control num" />
+      </div>
+      <div class="field field-guests">
+        <span class="field-label" data-i18n="search.guests.label">人數 Guests</span>
+        <button type="button" class="field-trigger" id="search-guests-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="search-guests-pop">
+          <span class="num" id="search-guests-display">2 大人 · 0 兒童</span>
+        </button>
+        <input type="hidden" id="search-adults" name="adults" value="2" />
+        <input type="hidden" id="search-kids" name="kids" value="0" />
+        <div class="guests-popover" id="search-guests-pop" hidden>
+          <div class="g-row">
+            <div>
+              <div class="g-name" data-i18n="search.adults">大人</div>
+              <div class="g-sub" data-i18n="search.adults.sub">12 歲以上</div>
+            </div>
+            <div class="counter" data-counter="adults" data-min="1" data-max="8">
+              <button type="button" data-step="-1" aria-label="−">−</button>
+              <span class="cv" id="cv-search-adults">2</span>
+              <button type="button" data-step="1" aria-label="+">+</button>
+            </div>
+          </div>
+          <div class="g-row">
+            <div>
+              <div class="g-name" data-i18n="search.kids">兒童</div>
+              <div class="g-sub" data-i18n="search.kids.sub">12 歲以下</div>
+            </div>
+            <div class="counter" data-counter="kids" data-min="0" data-max="6">
+              <button type="button" data-step="-1" aria-label="−">−</button>
+              <span class="cv" id="cv-search-kids">0</span>
+              <button type="button" data-step="1" aria-label="+">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="search-cta" type="submit">
+        <span data-i18n="search.cta">查看空房</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
+  </section>
+
+  <!-- VALUE STRIP — 三個賣點 -->
+  <section class="container value-strip">
+    <div class="value-grid">
+      <div class="value-cell">
+        <div class="value-num num">01</div>
+        <div class="value-body">
+          <h3 data-i18n="value.01.title">32 間直營旅店 Hand-picked</h3>
+          <p data-i18n="value.01.body">從都會商旅、海岸民宿到山中溫泉會館 —— 13 縣市、6 種主題地理。</p>
+        </div>
+      </div>
+      <div class="value-cell">
+        <div class="value-num num">02</div>
+        <div class="value-body">
+          <h3 data-i18n="value.02.title">一張券通用 One Voucher</h3>
+          <p data-i18n="value.02.body">精緻系列住宿券平日多館不加價，假日依房型加價 600–2,800 元起。</p>
+        </div>
+      </div>
+      <div class="value-cell">
+        <div class="value-num num">03</div>
+        <div class="value-body">
+          <h3 data-i18n="value.03.title">家天下信託保障 Trust-protected</h3>
+          <p data-i18n="value.03.body">家天下台南行旅信託票券查詢專區，售出住宿券有信託資金保管。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED STAYS — 三間編輯精選，連結到 hotel-detail.html?id=… -->
+  <section class="container stays">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="pick.eyebrow">Editor's pick · 編輯精選</span>
+        <h2 data-i18n-html="pick.h2.full">三間旅宿，<br/>三種放慢的方式。</h2>
+      </div>
+      <p class="meta" data-i18n-html="pick.meta.full">從南灣海岸到山中泡湯、從寵物友善到 300 坪庭園 ——
+        <br/><b>每一間都附在同一張精緻系列住宿券底下。</b></p>
+    </div>
+    <div class="stays-grid">
+
+      <a class="stay" href="hotel-detail.html?id=kenting-bankala">
+        <div class="stay-photo">
+          <div class="ph ph-1"></div>
+          <span class="label" data-i18n="pick.label.coast">海岸推薦</span>
+        </div>
+        <div class="stay-body">
+          <div class="stay-loc" data-i18n="pick.bankala.loc">屏東 · 恆春南灣 · Hengchun</div>
+          <h3 class="stay-name" data-i18n="pick.bankala.name">墾丁恆春班卡拉</h3>
+          <div class="stay-en" data-i18n="pick.bankala.en">Bankala · Hengchun, Kenting</div>
+          <div class="stay-tags">
+            <span class="tag" data-i18n="pick.bankala.tag1">南灣海岸</span>
+            <span class="tag teal" data-i18n="pick.bankala.tag2">10 坪房型</span>
+            <span class="tag" data-i18n="pick.bankala.tag3">精緻系列</span>
+          </div>
+          <div class="stay-foot">
+            <div class="price">
+              <small data-i18n="pick.label.from">住宿券 起 / from</small>
+              <b><sup>NT$</sup>2,800</b><em data-i18n="pick.label.perNight">/晚</em>
+            </div>
+            <span class="stay-link" data-i18n="pick.cta.view">查看</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="stay" href="hotel-detail.html?id=yilan-langkawi">
+        <div class="stay-photo">
+          <div class="ph ph-3"></div>
+          <span class="label family" data-i18n="pick.label.family">親子推薦</span>
+        </div>
+        <div class="stay-body">
+          <div class="stay-loc" data-i18n="pick.langkawi.loc">宜蘭 · 羅東 · Luodong</div>
+          <h3 class="stay-name" data-i18n="pick.langkawi.name">蘭卡威庭園民宿</h3>
+          <div class="stay-en" data-i18n="pick.langkawi.en">Langkawi Garden B&amp;B</div>
+          <div class="stay-tags">
+            <span class="tag" data-i18n="pick.langkawi.tag1">300 坪庭園</span>
+            <span class="tag" data-i18n="pick.langkawi.tag2">兒童戲水池</span>
+            <span class="tag teal" data-i18n="pick.langkawi.tag3">免費接駁</span>
+          </div>
+          <div class="stay-foot">
+            <div class="price">
+              <small data-i18n="pick.label.from">住宿券 起 / from</small>
+              <b><sup>NT$</sup>2,800</b><em data-i18n="pick.label.perNight">/晚</em>
+            </div>
+            <span class="stay-link" data-i18n="pick.cta.view">查看</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="stay" href="hotel-detail.html?id=tainan-yujing">
+        <div class="stay-photo">
+          <div class="ph ph-2"></div>
+          <span class="label teal" data-i18n="pick.label.pet">寵物友善</span>
+        </div>
+        <div class="stay-body">
+          <div class="stay-loc" data-i18n="pick.yujing.loc">台南 · 玉井 · Yujing</div>
+          <h3 class="stay-name" data-i18n="pick.yujing.name">台南玉井家天下行旅</h3>
+          <div class="stay-en" data-i18n="pick.yujing.en">Jiatianxia Inn · Yujing</div>
+          <div class="stay-tags">
+            <span class="tag" data-i18n="pick.yujing.tag1">寵物友善</span>
+            <span class="tag" data-i18n="pick.yujing.tag2">慢遊小鎮</span>
+            <span class="tag teal" data-i18n="pick.yujing.tag3">精緻系列</span>
+          </div>
+          <div class="stay-foot">
+            <div class="price">
+              <small data-i18n="pick.label.from">住宿券 起 / from</small>
+              <b><sup>NT$</sup>2,800</b><em data-i18n="pick.label.perNight">/晚</em>
+            </div>
+            <span class="stay-link" data-i18n="pick.cta.view">查看</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ALL STAYS — 全部直營旅店 grid (rendered from hotels-data.js) -->
+  <section class="container all-stays" id="all-stays">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="all.eyebrow">Direct stays · 直營旅店</span>
+        <h2 data-i18n-html="all.h2.full">13 縣市 · 32 間。<br/>用一張券走遍台灣。</h2>
+      </div>
+      <p class="meta" data-i18n-html="all.meta.full">本頁所有飯店皆為 Home Around <b>精緻系列住宿券</b> 適用館，<br/>
+        平日／假日依房型加價，售出後一年內彈性使用。</p>
+    </div>
+    <div class="all-grid" id="allHotelsGrid"></div>
+    <div class="all-cta-row">
+      <a href="#all-stays" class="all-cta" data-i18n="all.cta">查看完整館列表 · See all 32 stays</a>
+    </div>
+  </section>
+
+  <!-- FAMILY EDITORIAL — 親子篇 -->
+  <section class="family-section">
+    <div class="container family-grid">
+      <a class="family-photo" href="hotel-detail.html?id=yilan-langkawi" style="text-decoration: none;">
+        <span class="badge" data-i18n="family.badge">Family · 親子</span>
+        <p class="pull" data-i18n-html="family.pull.full">「300 坪庭園、<br/>兒童戲水池。」<br/><span style="font-size:13px; font-family: var(--font-mono); letter-spacing:0.1em; opacity:0.85; display:block; margin-top:14px;">— 蘭卡威庭園民宿 · 宜蘭羅東</span></p>
+      </a>
+      <div class="family-text">
+        <span class="eyebrow" data-i18n="family.eyebrow">Family-friendly stays</span>
+        <h2 data-i18n-html="family.h2.full">帶著孩子，<br/>也能慢慢來。</h2>
+        <p class="lede" data-i18n="family.lede">
+          全台 32 間旅宿中，有 4 間特別適合一家人 ——
+          蘭卡威庭園的兒童戲水池、玉井家天下的寵物友善、君迪商旅的免費停車與兒童不收費、藍衫海景的海岸假期。
+        </p>
+        <p data-i18n-html="family.body">
+          每間旅宿用同一張<b>精緻系列住宿券</b>適用，雙人房平日多半不加價、四人家庭房依館加價 700–1300 元起。
+          有些館 110 公分以下兒童免費，有些另計加床費，詳情請點開個別飯店頁面看清楚。
+        </p>
+        <div class="family-stats">
+          <div class="stat-cell">
+            <div class="stat-num num"><span data-i18n="family.stat1.num">4</span><small data-i18n="family.stat1.unit">+</small></div>
+            <p><span data-i18n="family.stat1.body.line1">標籤親子／寵物友善的</span><br/><span data-i18n="family.stat1.body.line2">直營旅店</span></p>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num num"><span data-i18n="family.stat2.num">110</span><small data-i18n="family.stat2.unit">cm</small></div>
+            <p><span data-i18n="family.stat2.body.line1">多館設定為</span><br/><span data-i18n="family.stat2.body.line2">兒童不收費身高</span></p>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num num"><span data-i18n="family.stat3.num">1</span><small data-i18n="family.stat3.unit">券</small></div>
+            <p><span data-i18n="family.stat3.body.line1">32 間皆通用</span><br/><span data-i18n="family.stat3.body.line2">精緻系列</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES BENTO — 在地體驗，每張圖連結到該地區的旅店 -->
+  <section class="container experiences">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="exp.eyebrow">Local experiences · 在地體驗</span>
+        <h2 data-i18n-html="exp.h2.full">不只訂房，<br/>也是一段在地的時間。</h2>
+      </div>
+      <p class="meta" data-i18n-html="exp.meta.full">每間旅宿都坐落在不同地理 ——
+        <br/><b>點圖直達該館頁面，看房型、價格與在地交通。</b></p>
+    </div>
+    <div class="bento">
+      <a href="hotel-detail.html?id=hualien-shangcheng" class="b1" style="display:block;">
+        <div class="ph ph-7" style="position:absolute; inset:0;"></div>
+        <div class="b-overlay">
+          <div class="kicker" data-i18n="exp.b1.kicker">花蓮市區 · 太魯閣 30 分鐘車程</div>
+          <h4 data-i18n="exp.b1.title">花蓮市區香城大飯店 · 商旅級住宿，免費停車</h4>
+        </div>
+      </a>
+      <a href="hotel-detail.html?id=tainan-yujing" class="b2" style="display:block;">
+        <div class="ph ph-5" style="position:absolute; inset:0;"></div>
+        <div class="b-overlay">
+          <div class="kicker" data-i18n="exp.b2.kicker">台南玉井 · 寵物友善</div>
+          <h4 data-i18n="exp.b2.title">玉井家天下行旅</h4>
+        </div>
+      </a>
+      <a href="hotel-detail.html?id=yilan-doubleyolk" class="b3" style="display:block;">
+        <div class="ph ph-6" style="position:absolute; inset:0;"></div>
+        <div class="b-overlay">
+          <div class="kicker" data-i18n="exp.b3.kicker">宜蘭冬山 · 田野生活</div>
+          <h4 data-i18n="exp.b3.title">雙黃蛋生活空間民宿</h4>
+        </div>
+      </a>
+      <a href="hotel-detail.html?id=kenting-bankala" class="b4" style="display:block;">
+        <div class="ph ph-4" style="position:absolute; inset:0;"></div>
+        <div class="b-overlay">
+          <div class="kicker" data-i18n="exp.b4.kicker">墾丁南灣 · 海岸 3 分鐘</div>
+          <h4 data-i18n="exp.b4.title">墾丁恆春班卡拉 · 海岸假期</h4>
+        </div>
+      </a>
+      <a href="hotel-detail.html?id=nantou-luding" class="b5" style="display:block;">
+        <div class="ph ph-3" style="position:absolute; inset:0;"></div>
+        <div class="b-overlay">
+          <div class="kicker" data-i18n="exp.b5.kicker">南投鹿谷 · 凍頂茶鄉</div>
+          <h4 data-i18n="exp.b5.title">鹿鼎莊 · 加贈兩客晚餐</h4>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- TRUST — Home Around 數字一覽 -->
+  <section class="trust">
+    <div class="container trust-grid">
+      <div class="trust-lead">
+        <b data-i18n="trust.lead.b">選擇 Home Around 的理由</b>
+        <span data-i18n="trust.lead.body">2021 年起，從花東到金馬澎、從都會到山中、從寵物友善到主題溫泉 —— 全台 32 間直營旅店，一張券走得完。</span>
+      </div>
+      <div class="trust-stat">
+        <div class="n num">32</div>
+        <div class="l" data-i18n="trust.stat1.label">直營旅店</div>
+      </div>
+      <div class="trust-stat">
+        <div class="n num">13</div>
+        <div class="l" data-i18n="trust.stat2.label">縣市覆蓋</div>
+      </div>
+      <div class="trust-stat">
+        <div class="n num">1</div>
+        <div class="l" data-i18n="trust.stat3.label">張券通用</div>
+      </div>
+      <div class="trust-stat">
+        <div class="n num">365</div>
+        <div class="l" data-i18n="trust.stat4.label">天彈性使用</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
+          <p><span data-i18n="foot.tag">慢一點，就到家了。</span><br/><span data-i18n="foot.tag2">Hand-picked stays and slow experiences across Taiwan, since 2021.</span></p>
+          <div class="foot-social">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="LINE">LN</a>
+            <a href="#" aria-label="Email">@</a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h5 data-i18n="foot.col1.h">探索 Discover</h5>
+          <ul>
+            <li><a href="#" data-i18n="foot.col1.li1">所有旅宿</a></li>
+            <li><a href="#" data-i18n="foot.col1.li2">親子家庭</a></li>
+            <li><a href="#" data-i18n="foot.col1.li3">在地體驗</a></li>
+            <li><a href="#" data-i18n="foot.col1.li4">每月編輯精選</a></li>
+            <li><a href="#" data-i18n="foot.col1.li5">優惠專區</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5 data-i18n="foot.col2.h">協助 Support</h5>
+          <ul>
+            <li><a href="#" data-i18n="foot.col2.li1">常見問題</a></li>
+            <li><a href="#" data-i18n="foot.col2.li2">取消與退款</a></li>
+            <li><a href="#" data-i18n="foot.col2.li3">聯絡我們</a></li>
+            <li><a href="#" data-i18n="foot.col2.li4">旅宿合作申請</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5 data-i18n="foot.col3.h">關於 About</h5>
+          <ul>
+            <li><a href="#" data-i18n="foot.col3.li1">編輯團隊</a></li>
+            <li><a href="#" data-i18n="foot.col3.li2">嚴選原則</a></li>
+            <li><a href="#" data-i18n="foot.col3.li3">媒體報導</a></li>
+            <li><a href="#" data-i18n="foot.col3.li4">隱私權政策</a></li>
+            <li><a href="#" data-i18n="foot.col3.li5">使用條款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span data-i18n="foot.copy">© 2026 HOME AROUND TAIWAN TOURS · 統一編號 12345678</span>
+        <span data-i18n="foot.made">MADE WITH 慢慢來 · IN TAIPEI</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 多語系字典 + 切換器 — 載入時間早於 hotels-data.js / 內聯 script -->
+  <script src="i18n.js"></script>
+  <!-- Shared hotel data (used here to render the all-stays grid; reused in hotel-detail.html) -->
+  <script src="hotels-data.js"></script>
+  <script>
+    // 立即套用語系到靜態 data-i18n 元素，避免初次載入時短暫閃爍中文後切換
+    if (window.I18N) window.I18N.applyToDom();
+
+    // ─── Render the "全部直營旅店" grid from window.HOTELS ───
+    // 為何抽成 named function：localechange 事件需要重新渲染整個 grid
+    function renderAllHotelsGrid() {
+      var grid = document.getElementById('allHotelsGrid');
+      if (!grid || !window.HOTELS) return;
+      var I = window.I18N;
+
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
+      function badgeFor(tags) {
+        // First special tag (寵物/親子/海景/溫泉) drives the badge color.
+        // 文字透過 i18n 取（all.badge.family / spring / coast）。
+        if (!tags) return null;
+        if (tags.some(function(t){ return /寵物友善|親子|家庭/.test(t); })) return { cls: 'family', key: 'all.badge.family' };
+        if (tags.some(function(t){ return /溫泉/.test(t); })) return { cls: 'teal', key: 'all.badge.spring' };
+        if (tags.some(function(t){ return /海景|海岸|離島/.test(t); })) return { cls: 'teal', key: 'all.badge.coast' };
+        return null;
+      }
+
+      grid.innerHTML = window.HOTELS.map(function(h){
+        var theme = h.theme || 'warm';
+        var b = badgeFor(h.tags);
+        var firstTwoTags = (h.tags || []).slice(0, 2);
+        var name = (I && I.hotelName) ? I.hotelName(h) : h.name;
+        var region = (I && I.regionName) ? I.regionName(h.region) : h.region;
+        var badgeText = b && I ? I.t(b.key) : (b ? b.key : '');
+        // 主圖以 inline style 套用，每張卡 cover 裁切；hp-${theme} 留作 fallback 漸層底色
+        var photoStyle = h.photo ? ' style="background-image:url(\'' + h.photo + '\'); background-size:cover; background-position:center;"' : '';
+        return '' +
+          '<a class="h-card" href="hotel-detail.html?id=' + encodeURIComponent(h.id) + '">' +
+            '<div class="h-photo">' +
+              '<div class="ph-x hp-' + theme + '"' + photoStyle + '></div>' +
+              (b ? '<span class="h-tag-badge ' + b.cls + '">' + escapeHtml(badgeText) + '</span>' : '') +
+            '</div>' +
+            '<div class="h-card-body">' +
+              '<div class="h-card-loc">' + escapeHtml(region) + '</div>' +
+              '<h4 class="h-card-name">' + escapeHtml(name) + '</h4>' +
+              '<div class="h-card-tags">' +
+                firstTwoTags.map(function(t){
+                  var tagText = (I && I.tagName) ? I.tagName(t) : t;
+                  return '<span>' + escapeHtml(tagText) + '</span>';
+                }).join('') +
+              '</div>' +
+            '</div>' +
+          '</a>';
+      }).join('');
+    }
+    renderAllHotelsGrid();
+    document.addEventListener('localechange', renderAllHotelsGrid);
+
+    // ─── Search bar — interactive controls, submits to booking.html ───
+    // 為何在這裡：依賴 window.HOTELS（hotels-data.js 已先載入）
+    // 為何用 GET：booking.html 的 getParam() 從 location.search 讀取，無後端
+    (function(){
+      var form = document.getElementById('searchForm');
+      if (!form || !window.HOTELS) return;
+
+      var I = window.I18N;
+      var sel = document.getElementById('search-hotel');
+      var ci  = document.getElementById('search-checkin');
+      var co  = document.getElementById('search-checkout');
+      var trig = document.getElementById('search-guests-trigger');
+      var pop  = document.getElementById('search-guests-pop');
+      var disp = document.getElementById('search-guests-display');
+      var fAdults = document.getElementById('search-adults');
+      var fKids   = document.getElementById('search-kids');
+      var cvAdults = document.getElementById('cv-search-adults');
+      var cvKids   = document.getElementById('cv-search-kids');
+
+      function escapeHtml(s){
+        return String(s == null ? '' : s)
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      }
+      function fmtDate(d){
+        var y = d.getFullYear();
+        var m = String(d.getMonth()+1).padStart(2,'0');
+        var dd = String(d.getDate()).padStart(2,'0');
+        return y + '-' + m + '-' + dd;
+      }
+
+      // ── 1. 預設日期：明天入住、+2 天退房，min = 今日（避免選過去）──
+      var today = new Date(); today.setHours(0,0,0,0);
+      var dCi = new Date(today); dCi.setDate(today.getDate() + 1);
+      var dCo = new Date(dCi);   dCo.setDate(dCi.getDate() + 2);
+      var minDate = fmtDate(today);
+      ci.min = minDate; ci.value = fmtDate(dCi);
+      co.min = fmtDate(dCi); co.value = fmtDate(dCo);
+
+      // 入住變更時，確保退房 > 入住（必要時自動往後推一晚）
+      ci.addEventListener('change', function(){
+        if (!ci.value) return;
+        co.min = ci.value;
+        if (!co.value || co.value <= ci.value) {
+          var d = new Date(ci.value);
+          d.setDate(d.getDate() + 1);
+          co.value = fmtDate(d);
+        }
+      });
+
+      // ── 2. 飯店下拉：以 region 分組，i18n 套用名稱與地區 ──
+      function renderHotelOptions(){
+        var prev = sel.value;
+        var any = (I && I.t) ? I.t('search.where.any') : '— 全部 32 間旅宿 —';
+        var byRegion = {};
+        window.HOTELS.forEach(function(h){
+          (byRegion[h.region] = byRegion[h.region] || []).push(h);
+        });
+        var html = '<option value="">' + escapeHtml(any) + '</option>';
+        Object.keys(byRegion).sort().forEach(function(reg){
+          var regLabel = (I && I.regionName) ? I.regionName(reg) : reg;
+          html += '<optgroup label="' + escapeHtml(regLabel) + '">';
+          byRegion[reg].forEach(function(h){
+            var name = (I && I.hotelName) ? I.hotelName(h) : h.name;
+            html += '<option value="' + escapeHtml(h.id) + '">' + escapeHtml(name) + '</option>';
+          });
+          html += '</optgroup>';
+        });
+        sel.innerHTML = html;
+        if (prev) sel.value = prev;
+      }
+      renderHotelOptions();
+      document.addEventListener('localechange', renderHotelOptions);
+
+      // ── 3. 人數計數器 + popover toggle ──
+      function paintGuests(){
+        var a = parseInt(fAdults.value, 10) || 0;
+        var k = parseInt(fKids.value, 10) || 0;
+        var aLabel = (I && I.t) ? I.t('search.adults') : '大人';
+        var kLabel = (I && I.t) ? I.t('search.kids')   : '兒童';
+        disp.textContent = a + ' ' + aLabel + (k > 0 ? ' · ' + k + ' ' + kLabel : '');
+        cvAdults.textContent = a;
+        cvKids.textContent = k;
+        // 邊界 enable/disable
+        pop.querySelectorAll('.counter').forEach(function(c){
+          var min = parseInt(c.getAttribute('data-min'), 10);
+          var max = parseInt(c.getAttribute('data-max'), 10);
+          var key = c.getAttribute('data-counter');
+          var cur = key === 'adults' ? a : k;
+          var minus = c.querySelector('button[data-step="-1"]');
+          var plus  = c.querySelector('button[data-step="1"]');
+          if (minus) minus.disabled = cur <= min;
+          if (plus)  plus.disabled  = cur >= max;
+        });
+      }
+
+      pop.addEventListener('click', function(e){
+        var btn = e.target.closest('button[data-step]');
+        if (!btn) return;
+        var counter = btn.closest('.counter');
+        var key = counter.getAttribute('data-counter');
+        var min = parseInt(counter.getAttribute('data-min'), 10);
+        var max = parseInt(counter.getAttribute('data-max'), 10);
+        var step = parseInt(btn.getAttribute('data-step'), 10);
+        var hidden = key === 'adults' ? fAdults : fKids;
+        var cur = parseInt(hidden.value, 10) || 0;
+        var next = Math.max(min, Math.min(max, cur + step));
+        hidden.value = String(next);
+        paintGuests();
+      });
+
+      function openPop()  { pop.hidden = false; trig.classList.add('is-open');    trig.setAttribute('aria-expanded', 'true');  }
+      function closePop() { pop.hidden = true;  trig.classList.remove('is-open'); trig.setAttribute('aria-expanded', 'false'); }
+      trig.addEventListener('click', function(e){
+        e.stopPropagation();
+        if (pop.hidden) openPop(); else closePop();
+      });
+      // 點 popover 內部不關閉；點外面或按 Esc 關閉
+      pop.addEventListener('click', function(e){ e.stopPropagation(); });
+      document.addEventListener('click', function(e){
+        if (!pop.hidden && !pop.contains(e.target) && e.target !== trig) closePop();
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && !pop.hidden) closePop();
+      });
+
+      // 切語系時重畫人數顯示
+      document.addEventListener('localechange', paintGuests);
+      paintGuests();
+
+      // ── 4. 提交：用程式化 anchor click 觸發導航（首頁飯店卡片同一條路徑）──
+      // 為何用 anchor click 而非 native submit / window.location.href：
+      //   - native form submit 在某些 iframe sandbox 設定下會被擋
+      //   - location.href 賦值可能被視為非使用者啟動而靜默失敗
+      //   - 程式化 anchor click 是首頁所有 <a> 連結實際運作的同一條路徑，
+      //     已驗證在當前 OD preview 環境可正常導航
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        if (!ci.value || !co.value || co.value <= ci.value) {
+          ci.focus();
+          return;
+        }
+        closePop();
+        var params = new URLSearchParams();
+        if (sel.value) params.set('hotel', sel.value);
+        params.set('checkin', ci.value);
+        params.set('checkout', co.value);
+        params.set('adults', fAdults.value);
+        var k = parseInt(fKids.value, 10) || 0;
+        if (k > 0) params.set('kids', String(k));
+        // 為何走 rooms.html 而非 booking.html：兩階段流程
+        //   1) 搜尋 → rooms.html（讓使用者看符合條件的房型再選）
+        //   2) 選擇房型 → booking.html（帶 hotel + room + 日期人數進入訂房表單）
+        var url = 'rooms.html?' + params.toString();
+        var a = document.createElement('a');
+        a.href = url;
+        a.rel = 'noopener';
+        a.style.position = 'absolute';
+        a.style.left = '-9999px';
+        document.body.appendChild(a);
+        a.click();
+        try { document.body.removeChild(a); } catch (_) {}
+      });
+    })();
+
+    // ─── Hero carousel ───
+    // Crossfades between 5 room-mood slides. Auto-advances every 6s.
+    // Pauses on pointer hover / focus so the user can read the current scene.
+    (function(){
+      var hero    = document.getElementById('heroCarousel');
+      if (!hero) return;
+      var slides  = hero.querySelectorAll('.hero-slide');
+      var dots    = hero.querySelectorAll('.hero-dot');
+      var idxEl   = document.getElementById('heroIdx');
+      var roomEl  = document.getElementById('heroRoom');
+      var capEl   = document.getElementById('heroCaption');
+      var viewEl  = document.getElementById('heroViewLink');
+      // 為何保留 data-rooms：仍是 hotel id 來源（連結用），i18n 只覆蓋文字
+      var rooms   = JSON.parse(hero.getAttribute('data-rooms'));
+      var cur     = 0;
+      var timer   = null;
+      var INTERVAL = 6000;
+
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      function captionFor(i) {
+        if (window.I18N) {
+          return window.I18N.t('hero.room.' + i + '.loc') + ' — ' + window.I18N.t('hero.room.' + i + '.room');
+        }
+        return rooms[i].loc + ' — ' + rooms[i].room;
+      }
+
+      function paintCurrent() {
+        idxEl.textContent  = pad(cur + 1);
+        roomEl.textContent = captionFor(cur);
+        if (viewEl && rooms[cur].id) {
+          viewEl.setAttribute('href', 'hotel-detail.html?id=' + encodeURIComponent(rooms[cur].id));
+        }
+      }
+
+      function show(next) {
+        if (next === cur) return;
+        slides[cur].classList.remove('is-active');
+        dots[cur].classList.remove('is-active');
+        cur = next;
+        slides[cur].classList.add('is-active');
+        dots[cur].classList.add('is-active');
+
+        capEl.classList.remove('is-visible');
+        void capEl.offsetWidth;  // 強制重排，讓淡入動畫重新觸發
+        paintCurrent();
+        capEl.classList.add('is-visible');
+      }
+
+      function next() { show((cur + 1) % slides.length); }
+
+      function start() { stop(); timer = setInterval(next, INTERVAL); }
+      function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+      dots.forEach(function(dot){
+        dot.addEventListener('click', function(){
+          var idx = parseInt(dot.getAttribute('data-idx'), 10);
+          show(idx);
+          start(); // reset timer so user click gives a full window to read
+        });
+      });
+
+      hero.addEventListener('mouseenter', stop);
+      hero.addEventListener('mouseleave', start);
+      hero.addEventListener('focusin',  stop);
+      hero.addEventListener('focusout', start);
+
+      // 語言切換時即時更新當前 caption（不切換 slide）
+      document.addEventListener('localechange', paintCurrent);
+
+      paintCurrent();
+      var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!rm.matches) start();
+    })();
+  </script>
+
+</body>
+</html>

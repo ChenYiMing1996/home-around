@@ -1,0 +1,92 @@
+{
+  "brand": "Home Around Taiwan Tours",
+  "version": "2026-05-04",
+  "logoPolicy": "Logo must remain unchanged. Do not redraw, recolor, restyle, resize disproportionately, separate elements, add effects, or replace typography.",
+  "brandPersonality": [
+    "warm",
+    "family-friendly",
+    "local",
+    "trustworthy",
+    "comfortable"
+  ],
+  "colorRatio": {
+    "neutralWarmBase": {
+      "percentage": 60,
+      "colors": ["white", "softCream", "warmGray"],
+      "usage": "Page backgrounds, section backgrounds, cards, photo breathing room"
+    },
+    "darkBrownStructure": {
+      "percentage": 20,
+      "colors": ["logoDarkBrown", "textCharcoal"],
+      "usage": "Header, titles, primary text, stable brand surfaces"
+    },
+    "islandTealAccent": {
+      "percentage": 10,
+      "colors": ["islandTeal"],
+      "usage": "Information highlights, secondary buttons, dividers, service tags"
+    },
+    "taiwanWarmYellowCta": {
+      "percentage": 7,
+      "colors": ["taiwanWarmYellow"],
+      "usage": "Primary CTA, booking action, price highlights"
+    },
+    "familyGreenCategory": {
+      "percentage": 3,
+      "colors": ["familyGreen"],
+      "usage": "Family-friendly, parent-child, nature, and recommendation labels"
+    }
+  },
+  "colors": {
+    "white": {
+      "hex": "#FFFFFF",
+      "usage": "Main background and cards"
+    },
+    "softCream": {
+      "hex": "#FFF6D8",
+      "usage": "Warm background sections"
+    },
+    "warmGray": {
+      "hex": "#F4F1EC",
+      "usage": "Hotel page background and separators"
+    },
+    "logoDarkBrown": {
+      "hex": "#4B413B",
+      "usage": "Header, titles, and deep brand surfaces"
+    },
+    "textCharcoal": {
+      "hex": "#2F2A27",
+      "usage": "Body copy"
+    },
+    "islandTeal": {
+      "hex": "#4FAFA3",
+      "usage": "Room highlights, secondary actions, service information"
+    },
+    "taiwanWarmYellow": {
+      "hex": "#F2C21A",
+      "usage": "Primary calls to action and price emphasis"
+    },
+    "familyGreen": {
+      "hex": "#91B94A",
+      "usage": "Family-friendly and nature-related tags"
+    }
+  },
+  "componentUsage": {
+    "primaryButton": {
+      "background": "taiwanWarmYellow",
+      "text": "textCharcoal"
+    },
+    "secondaryButton": {
+      "background": "islandTeal at low opacity or white",
+      "text": "islandTeal"
+    },
+    "header": {
+      "background": "logoDarkBrown",
+      "text": "softCream"
+    },
+    "roomCard": {
+      "background": "white",
+      "title": "logoDarkBrown",
+      "tags": ["islandTeal", "familyGreen"]
+    }
+  }
+}
