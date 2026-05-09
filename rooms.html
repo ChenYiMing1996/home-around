@@ -672,42 +672,6 @@
       justify-content: center;
     }
   }
-  /* Text logo in nav only; footer logo keeps its own styling. */
-  .nav .footer-logo {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-right: 22px;
-    line-height: 1;
-    text-decoration: none;
-    color: var(--brown);
-  }
-  .nav .footer-logo-text {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--brown);
-  }
-  .nav .footer-logo-tagline {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  @media (max-width: 1024px) {
-    .nav .footer-logo-text { font-size: 19px; letter-spacing: 0.16em; }
-    .nav .footer-logo-tagline { font-size: 10px; letter-spacing: 0.28em; }
-  }
-  @media (max-width: 768px) {
-    .nav .footer-logo-text { font-size: 18px; letter-spacing: 0.14em; }
-    .nav .footer-logo-tagline { font-size: 9.5px; letter-spacing: 0.24em; }
-  }
-
   /* NAV REFINE ??摨蝐唾蝝圈?蝺?#FAEEDA 銝?潦??桐??對?
      nav ?湧?擃漲敺銝? 8px?H繚EN繚JP ???唾??踴?蝝?甇交憭扼蔭銝?*/
   .nav { border-bottom: 1.5px solid #FAEEDA; }
@@ -737,9 +701,8 @@
   <!-- NAV: aligned with home-around-website-mockup-24.html -->
   <nav class="nav">
     <div class="container nav-inner">
-      <a href="home-around-website-mockup-24.html" class="footer-logo">
-        <span class="footer-logo-text">HOME AROUND</span>
-        <span class="footer-logo-tagline">Taiwan Tours</span>
+      <a href="home-around-website-mockup-24.html" class="nav-logo" aria-label="Home Around Taiwan Tours">
+        <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
       </a>
       <div class="nav-links">
         <a href="home-around-website-mockup-24.html" data-i18n="nav.home">首頁</a>
