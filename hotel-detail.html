@@ -64,7 +64,7 @@
   .nav-links a { position: relative; padding: 6px 0; transition: color .2s ease-out; }
   .nav-links a:hover { color: var(--teal); }
   .nav-cta { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
-  /* 語言切換群組 — 與 home-around-website-mockup-24.html 共用樣式邏輯 */
+  /* 語言切換群組 — 與 index.html 共用樣式邏輯 */
   .nav-lang {
     display: inline-flex; align-items: center; gap: 0;
     font-family: var(--font-mono); font-size: 11.5px;
@@ -575,16 +575,16 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="container nav-inner">
-      <a href="home-around-website-mockup-24.html" class="nav-logo">
+      <a href="index.html" class="nav-logo">
         <img src="mor0bric-home-around-LOGO.png" alt="Home Around Taiwan Tours" />
       </a>
       <div class="nav-links">
-        <a href="home-around-website-mockup-24.html" data-i18n="nav.home">首頁</a>
+        <a href="index.html" data-i18n="nav.home">首頁</a>
         <a href="#" data-i18n="nav.about">關於我們</a>
         <a href="#" data-i18n="nav.guide">景點攻略</a>
         <a href="#" data-i18n="nav.tickets">電子票券</a>
         <a href="#" data-i18n="nav.news">最新消息</a>
-        <a href="home-around-website-mockup-24.html#all-stays" class="active" style="color: var(--teal);" data-i18n="nav.stays">直營旅店</a>
+        <a href="index.html#all-stays" class="active" style="color: var(--teal);" data-i18n="nav.stays">直營旅店</a>
         <a href="#" data-i18n="nav.partners">合作夥伴</a>
         <a href="#" data-i18n="nav.lookup">家天下台南行旅信託票券查詢</a>
         <a href="#" data-i18n="nav.contact">聯絡我們</a>
@@ -605,9 +605,9 @@
 
   <!-- BREADCRUMB — bc-name 由 JS 寫入飯店名（已透過 I18N.hotelName 取對應語言） -->
   <div class="container breadcrumb" id="breadcrumb">
-    <a href="home-around-website-mockup-24.html" data-i18n="nav.home">首頁</a>
+    <a href="index.html" data-i18n="nav.home">首頁</a>
     <span class="sep">/</span>
-    <a href="home-around-website-mockup-24.html#all-stays" data-i18n="nav.stays">直營旅店</a>
+    <a href="index.html#all-stays" data-i18n="nav.stays">直營旅店</a>
     <span class="sep">/</span>
     <b id="bc-name">載入中…</b>
   </div>
@@ -632,7 +632,7 @@
         <div class="foot-col">
           <h5 data-i18n="foot.col1.h">探索 Discover</h5>
           <ul>
-            <li><a href="home-around-website-mockup-24.html#all-stays" data-i18n="foot.col1.li1">所有旅宿</a></li>
+            <li><a href="index.html#all-stays" data-i18n="foot.col1.li1">所有旅宿</a></li>
             <li><a href="#" data-i18n="foot.col1.li2">親子家庭</a></li>
             <li><a href="#" data-i18n="foot.col1.li3">在地體驗</a></li>
             <li><a href="#" data-i18n="foot.col1.li4">每月編輯精選</a></li>
@@ -691,7 +691,7 @@
       root.innerHTML = '<div class="container err">' +
         '<h1>' + t('hd.err.h1') + '</h1>' +
         '<p>' + t('hd.err.body') + '</p>' +
-        '<a class="btn btn-ghost" href="home-around-website-mockup-24.html">' + t('hd.err.back') + '</a>' +
+        '<a class="btn btn-ghost" href="index.html">' + t('hd.err.back') + '</a>' +
         '</div>';
       document.getElementById('bc-name').textContent = t('hd.bc.notFound.title');
       document.title = t('hd.bc.notFound.title') + ' — Home Around';
@@ -1144,9 +1144,9 @@
           <section class="mm-contact mm-anim d2">
             <p class="mm-kicker">Contact &amp; Hours</p>
             <dl>
-              <dt>地址</dt><dd>高雄市鹽埕區河西路137號</dd>
-              <dt>市話</dt><dd><a href="tel:+88675337989">(07)533-7989</a></dd>
-              <dt>Email</dt><dd><a href="mailto:b470125@yahoo.com.tw">b470125@yahoo.com.tw</a></dd>
+              <dt>地址</dt><dd>台北市中正區範例路 1 號</dd>
+              <dt>市話</dt><dd><a href="tel:+886212345678">(02)1234-5678</a></dd>
+              <dt>Email</dt><dd><a href="mailto:contact@homearound.example">contact@homearound.example</a></dd>
               <dt>Hours</dt><dd>Open 24 hours</dd>
             </dl>
           </section>
@@ -1262,7 +1262,7 @@
       var current = nav.querySelector('.nav-logo, .footer-logo');
       if (!current) return;
       var a = document.createElement('a');
-      a.href = 'home-around-website-mockup-24.html';
+      a.href = 'index.html';
       a.className = 'nav-logo';
       a.setAttribute('aria-label', 'Home Around Taiwan Tours');
       a.innerHTML = '<img src="' + logo + '" alt="Home Around Taiwan Tours">';

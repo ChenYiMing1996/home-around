@@ -197,7 +197,7 @@ window.HOTELS = [
     enName: 'Royal Chiayi Hotel',
     region: '嘉義', city: 'Chiayi',
     tags: ['市區', '精緻系列'],
-    phone: '07-533-7989（家天下代訂）',
+    phone: '02-1234-5678（家天下代訂）',
     bookingHours: '09:00–18:00',
     address: '嘉義市西區新榮路234號',
     fb: 'https://m.me/homearoundtw',

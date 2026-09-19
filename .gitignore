@@ -1,0 +1,15 @@
+# 轉圖工具（非網站本體）
+node_modules/
+package.json
+package-lock.json
+convert-webp.js
+
+# 產圖工具暫存檔
+photos/**/slim-session-manifest-*.md
+
+# 內部開發筆記
+docs/
+
+# 系統檔
+.DS_Store
+Thumbs.db
