@@ -680,53 +680,53 @@ window.HOTELS_BY_ID = window.HOTELS.reduce(function(acc, h){ acc[h.id] = h; retu
    單一資料源，避免散落各頁面。 */
 window.HOTEL_PHOTO_POOLS = {
   warm: [
-    'photos/room-008-hotel-double-city-3x2.png',
-    'photos/room-001-homestay-double-city-3x2.png',
-    'photos/room-004-homestay-twin-city-3x2.png',
-    'photos/room-016-business-double-city-3x2.png',
-    'photos/room-007-homestay-suite-city-portrait.png'
+    'photos/room-008-hotel-double-city-3x2.webp',
+    'photos/room-001-homestay-double-city-3x2.webp',
+    'photos/room-004-homestay-twin-city-3x2.webp',
+    'photos/room-016-business-double-city-3x2.webp',
+    'photos/room-007-homestay-suite-city-portrait.webp'
   ],
   urban: [
-    'photos/room-008-hotel-double-city-3x2.png',
-    'photos/room-009-hotel-twin-city-4x3.png',
-    'photos/room-012-hotel-suite-city-wide.png',
-    'photos/room-015-business-single-city-3x2.png',
-    'photos/room-016-business-double-city-3x2.png',
-    'photos/room-001-homestay-double-city-3x2.png',
-    'photos/room-004-homestay-twin-city-3x2.png',
-    'photos/room-007-homestay-suite-city-portrait.png'
+    'photos/room-008-hotel-double-city-3x2.webp',
+    'photos/room-009-hotel-twin-city-4x3.webp',
+    'photos/room-012-hotel-suite-city-wide.webp',
+    'photos/room-015-business-single-city-3x2.webp',
+    'photos/room-016-business-double-city-3x2.webp',
+    'photos/room-001-homestay-double-city-3x2.webp',
+    'photos/room-004-homestay-twin-city-3x2.webp',
+    'photos/room-007-homestay-suite-city-portrait.webp'
   ],
   island: [
-    'photos/room-006-homestay-family-east-coast-4x3.png',
-    'photos/room-013-hotel-twin-east-coast-4x3.png',
-    'photos/room-018-business-family-east-coast-3x2.png',
-    'photos/room-002-homestay-double-east-coast-4x3.png',
-    'photos/room-020-business-double-east-coast-wide.png',
-    'photos/room-010-hotel-double-east-coast-3x2.png'
+    'photos/room-006-homestay-family-east-coast-4x3.webp',
+    'photos/room-013-hotel-twin-east-coast-4x3.webp',
+    'photos/room-018-business-family-east-coast-3x2.webp',
+    'photos/room-002-homestay-double-east-coast-4x3.webp',
+    'photos/room-020-business-double-east-coast-wide.webp',
+    'photos/room-010-hotel-double-east-coast-3x2.webp'
   ],
   ocean: [
-    'photos/room-020-business-double-east-coast-wide.png',
-    'photos/room-013-hotel-twin-east-coast-4x3.png',
-    'photos/room-006-homestay-family-east-coast-4x3.png',
-    'photos/room-002-homestay-double-east-coast-4x3.png',
-    'photos/room-018-business-family-east-coast-3x2.png',
-    'photos/room-010-hotel-double-east-coast-3x2.png'
+    'photos/room-020-business-double-east-coast-wide.webp',
+    'photos/room-013-hotel-twin-east-coast-4x3.webp',
+    'photos/room-006-homestay-family-east-coast-4x3.webp',
+    'photos/room-002-homestay-double-east-coast-4x3.webp',
+    'photos/room-018-business-family-east-coast-3x2.webp',
+    'photos/room-010-hotel-double-east-coast-3x2.webp'
   ],
   sunset: [
-    'photos/room-002-homestay-double-east-coast-4x3.png',
-    'photos/room-010-hotel-double-east-coast-3x2.png',
-    'photos/room-018-business-family-east-coast-3x2.png',
-    'photos/room-006-homestay-family-east-coast-4x3.png',
-    'photos/room-013-hotel-twin-east-coast-4x3.png',
-    'photos/room-020-business-double-east-coast-wide.png'
+    'photos/room-002-homestay-double-east-coast-4x3.webp',
+    'photos/room-010-hotel-double-east-coast-3x2.webp',
+    'photos/room-018-business-family-east-coast-3x2.webp',
+    'photos/room-006-homestay-family-east-coast-4x3.webp',
+    'photos/room-013-hotel-twin-east-coast-4x3.webp',
+    'photos/room-020-business-double-east-coast-wide.webp'
   ],
   forest: [
-    'photos/room-005-homestay-double-mountain-wide.png',
-    'photos/room-011-hotel-family-mountain-3x2.png',
-    'photos/room-003-homestay-family-mountain-3x2.png',
-    'photos/room-017-business-twin-mountain-4x3.png',
-    'photos/room-019-business-single-mountain-3x2.png',
-    'photos/room-014-hotel-double-mountain-portrait.png'
+    'photos/room-005-homestay-double-mountain-wide.webp',
+    'photos/room-011-hotel-family-mountain-3x2.webp',
+    'photos/room-003-homestay-family-mountain-3x2.webp',
+    'photos/room-017-business-twin-mountain-4x3.webp',
+    'photos/room-019-business-single-mountain-3x2.webp',
+    'photos/room-014-hotel-double-mountain-portrait.webp'
   ]
 };
 
@@ -734,48 +734,48 @@ window.HOTEL_PHOTO_POOLS = {
    未列出者會自動取對應 theme pool 的第 1 張。 */
 window.HOTEL_PHOTOS = {
   // Hero 5（必須是 wide-friendly 的圖）
-  'taitung-luvdao-shuangfa':  'photos/room-020-business-double-east-coast-wide.png',
-  'tainan-yujing':            'photos/room-008-hotel-double-city-3x2.png',
-  'yilan-langkawi':           'photos/room-005-homestay-double-mountain-wide.png',
-  'hsinchu-jianshi':          'photos/room-011-hotel-family-mountain-3x2.png',
-  'kenting-bankala':          'photos/room-002-homestay-double-east-coast-4x3.png',
+  'taitung-luvdao-shuangfa':  'photos/room-020-business-double-east-coast-wide.webp',
+  'tainan-yujing':            'photos/room-008-hotel-double-city-3x2.webp',
+  'yilan-langkawi':           'photos/room-005-homestay-double-mountain-wide.webp',
+  'hsinchu-jianshi':          'photos/room-011-hotel-family-mountain-3x2.webp',
+  'kenting-bankala':          'photos/room-002-homestay-double-east-coast-4x3.webp',
 
   // 其他飯店主圖（依 theme 與類型挑選）
-  'hualien-shangcheng':       'photos/room-013-hotel-twin-east-coast-4x3.png',
-  'penghu-zhe-su':            'photos/room-006-homestay-family-east-coast-4x3.png',
-  'kinmen-in99':              'photos/room-009-hotel-twin-city-4x3.png',
-  'penghu-tingyuanji':        'photos/room-018-business-family-east-coast-3x2.png',
-  'newtaipei-jundi':          'photos/room-016-business-double-city-3x2.png',
-  'kenting-lanshan':          'photos/room-010-hotel-double-east-coast-3x2.png',
-  'liuqiu-hailiu':            'photos/room-006-homestay-family-east-coast-4x3.png',
-  'nantou-jiamei':            'photos/room-019-business-single-mountain-3x2.png',
-  'chiayi-huangjue':          'photos/room-015-business-single-city-3x2.png',
-  'yilan-doubleyolk':         'photos/room-003-homestay-family-mountain-3x2.png',
-  'taipei-meander1948':       'photos/room-001-homestay-double-city-3x2.png',
-  'taipei-ximen':             'photos/room-004-homestay-twin-city-3x2.png',
-  'penghu-515':               'photos/room-013-hotel-twin-east-coast-4x3.png',
-  'taitung-tiehua-lezhi':     'photos/room-002-homestay-double-east-coast-4x3.png',
-  'yilan-jinzhuya':           'photos/room-017-business-twin-mountain-4x3.png',
-  'yilan-zhi1979':            'photos/room-014-hotel-double-mountain-portrait.png',
-  'newtaipei-bitan':          'photos/room-012-hotel-suite-city-wide.png',
-  'yilan-lichi':              'photos/room-005.png',
-  'nantou-luding':            'photos/room-014.png',
-  'nantou-ruiju':             'photos/room-017.png',
-  'nantou-victoria':          'photos/room-019.png',
-  'nantou-yimo':              'photos/room-025.png',
-  'nantou-zhaodi':            'photos/room-031.png',
-  'kaohsiung-junyi':          'photos/room-033.png',
-  'kaohsiung-shangart':       'photos/room-007-homestay-suite-city-portrait.png',
-  'kaohsiung-niaochao':       'photos/room-009-hotel-twin-city-4x3.png',
-  'taitung-cuiannong':        'photos/room-018-business-family-east-coast-3x2.png',
-  'taitung-oscar':            'photos/room-010-hotel-double-east-coast-3x2.png'
+  'hualien-shangcheng':       'photos/room-013-hotel-twin-east-coast-4x3.webp',
+  'penghu-zhe-su':            'photos/room-006-homestay-family-east-coast-4x3.webp',
+  'kinmen-in99':              'photos/room-009-hotel-twin-city-4x3.webp',
+  'penghu-tingyuanji':        'photos/room-018-business-family-east-coast-3x2.webp',
+  'newtaipei-jundi':          'photos/room-016-business-double-city-3x2.webp',
+  'kenting-lanshan':          'photos/room-010-hotel-double-east-coast-3x2.webp',
+  'liuqiu-hailiu':            'photos/room-006-homestay-family-east-coast-4x3.webp',
+  'nantou-jiamei':            'photos/room-019-business-single-mountain-3x2.webp',
+  'chiayi-huangjue':          'photos/room-015-business-single-city-3x2.webp',
+  'yilan-doubleyolk':         'photos/room-003-homestay-family-mountain-3x2.webp',
+  'taipei-meander1948':       'photos/room-001-homestay-double-city-3x2.webp',
+  'taipei-ximen':             'photos/room-004-homestay-twin-city-3x2.webp',
+  'penghu-515':               'photos/room-013-hotel-twin-east-coast-4x3.webp',
+  'taitung-tiehua-lezhi':     'photos/room-002-homestay-double-east-coast-4x3.webp',
+  'yilan-jinzhuya':           'photos/room-017-business-twin-mountain-4x3.webp',
+  'yilan-zhi1979':            'photos/room-014-hotel-double-mountain-portrait.webp',
+  'newtaipei-bitan':          'photos/room-012-hotel-suite-city-wide.webp',
+  'yilan-lichi':              'photos/room-005.webp',
+  'nantou-luding':            'photos/room-014.webp',
+  'nantou-ruiju':             'photos/room-017.webp',
+  'nantou-victoria':          'photos/room-019.webp',
+  'nantou-yimo':              'photos/room-025.webp',
+  'nantou-zhaodi':            'photos/room-031.webp',
+  'kaohsiung-junyi':          'photos/room-033.webp',
+  'kaohsiung-shangart':       'photos/room-007-homestay-suite-city-portrait.webp',
+  'kaohsiung-niaochao':       'photos/room-009-hotel-twin-city-4x3.webp',
+  'taitung-cuiannong':        'photos/room-018-business-family-east-coast-3x2.webp',
+  'taitung-oscar':            'photos/room-010-hotel-double-east-coast-3x2.webp'
 };
 
 /* 注入 photo 欄位到每筆 hotel；查不到時退到 theme pool 第一張（room photo，用於房型展示） */
 window.HOTELS.forEach(function(h){
   h.photo = window.HOTEL_PHOTOS[h.id]
          || (window.HOTEL_PHOTO_POOLS[h.theme] || [])[0]
-         || 'photos/room-008-hotel-double-city-3x2.png';
+         || 'photos/room-008-hotel-double-city-3x2.webp';
 });
 
 /* 取 n 張：主圖優先，其餘從 theme pool 補；不重複；不夠時循環 */
@@ -791,20 +791,20 @@ window.getHotelPhotos = function(hotel, n) {
 
 /* ===== 飯店外觀圖（首頁 hero / direct stays / bento / 編輯精選用） =====
    33 間飯店每間都有 4 個 variant：
-   - hero-16x9.png       — 16:9 大圖，用於首頁 hero 輪播
-   - board-3x2.png        — 3:2，用於 direct stays grid（aspect-ratio: 16/10 接近 3:2）
-   - board-4x3.png        — 4:3，用於編輯精選 stay-photo（aspect-ratio: 4/3）
-   - exterior-master.png  — 外觀主圖大原稿，用於 bento 與 hotel-detail 大圖背景
-   檔案命名規則：photos/hotels/hotel-{id}-{variant}.png
+   - hero-16x9.webp       — 16:9 大圖，用於首頁 hero 輪播
+   - board-3x2.webp        — 3:2，用於 direct stays grid（aspect-ratio: 16/10 接近 3:2）
+   - board-4x3.webp        — 4:3，用於編輯精選 stay-photo（aspect-ratio: 4/3）
+   - exterior-master.webp  — 外觀主圖大原稿，用於 bento 與 hotel-detail 大圖背景
+   檔案命名規則：photos/hotels/hotel-{id}-{variant}.webp
 */
 (function(){
   var BASE = 'photos/hotels/hotel-';
   window.HOTELS.forEach(function(h){
-    h.heroPhoto         = BASE + h.id + '-hero-16x9.png';
-    h.cardPhoto         = BASE + h.id + '-board-3x2.png';
-    h.cardPhoto4x3      = BASE + h.id + '-board-4x3.png';
-    h.exteriorPhoto     = BASE + h.id + '-exterior-master.png';
-    h.familyGardenPhoto = BASE + h.id + '-family-garden-9x16.png';
+    h.heroPhoto         = BASE + h.id + '-hero-16x9.webp';
+    h.cardPhoto         = BASE + h.id + '-board-3x2.webp';
+    h.cardPhoto4x3      = BASE + h.id + '-board-4x3.webp';
+    h.exteriorPhoto     = BASE + h.id + '-exterior-master.webp';
+    h.familyGardenPhoto = BASE + h.id + '-family-garden-9x16.webp';
   });
 })();
 
